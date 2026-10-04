@@ -1,0 +1,52 @@
+[
+  1,
+  [
+    "1d1dfaabb"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "shouji_00",
+      "rect": [
+        3,
+        3,
+        130,
+        228
+      ],
+      "offset": [
+        -4,
+        -7
+      ],
+      "originalSize": [
+        276,
+        316
+      ],
+      "rotated": 1,
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

@@ -1,0 +1,383 @@
+[
+  1,
+  [
+    "2fvKStWIFDiJNNUfD3ytzc",
+    "22I7iKvFZJn6sY4dsHF4Wd",
+    "84zPKkpqNN74yz1Ncra/zW",
+    "68Q9gr8PJNoq7q+kNw52sm",
+    "e36p332jBPaIAn0jYNgREt",
+    "23m37m7w1DQpvjrfV1UbGG",
+    "f6478OE1hHlpuSNaOI0OQS",
+    "5aIra6xv5L8JDn9ObxTxb5",
+    "57kogM3fBEg7uS6KGHmIn7"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "firebaozha_02",
+          "rect": [
+            0,
+            0,
+            100,
+            98
+          ],
+          "offset": [
+            0,
+            1
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_05",
+          "rect": [
+            0,
+            2,
+            100,
+            98
+          ],
+          "offset": [
+            0,
+            -1
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_00",
+          "rect": [
+            3,
+            2,
+            88,
+            85
+          ],
+          "offset": [
+            -3,
+            5.5
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        2
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_01",
+          "rect": [
+            0,
+            0,
+            98,
+            95
+          ],
+          "offset": [
+            -1,
+            2.5
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        3
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_08",
+          "rect": [
+            8,
+            14,
+            92,
+            82
+          ],
+          "offset": [
+            4,
+            -5
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        4
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_07",
+          "rect": [
+            7,
+            6,
+            93,
+            92
+          ],
+          "offset": [
+            3.5,
+            -2
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        5
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_06",
+          "rect": [
+            3,
+            4,
+            97,
+            95
+          ],
+          "offset": [
+            1.5,
+            -1.5
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        6
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_04",
+          "rect": [
+            0,
+            2,
+            100,
+            98
+          ],
+          "offset": [
+            0,
+            -1
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        7
+      ]
+    ],
+    [
+      [
+        {
+          "name": "firebaozha_03",
+          "rect": [
+            0,
+            0,
+            100,
+            100
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            100,
+            100
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        8
+      ]
+    ]
+  ]
+]

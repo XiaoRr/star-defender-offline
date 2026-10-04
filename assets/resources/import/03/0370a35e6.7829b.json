@@ -1,0 +1,962 @@
+[
+  1,
+  [
+    "f0+rvBfLNEgZ3M9PxsQTvr",
+    "8avHUgs/xIZajFnC7Btx70",
+    "61OmlRnOVBj5NXDuRA2mTZ",
+    "fdCoEw0StCu4hmqdD6QUub",
+    "eeEkc9gLtPkZ+zxduA15su",
+    "74ochjQeZChpYa9fzlw5gE",
+    "c0BcyvYVBKyYRVpwiIDZvy",
+    "caKUnF4E5NTofxbvSgQCZE",
+    "77ZoL0Yi5FkbC3QEOozUR/",
+    "affTxxSmdHt7S4v9fqLAfX",
+    "73L+UpDaRNiaKXtEYJy7Cn",
+    "46UbnyI7hMTo2rqkhAJWVv",
+    "9aqlVrcspCEJOuh/vK530Y",
+    "2ckiYcjLxNuKtdBt1y2KZA",
+    "40si2a8QxPgY8pksEpQVOU",
+    "51BzEnzd9G14tb7fNEwQh6",
+    "1037t2gm9J546pJiQZf/BV",
+    "688LjT+xFFJ4KEVHfULwDs",
+    "83suhX5b5Gy51gM1L5xHPF",
+    "23pwbHq+tDALA3vXadjeLJ",
+    "699On8hZNHPKDZvco+yoTD",
+    "27sIbcS2BIBo/+ObK2OBLH",
+    "afi9iM4Q9G67FGi9yjaAeh",
+    "d5N4pimuZCA4v/H03Xhj6I",
+    "cc/qLpu0FEOpDXuy4RYQjQ",
+    "05w59P3HhMr7iIO6unk4nV",
+    "6eFnwey3NC55/Y7Kwpw0Y6",
+    "d576F3Fz5MfJ3pbO2nguSb",
+    "86MSMp5MFAcazclHAkN1ls",
+    "d7kt++AQdJy6uMFb3RBM9f",
+    "575FA5H2ZAeIxPJbqHl6Dd",
+    "2eVm79kXRDioh1W2kghRhs"
+  ],
+  [
+    "_textureSetter",
+    "value"
+  ],
+  [
+    "cc.SpriteFrame",
+    [
+      "cc.AnimationClip",
+      [
+        "_name",
+        "_duration",
+        "sample",
+        "speed",
+        "curveData"
+      ],
+      -1,
+      11
+    ]
+  ],
+  [
+    [
+      1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  ],
+  [
+    [
+      [
+        {
+          "name": "moguyun_15",
+          "rect": [
+            13,
+            365,
+            383,
+            142
+          ],
+          "offset": [
+            4.5,
+            -180
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        [
+          0,
+          "anim_yuanzidan02",
+          0.6,
+          30,
+          0.2,
+          [
+            {},
+            "paths",
+            11,
+            [
+              {},
+              "moguyun_05",
+              11,
+              [
+                {
+                  "props": {
+                    "opacity": [
+                      {
+                        "frame": 0.5,
+                        "value": 255
+                      },
+                      {
+                        "frame": 0.6,
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "comps",
+                11,
+                [
+                  {},
+                  "cc.Sprite",
+                  11,
+                  [
+                    {},
+                    "spriteFrame",
+                    12,
+                    [
+                      [
+                        [
+                          {
+                            "frame": 0
+                          },
+                          "value",
+                          6,
+                          0
+                        ],
+                        [
+                          {
+                            "frame": 0.03333333333333333
+                          },
+                          "value",
+                          6,
+                          1
+                        ],
+                        [
+                          {
+                            "frame": 0.06666666666666667
+                          },
+                          "value",
+                          6,
+                          2
+                        ],
+                        [
+                          {
+                            "frame": 0.1
+                          },
+                          "value",
+                          6,
+                          3
+                        ],
+                        [
+                          {
+                            "frame": 0.13333333333333333
+                          },
+                          "value",
+                          6,
+                          4
+                        ],
+                        [
+                          {
+                            "frame": 0.16666666666666666
+                          },
+                          "value",
+                          6,
+                          5
+                        ],
+                        [
+                          {
+                            "frame": 0.2
+                          },
+                          "value",
+                          6,
+                          6
+                        ],
+                        [
+                          {
+                            "frame": 0.23333333333333334
+                          },
+                          "value",
+                          6,
+                          7
+                        ],
+                        [
+                          {
+                            "frame": 0.26666666666666666
+                          },
+                          "value",
+                          6,
+                          8
+                        ],
+                        [
+                          {
+                            "frame": 0.3
+                          },
+                          "value",
+                          6,
+                          9
+                        ],
+                        [
+                          {
+                            "frame": 0.3333333333333333
+                          },
+                          "value",
+                          6,
+                          10
+                        ],
+                        [
+                          {
+                            "frame": 0.36666666666666664
+                          },
+                          "value",
+                          6,
+                          11
+                        ],
+                        [
+                          {
+                            "frame": 0.4
+                          },
+                          "value",
+                          6,
+                          12
+                        ],
+                        [
+                          {
+                            "frame": 0.43333333333333335
+                          },
+                          "value",
+                          6,
+                          13
+                        ],
+                        [
+                          {
+                            "frame": 0.4666666666666667
+                          },
+                          "value",
+                          6,
+                          14
+                        ],
+                        [
+                          {
+                            "frame": 0.5
+                          },
+                          "value",
+                          6,
+                          15
+                        ]
+                      ],
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11,
+                      11
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      0,
+      0,
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_12",
+          "rect": [
+            9,
+            33,
+            389,
+            474
+          ],
+          "offset": [
+            3.5,
+            -14
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        17
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_13",
+          "rect": [
+            10,
+            43,
+            388,
+            464
+          ],
+          "offset": [
+            4,
+            -19
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        18
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_10",
+          "rect": [
+            10,
+            14,
+            386,
+            494
+          ],
+          "offset": [
+            3,
+            -5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        19
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_14",
+          "rect": [
+            12,
+            50,
+            384,
+            457
+          ],
+          "offset": [
+            4,
+            -22.5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        20
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_01",
+          "rect": [
+            33,
+            63,
+            355,
+            441
+          ],
+          "offset": [
+            10.5,
+            -27.5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        21
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_09",
+          "rect": [
+            10,
+            9,
+            387,
+            500
+          ],
+          "offset": [
+            3.5,
+            -3
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        22
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_04",
+          "rect": [
+            13,
+            14,
+            383,
+            498
+          ],
+          "offset": [
+            4.5,
+            -7
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        23
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_07",
+          "rect": [
+            12,
+            7,
+            385,
+            505
+          ],
+          "offset": [
+            4.5,
+            -3.5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        24
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_00",
+          "rect": [
+            79,
+            82,
+            258,
+            408
+          ],
+          "offset": [
+            8,
+            -30
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        25
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_11",
+          "rect": [
+            9,
+            19,
+            389,
+            488
+          ],
+          "offset": [
+            3.5,
+            -7
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        26
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_08",
+          "rect": [
+            11,
+            8,
+            387,
+            502
+          ],
+          "offset": [
+            4.5,
+            -3
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        27
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_05",
+          "rect": [
+            12,
+            10,
+            384,
+            502
+          ],
+          "offset": [
+            4,
+            -5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        28
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_06",
+          "rect": [
+            12,
+            7,
+            384,
+            505
+          ],
+          "offset": [
+            4,
+            -3.5
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        29
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_03",
+          "rect": [
+            12,
+            26,
+            384,
+            486
+          ],
+          "offset": [
+            4,
+            -13
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        30
+      ]
+    ],
+    [
+      [
+        {
+          "name": "moguyun_02",
+          "rect": [
+            13,
+            47,
+            385,
+            464
+          ],
+          "offset": [
+            5.5,
+            -23
+          ],
+          "originalSize": [
+            400,
+            512
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        31
+      ]
+    ]
+  ]
+]

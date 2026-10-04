@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "f7ufmBrItGWotVv34RjIgw"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "jianzhu05-yinying",
+      "rect": [
+        13,
+        88,
+        111,
+        56
+      ],
+      "offset": [
+        2,
+        -42.5
+      ],
+      "originalSize": [
+        133,
+        147
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

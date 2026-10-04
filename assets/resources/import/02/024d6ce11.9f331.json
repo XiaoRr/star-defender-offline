@@ -1,0 +1,219 @@
+[
+  1,
+  [
+    "e3d/lX0WtHfbC7Js3hYn2a",
+    "37qSUb0ZxExLnopZoZVlS5",
+    "d6jG/iTStKQpXAIe8GUa2I",
+    "57codKG3pMr5X8LYUhJ1Cg",
+    "c3wDveEDVHmrEC2PJvjRO3"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "dead01",
+          "rect": [
+            0,
+            0,
+            214,
+            201
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            214,
+            201
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "dead05",
+          "rect": [
+            0,
+            0,
+            214,
+            201
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            214,
+            201
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ],
+    [
+      [
+        {
+          "name": "dead02",
+          "rect": [
+            0,
+            0,
+            214,
+            201
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            214,
+            201
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        2
+      ]
+    ],
+    [
+      [
+        {
+          "name": "dead03",
+          "rect": [
+            0,
+            0,
+            214,
+            201
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            214,
+            201
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        3
+      ]
+    ],
+    [
+      [
+        {
+          "name": "dead04",
+          "rect": [
+            0,
+            0,
+            214,
+            201
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            214,
+            201
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        4
+      ]
+    ]
+  ]
+]

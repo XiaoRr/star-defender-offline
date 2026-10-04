@@ -1,0 +1,212 @@
+[
+  1,
+  [
+    "41DII2lGFE2YxR12U+Tdcy",
+    "7b2deM6oFMYL8uCuBWSb2M"
+  ],
+  [
+    "spriteFrame",
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame",
+    [
+      "cc.BitmapFont",
+      [
+        "_name",
+        "fontSize",
+        "_fntConfig"
+      ],
+      0
+    ]
+  ],
+  [
+    [
+      1,
+      0,
+      1,
+      2,
+      4
+    ]
+  ],
+  [
+    [
+      [
+        [
+          0,
+          "4img_3zhanlinum",
+          26,
+          {
+            "commonHeight": 26,
+            "fontSize": 26,
+            "atlasName": "4img_3zhanlinum.png",
+            "fontDefDictionary": {
+              "48": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "49": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 23,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "50": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 46,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "51": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 69,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "52": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 92,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "53": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 115,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "54": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 138,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "55": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 161,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "56": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 184,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              },
+              "57": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 23,
+                "rect": {
+                  "x": 207,
+                  "y": 0,
+                  "width": 23,
+                  "height": 26
+                }
+              }
+            },
+            "kerningDict": {}
+          }
+        ]
+      ],
+      0,
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "4img_3zhanlinum",
+          "rect": [
+            1,
+            0,
+            228,
+            26
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            230,
+            26
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        1
+      ],
+      [
+        1
+      ]
+    ]
+  ]
+]

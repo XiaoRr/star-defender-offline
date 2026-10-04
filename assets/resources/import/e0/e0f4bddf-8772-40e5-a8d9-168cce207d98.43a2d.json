@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "18Lm+K3WtCWJow0F1t6z6X"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "shandian_00",
+      "rect": [
+        3,
+        0,
+        125,
+        512
+      ],
+      "offset": [
+        1.5,
+        0
+      ],
+      "originalSize": [
+        128,
+        512
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

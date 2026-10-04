@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "a3Fbjuf/dCI723Tpsp5jcD"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "icon120x120_3",
+      "rect": [
+        9,
+        14,
+        101,
+        85
+      ],
+      "offset": [
+        -0.5,
+        3.5
+      ],
+      "originalSize": [
+        120,
+        120
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

@@ -1,0 +1,1162 @@
+[
+  1,
+  [
+    "71qSZ6kM1DQbIFJ9tTPAw/",
+    "df4XeUYHJCBbJcJ8s4z6xQ",
+    "2f5Kij0+BFpI1LFv2AiKoi",
+    "5bMRNWGMtBB78Tfyg1nNsB",
+    "41UVThiI9KjqeG75dXRnAM",
+    "a1nqnlJtRDpL0R6MDFaPim",
+    "f0QLpLnwtAY4yQ0z5W+GUA",
+    "c7CDiYPTVAIIGgCGDd8fFt",
+    "2cMzLoRG1PUovDDP9J483+",
+    "c1iGqIgiZG7L4gRbEqW3/E",
+    "91SC67dZhKf732aUrKPcYj",
+    "6baN+kj1hK/LtX5AslNeeI",
+    "97TWxS4IZMtJgqBvesqnud",
+    "3e5ducIzJGipOxqFG/uQZE",
+    "54zjzKkv9NqYZDEkgRfgUD",
+    "41k2sanhpKk4tdRCwJx2d5",
+    "58GlGBle5Hv5LrBBhME+B5",
+    "18dXc1Nv9CHIzzXDQzGq+A",
+    "1fVr4K/7tLj7knC2pHJ38X",
+    "5aQw1rqbVDhaNcUyB8FuLS",
+    "cbk/aVH35AXLOT6sb93d/d",
+    "49Qlj6gRdGxaN8S5nle2MW",
+    "224U5Fho9HKo4GDYt6ltYl",
+    "33gEsemntKQ6KwiKa9eViT",
+    "72lfZwcm9OQZFuD2P9fVTj",
+    "a03yArLpJLEKzDo848+IGP",
+    "9aVpp55EZMuLeUCoN7w4Om",
+    "c7ToSulJlBIpoUStEsI7fz"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "danwei09-attack_13",
+          "rect": [
+            2,
+            0,
+            121,
+            76
+          ],
+          "offset": [
+            0.5,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_08",
+          "rect": [
+            3,
+            1,
+            119,
+            75
+          ],
+          "offset": [
+            0.5,
+            1
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_02",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        2
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_03",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        3
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_06",
+          "rect": [
+            3,
+            2,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            -0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        4
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_07",
+          "rect": [
+            3,
+            2,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            -0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        5
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_00",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        6
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_10",
+          "rect": [
+            1,
+            3,
+            119,
+            75
+          ],
+          "offset": [
+            -1.5,
+            -1
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        7
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_04",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        8
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_09",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        9
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_01",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        10
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_08",
+          "rect": [
+            3,
+            2,
+            120,
+            75
+          ],
+          "offset": [
+            1,
+            0
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        11
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_09",
+          "rect": [
+            2,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            0,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        12
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_01",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        13
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_12",
+          "rect": [
+            2,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            0,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        14
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_02",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        15
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_03",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        16
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_13",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        17
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_11",
+          "rect": [
+            2,
+            2,
+            119,
+            75
+          ],
+          "offset": [
+            -0.5,
+            0
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        18
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_00",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        19
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_04",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        20
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_05",
+          "rect": [
+            3,
+            1,
+            120,
+            75
+          ],
+          "offset": [
+            1,
+            1
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        21
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_06",
+          "rect": [
+            3,
+            1,
+            120,
+            75
+          ],
+          "offset": [
+            1,
+            1
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        22
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_12",
+          "rect": [
+            3,
+            0,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            1.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        23
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_11",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        24
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_05",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        25
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-attack_07",
+          "rect": [
+            3,
+            1,
+            120,
+            75
+          ],
+          "offset": [
+            1,
+            1
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        26
+      ]
+    ],
+    [
+      [
+        {
+          "name": "danwei09-move_10",
+          "rect": [
+            3,
+            1,
+            120,
+            76
+          ],
+          "offset": [
+            1,
+            0.5
+          ],
+          "originalSize": [
+            124,
+            79
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        27
+      ]
+    ]
+  ]
+]

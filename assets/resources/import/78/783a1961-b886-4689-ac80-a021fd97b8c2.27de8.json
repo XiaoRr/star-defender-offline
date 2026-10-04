@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "b2Pgral/dNi7vwrwq8aswD"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "danwei03-loop_03",
+      "rect": [
+        22,
+        12,
+        47,
+        47
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "originalSize": [
+        85,
+        73
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

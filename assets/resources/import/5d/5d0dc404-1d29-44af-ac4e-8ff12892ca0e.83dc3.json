@@ -1,0 +1,41 @@
+[
+  1,
+  0,
+  0,
+  [
+    [
+      "cc.JsonAsset",
+      [
+        "_name",
+        "json"
+      ],
+      1
+    ]
+  ],
+  [
+    [
+      0,
+      0,
+      1,
+      3
+    ]
+  ],
+  [
+    [
+      0,
+      "&asset&type&",
+      {
+        "yuanzidan_01.prefab": "prefab",
+        "miaozhun03_00.png": "texture",
+        "miaozhun02_00.png": "texture",
+        "miaozhun01_00.png": "texture",
+        "anim_yuanzidan01.anim": "animation-clip"
+      }
+    ]
+  ],
+  0,
+  0,
+  [],
+  [],
+  []
+]

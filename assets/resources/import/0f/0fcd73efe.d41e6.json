@@ -1,0 +1,490 @@
+[
+  1,
+  [
+    "74SKjX+CRIPoNcK6/TMH1V",
+    "f4xjhkiStJBYaEznyppXT5",
+    "516ac5hghE2q7JdhgsWPe5",
+    "b1RnAwkSZDO5wB95qE6Iw8",
+    "06aNn/4TBJJaVLkOxFMnca",
+    "617J3iv+9Kv67nA8MgdDje",
+    "4bSlq3q0BG2qp7xcMmXpbh",
+    "58UcCbSVhIoqF2Ev+D/WU4",
+    "86ozS0hZ1MiIq9aVwy00GD",
+    "16N7xdJmpFtoumCpqs/kyf",
+    "c8vpSsNBlGa7j1lAUPn0ue",
+    "84JlkptjpNTrZ526upHnEv",
+    "acVNFthNhCiKWmZYp0yQFR",
+    "b39LB1S/5Nk5Gctp5OQkGA",
+    "fbT+PzBJNAsYBYFouw+Mu3"
+  ],
+  [
+    "_textureSetter",
+    "sprite_bullet_lv_1",
+    "sprite_bullet_lv_1s",
+    "sprite_bullet_lv_2",
+    "sprite_bullet_lv_2s",
+    "sprite_bullet_lv_3",
+    "sprite_bullet_lv_3s",
+    "sprite_bullet_lv_4",
+    "sprite_bullet_lv_4s",
+    "sprite_bullet_lv_5",
+    "sprite_bullet_lv_5s",
+    "sprite_bullet_lv_6",
+    "sprite_bullet_lv_6s",
+    "sprite_bullet_lv_7",
+    "sprite_bullet_lv_7s"
+  ],
+  [
+    "cc.SpriteFrame",
+    [
+      "cc.SpriteAtlas",
+      [
+        "_name",
+        "_spriteFrames"
+      ],
+      2,
+      11
+    ]
+  ],
+  [
+    [
+      1,
+      0,
+      1,
+      2
+    ]
+  ],
+  [
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_2s",
+          "rect": [
+            1,
+            35,
+            32,
+            194
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            32,
+            194
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        [
+          0,
+          "sprite_atlas_bullets.plist",
+          [
+            {},
+            "sprite_bullet_lv_1",
+            6,
+            0,
+            "sprite_bullet_lv_1s",
+            6,
+            1,
+            "sprite_bullet_lv_2",
+            6,
+            2,
+            "sprite_bullet_lv_2s",
+            6,
+            3,
+            "sprite_bullet_lv_3",
+            6,
+            4,
+            "sprite_bullet_lv_3s",
+            6,
+            5,
+            "sprite_bullet_lv_4",
+            6,
+            6,
+            "sprite_bullet_lv_4s",
+            6,
+            7,
+            "sprite_bullet_lv_5",
+            6,
+            8,
+            "sprite_bullet_lv_5s",
+            6,
+            9,
+            "sprite_bullet_lv_6",
+            6,
+            10,
+            "sprite_bullet_lv_6s",
+            6,
+            11,
+            "sprite_bullet_lv_7",
+            6,
+            12,
+            "sprite_bullet_lv_7s",
+            6,
+            13
+          ]
+        ]
+      ],
+      0,
+      0,
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_5",
+          "rect": [
+            473,
+            1,
+            60,
+            118
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            60,
+            118
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_3s",
+          "rect": [
+            93,
+            69,
+            42,
+            90
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            42,
+            90
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_4",
+          "rect": [
+            185,
+            75,
+            25,
+            81
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            25,
+            81
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_4s",
+          "rect": [
+            185,
+            102,
+            25,
+            81
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            25,
+            81
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_2",
+          "rect": [
+            1,
+            1,
+            32,
+            194
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            32,
+            194
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_5s",
+          "rect": [
+            473,
+            63,
+            60,
+            118
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            60,
+            118
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "sprite_bullet_lv_7s",
+          "rect": [
+            332,
+            75,
+            34,
+            62
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            34,
+            62
+          ],
+          "rotated": 1,
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ]
+  ]
+]

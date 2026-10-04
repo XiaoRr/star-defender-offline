@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "1fQ66ZGqZHjpvA6yKJ8l8y"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "danwei09-attack_08",
+      "rect": [
+        3,
+        1,
+        119,
+        75
+      ],
+      "offset": [
+        0.5,
+        1
+      ],
+      "originalSize": [
+        124,
+        79
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "c08JtcucxI96D7jqUl/fQV"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "5img_2button2",
+      "rect": [
+        0,
+        0,
+        210,
+        64
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "originalSize": [
+        210,
+        64
+      ],
+      "capInsets": [
+        84,
+        0,
+        84,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

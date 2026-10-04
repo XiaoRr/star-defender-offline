@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "1bJFr7XyhBQqGQhXdgHUrR"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "35img_1icon",
+      "rect": [
+        8,
+        22,
+        105,
+        80
+      ],
+      "offset": [
+        0.5,
+        -2
+      ],
+      "originalSize": [
+        120,
+        120
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

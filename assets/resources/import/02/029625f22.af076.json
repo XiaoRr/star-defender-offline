@@ -1,0 +1,429 @@
+[
+  1,
+  [
+    "798vEmU/JB7phKS/u4qswG",
+    "b6RV66SOpJZ5Sv/aeU44bM",
+    "e5rROyVsVFR7cQ1/2OJOAV"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame",
+    [
+      "cc.AnimationClip",
+      [
+        "_name",
+        "_duration",
+        "sample",
+        "speed",
+        "wrapMode",
+        "curveData"
+      ],
+      -3
+    ]
+  ],
+  [
+    [
+      1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7
+    ]
+  ],
+  [
+    [
+      [
+        {
+          "name": "dian_00",
+          "rect": [
+            0,
+            0,
+            40,
+            40
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            40,
+            40
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "saomiao_00_00",
+          "rect": [
+            0,
+            0,
+            205,
+            260
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            205,
+            260
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ],
+    [
+      [
+        [
+          0,
+          "anim_leida",
+          5,
+          30,
+          2,
+          2,
+          {
+            "paths": {
+              "saomiao_00_00": {
+                "props": {
+                  "angle": [
+                    {
+                      "frame": 0,
+                      "value": 0
+                    },
+                    {
+                      "frame": 5,
+                      "value": -360
+                    }
+                  ]
+                }
+              },
+              "dian/dian_00": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 0.5666666666666667,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1,
+                      "value": 255
+                    },
+                    {
+                      "frame": 1.6666666666666667,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_01": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 0.6666666666666666,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1.1,
+                      "value": 255
+                    },
+                    {
+                      "frame": 1.7666666666666666,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_02": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 0.7666666666666667,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1.2,
+                      "value": 255
+                    },
+                    {
+                      "frame": 1.8666666666666667,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_03": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 0.1,
+                      "value": 0
+                    },
+                    {
+                      "frame": 0.5333333333333333,
+                      "value": 255
+                    },
+                    {
+                      "frame": 1.5333333333333334,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_04": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 1.0666666666666667,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1.5,
+                      "value": 255
+                    },
+                    {
+                      "frame": 2.533333333333333,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_05": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 1.4666666666666666,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1.9,
+                      "value": 255
+                    },
+                    {
+                      "frame": 2.9,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_06": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 1.3333333333333333,
+                      "value": 0
+                    },
+                    {
+                      "frame": 1.7666666666666666,
+                      "value": 255
+                    },
+                    {
+                      "frame": 2.7666666666666666,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_07": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 3.433333333333333,
+                      "value": 0
+                    },
+                    {
+                      "frame": 3.8666666666666667,
+                      "value": 255
+                    },
+                    {
+                      "frame": 4.633333333333334,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_08": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 3.566666666666667,
+                      "value": 0
+                    },
+                    {
+                      "frame": 4,
+                      "value": 255
+                    },
+                    {
+                      "frame": 4.733333333333333,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_09": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 3.7666666666666666,
+                      "value": 0
+                    },
+                    {
+                      "frame": 4.2,
+                      "value": 255
+                    },
+                    {
+                      "frame": 4.833333333333333,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_10": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 3.933333333333333,
+                      "value": 0
+                    },
+                    {
+                      "frame": 4.366666666666666,
+                      "value": 255
+                    },
+                    {
+                      "frame": 5,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_11": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 2.4,
+                      "value": 0
+                    },
+                    {
+                      "frame": 2.8333333333333335,
+                      "value": 255
+                    },
+                    {
+                      "frame": 3.8333333333333335,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              "dian/dian_12": {
+                "props": {
+                  "opacity": [
+                    {
+                      "frame": 2.6666666666666665,
+                      "value": 0
+                    },
+                    {
+                      "frame": 3.1,
+                      "value": 255
+                    },
+                    {
+                      "frame": 4.1,
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      ],
+      0,
+      0,
+      [],
+      [],
+      []
+    ],
+    [
+      [
+        {
+          "name": "leida",
+          "rect": [
+            0,
+            0,
+            640,
+            347
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            640,
+            347
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        2
+      ]
+    ]
+  ]
+]

@@ -1,0 +1,96 @@
+[
+  1,
+  [
+    "b1jzZyejdPCJxTL0q6vlyy",
+    "b70z8x+tVMO4/xcQXAjuFD"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "1img_7probox",
+          "rect": [
+            0,
+            0,
+            32,
+            32
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            32,
+            32
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "1img_7pro",
+          "rect": [
+            0,
+            0,
+            38,
+            38
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            38,
+            38
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ]
+  ]
+]

@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "c7pPAZPVxCH724pFXL0wd4"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "diren04-deformation_02",
+      "rect": [
+        28,
+        18,
+        147,
+        107
+      ],
+      "offset": [
+        3.5,
+        1.5
+      ],
+      "originalSize": [
+        196,
+        146
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

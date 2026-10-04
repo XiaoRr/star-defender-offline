@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "37JXJITZtHcp74OM+HB0C6"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "zihou_01",
+      "rect": [
+        0,
+        10,
+        600,
+        169
+      ],
+      "offset": [
+        0,
+        -4.5
+      ],
+      "originalSize": [
+        600,
+        180
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

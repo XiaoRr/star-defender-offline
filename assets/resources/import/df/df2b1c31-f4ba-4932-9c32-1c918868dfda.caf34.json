@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "1dijvcwWpDKYYRy4CqGoX+"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "bingkuai_04",
+      "rect": [
+        0,
+        1,
+        70,
+        59
+      ],
+      "offset": [
+        0,
+        -0.5
+      ],
+      "originalSize": [
+        70,
+        60
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

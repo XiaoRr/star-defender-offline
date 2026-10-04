@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "d2JRgN1QROvY/UE/z3RM2f"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "danwei10-move_03",
+      "rect": [
+        7,
+        13,
+        76,
+        65
+      ],
+      "offset": [
+        -4.5,
+        -1
+      ],
+      "originalSize": [
+        99,
+        89
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]

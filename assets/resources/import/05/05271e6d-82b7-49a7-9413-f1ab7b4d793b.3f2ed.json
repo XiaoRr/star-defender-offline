@@ -1,0 +1,58 @@
+[
+  1,
+  0,
+  0,
+  [
+    [
+      "cc.JsonAsset",
+      [
+        "_name",
+        "json"
+      ],
+      1
+    ]
+  ],
+  [
+    [
+      0,
+      0,
+      1,
+      3
+    ]
+  ],
+  [
+    [
+      0,
+      "&asset&type&",
+      {
+        "xingfenji.prefab": "prefab",
+        "xingfenji_00.png": "texture",
+        "xingfenji_01.png": "texture",
+        "xingfenji_02.png": "texture",
+        "xingfenji_03.png": "texture",
+        "xingfenji_04.png": "texture",
+        "xingfenji_05.png": "texture",
+        "xingfenji_06.png": "texture",
+        "xingfenji_07.png": "texture",
+        "xingfenji_08.png": "texture",
+        "xingfenji_09.png": "texture",
+        "xingfenji_10.png": "texture",
+        "xingfenji_11.png": "texture",
+        "xingfenji_12.png": "texture",
+        "xingfenji_13.png": "texture",
+        "xingfenji_14.png": "texture",
+        "xingfenji_15.png": "texture",
+        "xingfenji_16.png": "texture",
+        "xingfenji_17.png": "texture",
+        "xingfenji_18.png": "texture",
+        "xingfenji_19.png": "texture",
+        "anim_xingfenji.anim": "animation-clip"
+      }
+    ]
+  ],
+  0,
+  0,
+  [],
+  [],
+  []
+]

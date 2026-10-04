@@ -1,0 +1,212 @@
+[
+  1,
+  [
+    "b0/PVv5mtKUL1SM5QYeNC9",
+    "b1CKd9u+JC+rEb/CdHtCWq"
+  ],
+  [
+    "spriteFrame",
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame",
+    [
+      "cc.BitmapFont",
+      [
+        "_name",
+        "fontSize",
+        "_fntConfig"
+      ],
+      0
+    ]
+  ],
+  [
+    [
+      1,
+      0,
+      1,
+      2,
+      4
+    ]
+  ],
+  [
+    [
+      [
+        [
+          0,
+          "6img_3gqnum",
+          35,
+          {
+            "commonHeight": 40,
+            "fontSize": 35,
+            "atlasName": "6img_3gqnum.png",
+            "fontDefDictionary": {
+              "48": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "49": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 28,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "50": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 56,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "51": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 84,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "52": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 112,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "53": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "54": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 168,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "55": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 196,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "56": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 224,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              },
+              "57": {
+                "xOffset": 0,
+                "yOffset": 0,
+                "xAdvance": 35,
+                "rect": {
+                  "x": 252,
+                  "y": 0,
+                  "width": 28,
+                  "height": 35
+                }
+              }
+            },
+            "kerningDict": {}
+          }
+        ]
+      ],
+      0,
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "6img_3gqnum",
+          "rect": [
+            1,
+            0,
+            279,
+            35
+          ],
+          "offset": [
+            0.5,
+            0
+          ],
+          "originalSize": [
+            280,
+            35
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        1
+      ],
+      [
+        1
+      ]
+    ]
+  ]
+]

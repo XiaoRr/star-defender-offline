@@ -1,0 +1,96 @@
+[
+  1,
+  [
+    "68tCt5HehPOKjDuc2cdbnT",
+    "d47q+y0yJPYKgezPP0YtrT"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "sg",
+          "rect": [
+            0,
+            0,
+            400,
+            400
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            400,
+            400
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "honkuang",
+          "rect": [
+            0,
+            0,
+            640,
+            1386
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            640,
+            1386
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ]
+  ]
+]

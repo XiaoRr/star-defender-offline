@@ -1,0 +1,96 @@
+[
+  1,
+  [
+    "ffYmeXmhBGNKZCARb1JUkf",
+    "efWWuPl21MOpnr/WVF3E/w"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    [
+      [
+        {
+          "name": "6img_13button",
+          "rect": [
+            0,
+            0,
+            142,
+            46
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            142,
+            46
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        0
+      ]
+    ],
+    [
+      [
+        {
+          "name": "27img_2lock",
+          "rect": [
+            0,
+            0,
+            99,
+            61
+          ],
+          "offset": [
+            0,
+            0
+          ],
+          "originalSize": [
+            99,
+            61
+          ],
+          "capInsets": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      [
+        0
+      ],
+      0,
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ]
+    ]
+  ]
+]

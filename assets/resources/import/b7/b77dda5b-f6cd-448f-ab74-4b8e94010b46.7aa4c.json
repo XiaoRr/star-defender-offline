@@ -1,0 +1,54 @@
+[
+  1,
+  0,
+  0,
+  [
+    [
+      "cc.JsonAsset",
+      [
+        "_name",
+        "json"
+      ],
+      1
+    ]
+  ],
+  [
+    [
+      0,
+      0,
+      1,
+      3
+    ]
+  ],
+  [
+    [
+      0,
+      "&asset&type&",
+      {
+        "yuanzidan_02.prefab": "prefab",
+        "moguyun_05.png": "texture",
+        "moguyun_00.png": "texture",
+        "moguyun_01.png": "texture",
+        "moguyun_02.png": "texture",
+        "moguyun_03.png": "texture",
+        "moguyun_04.png": "texture",
+        "moguyun_06.png": "texture",
+        "moguyun_07.png": "texture",
+        "moguyun_08.png": "texture",
+        "moguyun_09.png": "texture",
+        "moguyun_10.png": "texture",
+        "moguyun_11.png": "texture",
+        "moguyun_12.png": "texture",
+        "moguyun_13.png": "texture",
+        "moguyun_14.png": "texture",
+        "moguyun_15.png": "texture",
+        "anim_yuanzidan02.anim": "animation-clip"
+      }
+    ]
+  ],
+  0,
+  0,
+  [],
+  [],
+  []
+]

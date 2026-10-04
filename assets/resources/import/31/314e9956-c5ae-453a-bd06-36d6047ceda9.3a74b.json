@@ -1,0 +1,51 @@
+[
+  1,
+  [
+    "a8a7PvklFGS5gwoVWef/zY"
+  ],
+  [
+    "_textureSetter"
+  ],
+  [
+    "cc.SpriteFrame"
+  ],
+  0,
+  [
+    {
+      "name": "danwei06-deformation2_2",
+      "rect": [
+        35,
+        55,
+        102,
+        76
+      ],
+      "offset": [
+        14.5,
+        -23.5
+      ],
+      "originalSize": [
+        143,
+        139
+      ],
+      "capInsets": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  [
+    0
+  ],
+  0,
+  [
+    0
+  ],
+  [
+    0
+  ],
+  [
+    0
+  ]
+]
