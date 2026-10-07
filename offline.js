@@ -47,12 +47,46 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   bar.append(exportButton,importButton,previousButton,input);
   document.body.appendChild(bar);
+  const redeemBar = document.createElement('div');
+  redeemBar.id = 'offline-redeem-tools';
+  redeemBar.className = 'offline-redeem-tools';
+  const redeemLabel = document.createElement('span');
+  redeemLabel.textContent = '兑换码';
+  const redeemInput = document.createElement('input');
+  redeemInput.type = 'text';
+  redeemInput.placeholder = '输入兑换码';
+  redeemInput.autocomplete = 'off';
+  redeemInput.spellcheck = false;
+  const redeemButton = document.createElement('button');
+  redeemButton.textContent = '兑换';
+  redeemButton.onclick = () => {
+    try {
+      if (!window.__require || !window.cc?.find('Canvas/bg/button')?.activeInHierarchy) {
+        throw new Error('请等待游戏加载完成');
+      }
+      const result = window.offlineRedeem.claim(__require('playerData').default, redeemInput.value);
+      offlineNotice(result.message);
+      if (result.ok) redeemInput.value = '';
+    } catch (error) {
+      offlineNotice(`兑换失败：${error.message}`);
+    }
+  };
+  redeemInput.addEventListener('keydown', event => {
+    if (event.key === 'Enter') redeemButton.click();
+  });
+  redeemBar.append(redeemLabel, redeemInput, redeemButton);
+  document.body.appendChild(redeemBar);
   // Only show save tools on the title screen; never cover combat controls.
   bar.style.display = 'none';
+  redeemBar.style.display = 'none';
   const install = setInterval(() => {
     if (!window.cc || !cc.director) return;
     clearInterval(install);
-    const update = () => { bar.style.display = cc.director.getScene()?.name === 'startScene' ? 'flex' : 'none'; };
+    const update = () => {
+      const visible = cc.director.getScene()?.name === 'startScene';
+      bar.style.display = visible ? 'flex' : 'none';
+      redeemBar.style.display = visible ? 'flex' : 'none';
+    };
     cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, update);
     update();
   }, 100);
