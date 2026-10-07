@@ -1,6 +1,7 @@
 # 解混淆交付说明（star-defender-offline）
 
 源文件：`assets/main/index.8182a.js`（约 2MB，browserify 打包 + 压缩）。
+当前运行版本为 `assets/main/index.27d4c16c.js`；建筑出售涉及的建造、生产和抽选方法已同步到模块副本与美化包，可读业务逻辑位于根目录 `offline-building-sale.js`。
 "混淆"实质 = **browserify 模块打包 + 变量名压缩**，无控制流扁平化/字符串加密，
 因此大部分可还原。本目录为解混淆产物。
 

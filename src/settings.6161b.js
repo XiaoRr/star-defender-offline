@@ -16,5 +16,5 @@ window._CCSettings = {
   launchScene: "db://assets/Scene/startScene.fire",
   orientation: "portrait",
   jsList: [],
-  bundleVers: { internal: "d0832", resources: "9fdbc", main: "8182a" },
+  bundleVers: { internal: "d0832", resources: "9fdbc", main: "27d4c16c" },
 };

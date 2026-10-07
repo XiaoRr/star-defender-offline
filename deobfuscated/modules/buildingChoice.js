@@ -507,38 +507,8 @@ const __mod = function(e, t, i) {
           }
           return (
             (e.prototype.getChoice = function() {
-              for (var e = 0, t = new Array(), n = 0; n < i.BuildingChoiceArray.length; n++) {
-                var a = i.BuildingChoiceArray[n].condition,
-                  o = i.BuildingChoiceArray[n].id,
-                  r = i.BuildingChoiceArray[n].limit;
-                if (
-                  (6 == o || 7 == o || 8 == o ? (r += d.default.getLevelGiftValueWithType(3, this.pvpWay)) : 15 == o || 16 == o || 17 == o ? (r += d.default.getLevelGiftValueWithType(4, this.pvpWay, )) : 9 == o || 10 == o || 11 == o ? (r += d.default.getLevelGiftValueWithType(5, this.pvpWay, )) : 18 == o || 19 == o || 20 == o ? (r += d.default.getLevelGiftValueWithType(6, this.pvpWay, )) : 12 == o || 13 == o || 14 == o ? (r += d.default.getLevelGiftValueWithType(7, this.pvpWay, )) : (21 != o && 22 != o && 23 != o) || (r += d.default.getLevelGiftValueWithType(8, this.pvpWay, )), !(
-                    (i.BuildingChoiceArray[n].level > d.default.nowLevel && 0 == d.default.gameMode) || (1 == d.default.gameMode && (this.overBuildingArray.indexOf(a) >= 0 || (a > 5 && this.overBuildingArray.indexOf(i.BuildingChoiceArray[a - 1].condition, ) >= 0)))) && (0 == a || this.choiceArray.indexOf(a) >= 0))) {
-                  for (var s = 0, c = 0; c < this.choiceArray.length; c++) this.choiceArray[c] == o && s++;
-                  if (s < r) {
-                    if (o < 5) {
-                      if (e > 1) continue;
-                      e++;
-                    }
-                    t.push(o);
-                  }
-                }
-              }
-              if (t.length > 3) {
-                var l = new Array();
-                for (n = 0; n < 3; n++) {
-                  var h = Math.floor(Math.random() * t.length);
-                  (l.push(t[h]), t.splice(h, 1));
-                }
-                return l;
-              }
-              if (3 == t.length) return t;
-              var u = [24, 25, 26],
-                p = 3 - t.length;
-              for (n = 0; n < p; n++)
-                ((h = Math.floor(Math.random() * u.length)), t.push(u[h]), u.splice(h, 1));
-              return t;
-            }),
+                return window.offlineBuildingSale.getChoice(this);
+              }),
             (e.prototype.doChoice = function(e, t) {
               switch (
                 (void 0 === t && (t = !0), r.default.isContinue || l.default.inst.playAudio("starcraft/upgrade_building"), t && this.choiceArray.push(e), e)) {

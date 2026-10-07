@@ -214,6 +214,7 @@ const __mod = function(e, t, i) {
               window.offlineFortress.apply(this);
             }),
             (t.prototype.restore = function() {
+              if (this._sold) return;
               // Offline adaptation: building.restore
               ((this.totalHp = i.BuildingConfig[this.type - 1].hp * g.default.gameInstance.buildingChoice.hpBuffer),
                 (this.attack = i.BuildingConfig[this.type - 1].attack * g.default.gameInstance.buildingChoice.attackBuffer),
@@ -229,39 +230,47 @@ const __mod = function(e, t, i) {
                 for (var t = 0; t < g.default.gameInstance.buildingChoice.cdTimeArray.length; t++) 3 * (this.type - 2) + e + 1 == g.default.gameInstance.buildingChoice.cdTimeArray[t] && (this.productArray[e].cdTime *= 0.7);
               }
             }),
-            (t.prototype.productArmy = function(e, t, i) {
-              for (var n = 0; n < i; n++) {
-                var a = 110 * Math.random() + 130;
-                (Math.random() < 0.5 && (a = 180 - a), e == r.JI_DI && (a = 140 * -Math.random() - 20), 1 == this.pvpWay && (a = -a));
-                var o = this.node.x + Math.cos((a * Math.PI) / 180) * this.radio,
-                  s = this.node.y + Math.sin((a * Math.PI) / 180) * this.radio;
-                (1 == this.pvpWay ? g.default.gameInstance.addArmyOther(e, t, {
-                  x: o,
-                  y: s
-                }) : (g.default.gameInstance.addArmy(e, t, {
-                  x: o,
-                  y: s
-                }), 0 == g.default.gameMode && p.default.dailyArray[2]++), g.default.gameInstance.addEffect("born", 1, {
-                  x: o,
-                  y: s
-                }));
-              }
-            }),
-            (t.prototype.checkProductArmy = function(e) {
-              // Offline adaptation: building.checkProductArmy
-              if ((void 0 === e && (e = 0), !this.isOver)) {
-                0 == e && (e = 0.1);
-                for (var t = !1, i = 0; i < this.productArray.length; i++) {
-                  var n,
-                    a = this.productArray[i].type,
-                    o = this.productArray[i].level,
-                    r = this.productArray[i].limit,
-                    s = this.productArray[i].cdTime;
-                  (n = 1 == g.default.gameMode ? g.default.gameInstance.getArmyNumWithType(a, this.pvpWay, ) : g.default.gameInstance.getArmyNumWithType(a)) < r && ((t = !0), 0 == e ? this.productArmy(a, o, r - n) : this.productArray[i].cdNow < s ? (this.productArray[i].cdNow += e) : ((this.productArray[i].cdNow -= s), this.productArmy(a, o, 1)));
+            (t.prototype.productArmy = function(armyType, armyLevel, count) {
+                if (this._sold || this.isOver) return;
+                const gameData = __require("gameData").default;
+                const scene = gameData.gameInstance;
+                for (let index = 0; index < count; index++) {
+                  let angle = 110 * Math.random() + 130;
+                  if (Math.random() < 0.5) angle = 180 - angle;
+                  if (armyType === 1) angle = -140 * Math.random() - 20;
+                  if (this.pvpWay === 1) angle = -angle;
+                  const position = {
+                    x: this.node.x + Math.cos(angle * Math.PI / 180) * this.radio,
+                    y: this.node.y + Math.sin(angle * Math.PI / 180) * this.radio
+                  };
+                  if (this.pvpWay === 1) scene.addArmyOther(armyType, armyLevel, position);
+                  else {
+                    scene.addArmy(armyType, armyLevel, position, this);
+                    if (gameData.gameMode === 0) __require("playerData").default.dailyArray[2]++;
+                  }
+                  scene.addEffect("born", 1, position);
                 }
-                if (!this._fortress || this.status !== 4) this.status = t ? 3 : 0;
-              }
-            }),
+              }),
+            (t.prototype.checkProductArmy = function(deltaTime) {
+                if (this._sold || this.isOver) return;
+                const elapsed = deltaTime || 0.1;
+                const gameData = __require("gameData").default;
+                const scene = gameData.gameInstance;
+                let producing = false;
+                for (const product of this.productArray) {
+                  const currentCount = gameData.gameMode === 1
+                    ? scene.getArmyNumWithType(product.type, this.pvpWay)
+                    : scene.getArmyNumWithType(product.type);
+                  if (currentCount >= product.limit) continue;
+                  producing = true;
+                  if (product.cdNow < product.cdTime) product.cdNow += elapsed;
+                  else {
+                    product.cdNow -= product.cdTime;
+                    this.productArmy(product.type, product.level, 1);
+                  }
+                }
+                if (!this._fortress || this.status !== 4) this.status = producing ? 3 : 0;
+              }),
             (t.prototype.addBuildingArmyNum = function(e, t) {
               for (var i = 0; i < this.productArray.length; i++)
                 if (this.productArray[i].type == e) {
@@ -277,6 +286,7 @@ const __mod = function(e, t, i) {
                 }
             }),
             (t.prototype.update = function(e) {
+              if (this._sold) return;
               // Offline adaptation: building.update
               if (
                 (this.hurtTime > 0 && ((this.hurtTime -= e * g.default.gameSpeed), this.hurtTime < 0 && (this.hurtTime = 0), this.material.setProperty("u_rate", 0.05 + (Math.abs(this.hurtTime - 0.08) / 0.08) * 0.95, )), this.hp == this.totalHp ? (this.node.getChildByName("hp").active = !1) : ((this.node.getChildByName("hp").active = !0),
@@ -311,6 +321,7 @@ const __mod = function(e, t, i) {
               if (this._fortress && this._fortressArtReady) this.node.getChildByName("node").color = this.isOver ? new cc.Color(100, 110, 120) : cc.Color.WHITE;
             }),
             (t.prototype.checkAttack = function() {
+              if (this._sold) return;
               // Offline adaptation: building.checkAttack
               var e = this.range,
                 t = null;
@@ -339,7 +350,7 @@ const __mod = function(e, t, i) {
               // Offline adaptation: building.shootBullet
               var s = this;
               d.cocos.loadRes(this._fortress ? "starcraft/bullet/bullet-a6" : "starcraft/bullet/bullet-b" + this.type, cc.Prefab, ).then(function(c) {
-                if (!cc.isValid(s.node)) return;
+                if (s._sold || !cc.isValid(s.node)) return;
                 var l = cc.instantiate(c),
                   d = s.getTheAngle(e, t, i, n);
                 s.type == r.PAO_TA && (d >= 0 && d < 70 && -1 == s.node.scaleX ? (s.node.scaleX = 1) : d > 290 && d < 360 && -1 == s.node.scaleX ? (s.node.scaleX = 1) : d > 110 && d <= 180 && 1 == s.node.scaleX ? (s.node.scaleX = -1) : d > 180 && d < 250 && 1 == s.node.scaleX && (s.node.scaleX = -1));
