@@ -5,8 +5,20 @@ window.offlineBuildingSale = (() => {
   const choiceConfigs = () => __require("buildingChoice").BuildingChoiceArray;
   const soldTypes = choice => choice.soldBuildingTypes || (choice.soldBuildingTypes = []);
 
+  const constructionPanel = scene => scene.uiNode && scene.uiNode.getChildByName("buildingChoice");
+  function hasBlockingPanel(scene) {
+    return ["pause", "win", "over", "winNode", "loseNode", "relive", "armyChoice", "settings"].some(name => {
+      const node = scene.uiNode && scene.uiNode.getChildByName(name);
+      return node && node.active;
+    }) || !!scene._offlineResultStarted;
+  }
+  function isPlayablePhase(scene) {
+    return !!(scene && !hasBlockingPanel(scene) &&
+      (scene.isBattle || constructionPanel(scene)?.active));
+  }
+
   function canSell(scene, building) {
-    return !!(scene && scene.isBattle && building && !building._sold &&
+    return !!(isPlayablePhase(scene) && building && !building._sold &&
       cc.isValid(building.node) && building.node.active && !building.isOver &&
       building.hp > 0 && building.pvpWay === 0 && !building._fortress &&
       building.type >= 2 && building.type <= 5 &&
@@ -32,11 +44,33 @@ window.offlineBuildingSale = (() => {
     scene.money += REFUND;
     // PvP caches its offer until purchase; selling changes eligibility and must invalidate it.
     scene.hasBuildingChoice = false;
-    const offerPanel = scene.uiNode && scene.uiNode.getChildByName("buildingChoice");
-    if (offerPanel) offerPanel.active = false;
+    refreshConstructionAfterSale(scene);
     building.node.removeFromParent(true);
     building.node.destroy();
     return true;
+  }
+
+  function refreshConstructionAfterSale(scene) {
+    const offerPanel = constructionPanel(scene);
+    if (!offerPanel || !offerPanel.active) return;
+    if (scene.isBattle) {
+      offerPanel.active = false;
+      return;
+    }
+    // A visible card has already been paid for (or granted at wave end).
+    // Re-roll its eligibility without charging again or losing that pending choice.
+    if (offerPanel.getChildByName("choice1")?.active) {
+      scene.refreshBuildingChoice();
+      return;
+    }
+    // Keep Start/Continue visible. The refund may make Continue affordable again.
+    const next = offerPanel.getChildByName("nextButton");
+    if (!next) return;
+    const affordable = scene.money >= REFUND;
+    next.getComponent(cc.Button).interactable = affordable;
+    next.getChildByName("icon").active = affordable;
+    next.getChildByName("ad").active = false;
+    next.getChildByName("text").color = affordable ? cc.color(39, 234, 246) : cc.color(70, 79, 79);
   }
 
   function getChoiceGroups(choice, configs = choiceConfigs(), data = game()) {
@@ -106,26 +140,44 @@ window.offlineBuildingSale = (() => {
   function attachBattleInput(scene) {
     if (scene._saleTapAttached) return;
     scene._saleTapAttached = true;
-    // The existing full-screen Canvas consumes world touches. Pick buildings from
-    // the Canvas event using the visible sprite bounds, rather than adding a UI hitbox.
-    scene.node.on(cc.Node.EventType.TOUCH_END, event => {
-      if (scene.isPause || !scene.isBattle || scene._buildingSaleModal) return;
+    const touches = new Map();
+    const pickBuilding = event => {
+      if (scene.isPause || !isPlayablePhase(scene) || scene._buildingSaleModal) return null;
+      let fromConstruction = false;
       for (let target = event.target; target && target !== scene.node; target = target.parent) {
-        if (target === scene.uiNode || target.name === "help" || target.name === "loading") return;
+        if (target === constructionPanel(scene)) fromConstruction = true;
+        if ((target === scene.uiNode && !fromConstruction) || target.name === "help" || target.name === "loading") return null;
       }
       const point = event.getLocation();
-      const start = event.getStartLocation();
-      if (Math.hypot(point.x - start.x, point.y - start.y) > 12) return;
       const candidates = scene.buildingArray.slice().sort((left, right) => right.zIndex - left.zIndex);
       for (const node of candidates) {
         const candidate = node.getComponent("building");
         const sprite = node.getChildByName("node") || node;
         if (canSell(scene, candidate) && sprite.getBoundingBoxToWorld().contains(point)) {
-          event.stopPropagation();
-          open(scene, candidate);
-          return;
+          return candidate;
         }
       }
+      return null;
+    };
+    // Capture both ends before the overlaid construction Button receives them.
+    // Otherwise it can buy/start as well as sell, or remain visually pressed.
+    scene.node.on(cc.Node.EventType.TOUCH_START, event => {
+      const building = pickBuilding(event);
+      if (!building) return;
+      touches.set(event.getID(), building);
+      event.stopPropagation();
+    }, scene, true);
+    scene.node.on(cc.Node.EventType.TOUCH_CANCEL, event => {
+      if (touches.delete(event.getID())) event.stopPropagation();
+    }, scene, true);
+    scene.node.on(cc.Node.EventType.TOUCH_END, event => {
+      const building = touches.get(event.getID());
+      if (!building) return;
+      touches.delete(event.getID());
+      event.stopPropagation();
+      const point = event.getLocation(), start = event.getStartLocation();
+      if (Math.hypot(point.x - start.x, point.y - start.y) <= 12 && pickBuilding(event) === building)
+        open(scene, building);
     }, scene, true);
   }
 
@@ -168,6 +220,8 @@ window.offlineBuildingSale = (() => {
   }
   function open(scene, building) {
     if (scene.isPause || scene._buildingSaleModal || !canSell(scene, building)) return;
+    const previousPause = scene.isPause;
+    const previousBattle = scene.isBattle;
     const modal = new cc.Node("buildingSaleModal");
     scene.uiNode.addChild(modal); modal.zIndex = 10000;
     scene._buildingSaleModal = modal;
@@ -194,7 +248,7 @@ window.offlineBuildingSale = (() => {
     const close = () => {
       if (closed) return; closed = true;
       modal.active = false; modal.destroy(); scene._buildingSaleModal = null;
-      if (scene.isBattle) scene.isPause = false;
+      if (scene.isBattle === previousBattle && !hasBlockingPanel(scene)) scene.isPause = previousPause;
     };
     button(card, "cancelSale", "取消", -116, close, "#aabccd");
     button(card, "confirmSale", "确认出售", 116, () => {

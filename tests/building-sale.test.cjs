@@ -14,20 +14,33 @@ function fixture() {
     audioMgr:{default:{inst:{playAudio(){}}}},
     libcocos:{cocos:{loadRes:()=>Promise.resolve({})}}, libwechat:{wechat:{}}
   };
-  function Node() {
+  function Node(name) {
+    this.name=name; this.children=[]; this.handlers={}; this.components=new Map();
     this.active=true; this.x=0; this.y=0;
     this.stopAllActions=()=>{}; this.removeFromParent=()=>{};
     this.destroy=()=>{this.destroyed=true;};
     this.setPosition=(x,y)=>{this.x=x;this.y=y;};
-    this.on=()=>{}; this.getChildByName=()=>null;
+    this.on=(event,handler)=>{this.handlers[event]=handler;};
+    this.getChildByName=name=>this.children.find(child=>child.name===name)||null;
+    this.addChild=child=>{this.children.push(child);child.parent=this;};
+    this.setContentSize=()=>{};
+    this.addComponent=type=>{const component=new type();this.components.set(type,component);return component;};
+    this.getComponent=type=>this.components.get(type);
+    this.getBoundingBoxToWorld=()=>({contains:point=>point.x>=0&&point.x<=100&&point.y>=0&&point.y<=100});
   }
-  Node.EventType={TOUCH_END:'touchend'};
+  Node.EventType={TOUCH_START:'touchstart',TOUCH_END:'touchend',TOUCH_CANCEL:'touchcancel'};
+  function Graphics() {for(const name of ['moveTo','lineTo','close','fill','stroke','rect'])this[name]=()=>{};}
+  function Label() {} Label.HorizontalAlign={CENTER:0};Label.VerticalAlign={CENTER:0};Label.Overflow={SHRINK:0};
+  function Button() {} Button.Transition={SCALE:0};
+  function Sprite() {} Sprite.SizeMode={CUSTOM:0};
+  function Color() {} Color.fromHEX=()=>({});
   const cc = {
     Component:function(){}, Node, _RF:{push(){},pop(){}},
     _decorator:{ccclass:type=>type,property:()=>()=>{}},
     isValid:node=>!!node&&!node.destroyed,
     instantiate:()=>new Node()
   };
+  Object.assign(cc,{Graphics,Label,Button,Sprite,Color,BlockInputEvents:function(){},color:()=>({}),view:{getVisibleSize:()=>({width:640,height:960})}});
   const context=vm.createContext({window:{},cc,console,Math});
   context.__require=name=>modules[name]||{default:{}};
   function load(name) {
@@ -46,7 +59,7 @@ function fixture() {
   vm.runInContext(fs.readFileSync(path.join(root,'offline-building-sale.js'),'utf8'),context);
   const sale=context.window.offlineBuildingSale;
   const scene={isBattle:true,isPause:false,money:40,buildingArray:[],armyArray:[],
-    node:new Node(),buildingChoice:new Choice(),setPause(){},hasBuildingChoice:true};
+    node:new Node(),buildingImgArray:[],buildingChoice:new Choice(),setPause(){},hasBuildingChoice:true};
   data.gameInstance=scene;
   const building=new Building();
   Object.assign(building,{type:2,hp:200,pvpWay:0,isOver:false,node:new Node(),
@@ -153,5 +166,62 @@ test('rebuilding turret fills vacant first slot in both scenes',async()=>{
     cc.instantiate=()=>{const node=new Node();node.getComponent=()=>({node,type:5,pvpWay:0,initBuilding(){}});return node;};
     const node=await Type.prototype.productBuilding.call(scene,5);
     assert.equal(node.x,130);assert.equal(node.y,-180);
+  }
+});
+
+function constructionFixture(cards=false) {
+  const f=fixture(); const {scene,Node,cc}=f;
+  scene.isBattle=false;scene.uiNode=new Node('ui');scene.node.addChild(scene.uiNode);
+  const panel=new Node('buildingChoice');scene.uiNode.addChild(panel);
+  const card=new Node('choice1');card.active=cards;panel.addChild(card);
+  const next=new Node('nextButton');next.addComponent(cc.Button).interactable=false;panel.addChild(next);
+  for(const name of ['icon','ad','text'])next.addChild(new Node(name));
+  const start=new Node('startButton');panel.addChild(start);
+  scene.refreshBuildingChoice=()=>{scene.refreshCount=(scene.refreshCount||0)+1;};
+  return {...f,panel,next,start};
+}
+test('construction sale keeps Start/Continue, unlocks affordability and restores pause',()=>{
+  const {sale,scene,building,panel,next,start,cc}=constructionFixture();
+  assert.equal(sale.canSell(scene,building),true);
+  sale.open(scene,building);assert.equal(scene.isPause,true);
+  const modal=scene._buildingSaleModal;
+  modal.getChildByName('saleCard').getChildByName('confirmSale').handlers.click();
+  assert.equal(scene.money,140);assert.equal(scene.isBattle,false);assert.equal(scene.isPause,false);
+  assert.equal(panel.active,true);assert.equal(start.active,true);assert.equal(next.active,true);
+  assert.equal(next.getComponent(cc.Button).interactable,true);
+});
+test('cancelling during construction preserves paid choice and all phase state',()=>{
+  const {sale,scene,building,panel}=constructionFixture(true);
+  sale.open(scene,building);
+  scene._buildingSaleModal.getChildByName('saleCard').getChildByName('cancelSale').handlers.click();
+  assert.equal(scene.isPause,false);assert.equal(scene.isBattle,false);assert.equal(scene.money,40);
+  assert.equal(panel.active,true);assert.equal(panel.getChildByName('choice1').active,true);
+  assert.equal(scene.refreshCount,undefined);assert.equal(building._sold,undefined);
+});
+test('selling with paid cards refreshes eligibility without losing or charging the choice',()=>{
+  const {sale,scene,building,panel}=constructionFixture(true);
+  sale.sell(scene,building);
+  assert.equal(scene.refreshCount,1);assert.equal(scene.money,140);assert.equal(panel.active,true);
+  assert.equal(panel.getChildByName('choice1').active,true);
+});
+test('overlapping construction controls lose both touch events to the building',()=>{
+  const {sale,scene,building,next}=constructionFixture();
+  sale.prepareBuilding(scene,building);
+  const event={target:next,getID:()=>1,getLocation:()=>({x:50,y:50}),getStartLocation:()=>({x:50,y:50}),stopPropagation(){this.stops=(this.stops||0)+1;}};
+  scene.node.handlers.touchstart(event);assert.equal(event.stops,1);
+  scene.node.handlers.touchend(event);assert.equal(event.stops,2);assert.ok(scene._buildingSaleModal);
+  assert.equal(scene.money,40);assert.equal(scene.isBattle,false);
+});
+test('drag, unrelated UI and blocking dialogs do not open sale or activate covered controls',()=>{
+  for(const mode of ['drag','unrelated','pause','win','over','settings']) {
+    const {sale,scene,building,next,Node}=constructionFixture();
+    let target=next;
+    if(mode==='unrelated') {target=new Node('speedButton');scene.uiNode.addChild(target);}
+    if(['pause','win','over','settings'].includes(mode))scene.uiNode.addChild(new Node(mode));
+    sale.prepareBuilding(scene,building);
+    const event={target,getID:()=>1,getLocation:()=>({x:50,y:50}),getStartLocation:()=>({x:mode==='drag'?0:50,y:50}),stopPropagation(){this.stops=(this.stops||0)+1;}};
+    scene.node.handlers.touchstart(event);scene.node.handlers.touchend(event);
+    assert.equal(scene._buildingSaleModal,undefined,mode);
+    if(mode==='drag')assert.equal(event.stops,2);
   }
 });

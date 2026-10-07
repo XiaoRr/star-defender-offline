@@ -3,7 +3,8 @@
 <title>建筑出售 · 本地集成验证</title>
 <style>body{margin:0;background:#101822;color:#dae7f4;font:16px sans-serif;display:flex;height:100vh}aside{padding:20px;width:320px;flex-shrink:0;overflow:auto}button{padding:10px;margin:6px}iframe{border:0;flex:1;height:100vh;min-width:0}pre{white-space:pre-wrap;font-size:14px}</style>
 <aside><h2>建筑出售集成验证</h2><p>仅用于本地测试。进入游戏后建立隔离的战斗场景；无需修改正式存档。</p>
-<button id="prepare">准备出售测试</button><button id="rebuild">重建已售兵营</button><button id="snapshot">保存检查点</button>
+<button id="prepare">准备出售测试</button><button id="construction">建造阶段遮挡测试</button><button id="cards">建造选卡测试</button><button id="rebuild">重建已售兵营</button><button id="snapshot">保存检查点</button>
+<label><input id="funded" type="checkbox">遮挡测试时建造按钮可用</label>
 <pre id="status">游戏加载完成后，点击“准备出售测试”。</pre></aside>
 <iframe id="game" src="../index.html"></iframe>
 <script>
@@ -43,12 +44,30 @@ document.querySelector('#rebuild').onclick=async()=>{
  if(scene.buildingArray.some(node=>node.getComponent('building').type===2))return;
  scene.buildingChoice.choiceArray.push(1);await scene.productBuilding(2);
 };
+document.querySelector('#construction').onclick=async()=>{
+ await document.querySelector('#prepare').onclick();
+ const {w,data}=runtime();const scene=data.gameInstance;
+ scene.isBattle=false;scene.money=document.querySelector('#funded').checked?250:40;
+ const panel=scene.uiNode.getChildByName('buildingChoice');panel.active=true;panel.setPosition(0,0);
+ for(const name of ['bg','refreshButton','choice1','choice2','choice3'])panel.getChildByName(name).active=false;
+ const next=panel.getChildByName('nextButton');next.active=true;next.stopAllActions();
+ next.getComponent(w.cc.Button).interactable=scene.money>=100;
+ const sprite=observed.node.getChildByName('node');
+ next.setPosition(panel.convertToNodeSpaceAR(sprite.convertToWorldSpaceAR(w.cc.v2(0,0))));
+ const start=panel.getChildByName('startButton');start.active=true;start.stopAllActions();start.setPosition(173,0);
+};
+document.querySelector('#cards').onclick=()=>{
+ const {data}=runtime();const scene=data.gameInstance;scene.isBattle=false;
+ const panel=scene.uiNode.getChildByName('buildingChoice');panel.active=true;panel.setPosition(0,0);
+ scene.refreshBuildingChoice();
+};
 document.querySelector('#snapshot').onclick=()=>runtime().data.gameInstance.saveBattle();
 setInterval(()=>{
   if(!observed)return;
   const {w,data}=runtime();const scene=data.gameInstance;
   const groups=w.offlineBuildingSale.getChoiceGroups(scene.buildingChoice);
   const nodes=scene.buildingArray.map(node=>{const b=node.getComponent('building');return {type:b.type,products:b.productArray.map(p=>({type:p.type,limit:p.limit,cd:p.cdNow}))};});
-  status.textContent=JSON.stringify({canSell:w.offlineBuildingSale.canSell(scene,observed),money:scene.money,pause:scene.isPause,battle:scene.isBattle,sold:!!observed._sold,soldNodeValid:w.cc.isValid(observed.node),armyCount:scene.armyArray.length,choices:scene.buildingChoice.choiceArray,soldTypes:scene.buildingChoice.soldBuildingTypes,groups,buildings:nodes},null,2);
+  const panel=scene.uiNode.getChildByName('buildingChoice');
+  status.textContent=JSON.stringify({canSell:w.offlineBuildingSale.canSell(scene,observed),money:scene.money,pause:scene.isPause,battle:scene.isBattle,sold:!!observed._sold,soldNodeValid:w.cc.isValid(observed.node),constructionVisible:panel.active,startVisible:panel.getChildByName('startButton').active,nextEnabled:panel.getChildByName('nextButton').getComponent(w.cc.Button).interactable,armyCount:scene.armyArray.length,choices:scene.buildingChoice.choiceArray,soldTypes:scene.buildingChoice.soldBuildingTypes,groups,buildings:nodes},null,2);
 },500);
 </script>
