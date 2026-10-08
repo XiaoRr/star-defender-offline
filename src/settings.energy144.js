@@ -1,0 +1,20 @@
+window._CCSettings = {
+  platform: "web-mobile",
+  groupList: ["default", "army", "armyfly", "building", "enemy", "enemyfly"],
+  collisionMatrix: [
+    [true],
+    [false, true, null, true, true],
+    [false, false, true, null, null, true],
+    [false, true, false, true, true],
+    [false, true, false, true, true],
+    [false, false, true, false, false, true],
+  ],
+  hasResourcesBundle: true,
+  hasStartSceneBundle: false,
+  remoteBundles: [],
+  subpackages: [],
+  launchScene: "db://assets/Scene/startScene.fire",
+  orientation: "portrait",
+  jsList: [],
+  bundleVers: { internal: "d0832", resources: "9fdbc", main: "energy144" },
+};

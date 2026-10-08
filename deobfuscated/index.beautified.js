@@ -16938,7 +16938,8 @@ window.__require = (function e(t, i, n) {
               (e.totalLevel = 99),
               (e.nowLevel = 0),
               (e.nowGameLevel = 0),
-              (e.HPLimit = 30),
+              // Offline balance: a full daily energy reserve is 144 points.
+              (e.HPLimit = 144),
               (e.gameMode = 0),
               (e.gameSpeed = 1),
               (e.reviewVersion = window.reviewVersion || 1.3),
