@@ -71,43 +71,61 @@
       player.saveData();
       return true;
     },
-    settle(player, code) {
-      const s = state(player),
-        active = s.active;
-      let gain = 0,
-        up = 0;
-      if (!active)
+    settle(player, resultCode) {
+      const arenaState = state(player);
+      const match = arenaState.active;
+      const WIN = 1,
+        LOSS = 0,
+        DRAW = 4;
+      const BONUS_WIN = 2,
+        BONUS_LOSS = 3,
+        BONUS_DRAW = 5;
+      const TECH_CORE_ITEM = 8;
+      let scoreGain = 0,
+        ranksGained = 0,
+        coresAwarded = 0;
+      if (!match)
         return Promise.resolve({
           err: 1,
           arenaScore: player.arenaScore,
           jx: player.jx,
           up: 0,
+          coresAwarded: 0,
         });
-      if ([0, 1, 4].includes(code) && active.result === null) {
-        active.result = code;
-        if (code === 1) {
-          gain = 10;
-          s.wins++;
+      if ([LOSS, WIN, DRAW].includes(resultCode) && match.result === null) {
+        // Persist the result and its reward together; replaying a settled match must not grant items.
+        match.result = resultCode;
+        if (resultCode === WIN) {
+          scoreGain = 10;
+          coresAwarded = 2;
+          arenaState.wins++;
+        } else if (resultCode === LOSS) {
+          coresAwarded = 1;
+          arenaState.losses++;
+        } else {
+          scoreGain = 3;
+          arenaState.draws++;
         }
-        if (code === 0) s.losses++;
-        if (code === 4) {
-          gain = 3;
-          s.draws++;
-        }
+        match.coresAwarded = coresAwarded;
+        if (coresAwarded > 0) player.addItem(TECH_CORE_ITEM, coresAwarded);
       } else if (
-        !active.bonus &&
-        ((code === 2 && active.result === 1) ||
-          (code === 3 && active.result === 0) ||
-          (code === 5 && active.result === 4))
+        !match.bonus &&
+        ((resultCode === BONUS_WIN && match.result === WIN) ||
+          (resultCode === BONUS_LOSS && match.result === LOSS) ||
+          (resultCode === BONUS_DRAW && match.result === DRAW))
       ) {
-        active.bonus = true;
-        gain = code === 2 ? 10 : code === 5 ? 3 : 0;
+        match.bonus = true;
+        scoreGain =
+          resultCode === BONUS_WIN ? 10 : resultCode === BONUS_DRAW ? 3 : 0;
       }
-      player.arenaScore += gain;
-      while (player.jx < 18 && player.arenaScore >= thresholds[player.jx - 1]) {
+      player.arenaScore += scoreGain;
+      while (
+        player.jx < thresholds.length &&
+        player.arenaScore >= thresholds[player.jx - 1]
+      ) {
         player.arenaScore -= thresholds[player.jx - 1];
         player.jx++;
-        up++;
+        ranksGained++;
       }
       player.arenaScore = Math.min(
         player.arenaScore,
@@ -119,8 +137,9 @@
         err: 0,
         arenaScore: player.arenaScore,
         jx: player.jx,
-        up,
-        gain,
+        up: ranksGained,
+        gain: scoreGain,
+        coresAwarded,
       });
     },
   };
@@ -167,7 +186,7 @@
           s.losses +
           "  /  平局 " +
           s.draws +
-          "\n胜利 +10；失败不扣分\n匹配机器人，消耗 1 张竞技券";
+          "\n胜利 +10；失败不扣分\n星核：胜利2个 / 失败1个\n匹配机器人，消耗 1 张竞技券";
     ui.start_node.getChildByName("btn").getComponent(cc.Button).interactable =
       tab !== "province";
     ui.content_node.y = 280;

@@ -1,0 +1,28 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const crypto=require('node:crypto');
+const {execFileSync}=require('node:child_process');
+const output=path.resolve(process.argv[2]||'dist');
+fs.mkdirSync(output,{recursive:true});
+for(const name of ['assets','src','config','fortress','packs'])fs.cpSync(name,path.join(output,name),{recursive:true});
+for(const name of fs.readdirSync('.'))if(/\.(js|html|css|png|ico)$/.test(name)||name==='_headers')fs.copyFileSync(name,path.join(output,name));
+const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex').slice(0,16);
+let html=fs.readFileSync('index.html','utf8');
+const settingsFile=html.match(/src="(src\/settings\.[^"?]+\.js)/)[1];
+let settings=fs.readFileSync(settingsFile,'utf8');
+const previous=settings.match(/main: "([^"]+)"/)[1];
+const runtime=fs.readFileSync(`assets/main/index.${previous}.js`);
+const bundleVersion=hash(Buffer.concat([runtime,fs.readFileSync(`assets/main/config.${previous}.json`)]));
+fs.writeFileSync(path.join(output,`assets/main/index.${bundleVersion}.js`),runtime);
+fs.copyFileSync(`assets/main/config.${previous}.json`,path.join(output,`assets/main/config.${bundleVersion}.json`));
+settings=settings.replace(`main: "${previous}"`,`main: "${bundleVersion}"`);
+html=html.replace(/((?:src|href)=")([^"?]+\.(?:js|css))(?:\?[^" ]*)?"/g,(all,prefix,file)=>{
+  if(!fs.existsSync(file))return all;
+  const bytes=file===settingsFile?Buffer.from(settings):fs.readFileSync(file),version=hash(bytes),target=file.replace(/(\.[^.]+)$/,'.'+version+'$1');
+  fs.writeFileSync(path.join(output,target),bytes);
+  return prefix+target+'"';
+});
+fs.writeFileSync(path.join(output,'index.html'),html);
+const commit=process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+fs.writeFileSync(path.join(output,'release.json'),JSON.stringify({commit,builtAt:new Date().toISOString(),entryHash:hash(html)},null,2));
+console.log('Prepared deployable site for '+commit);

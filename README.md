@@ -6,6 +6,10 @@
 
 GitHub Pages 从 main 分支根目录发布。也可用任意静态 HTTP 服务启动本目录。
 
+Cloudflare 正式站点：https://sc2.tkfm.club/ 。每次推送 main 后，GitHub Actions 自动测试、生成带内容版本的发布目录并部署 Cloudflare Pages。当前部署提交见 `/release.json`，失败的测试不会覆盖线上版本。
+
+本地验证：`node --test tests/*.test.cjs`；生成发布目录：`node scripts/prepare-site.cjs`。发布只使用 GitHub 工作流生成的 dist，不再从其他本地游戏目录手动覆盖。资源包需要 HTTPS 或 localhost。
+
 进度保存在浏览器当前网站的本地存储中，不同域名之间不会自动共享；迁移请先在原站导出存档，再在新站导入。
 
 ## 基地攻击修正
