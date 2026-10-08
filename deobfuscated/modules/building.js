@@ -317,7 +317,7 @@ const __mod = function(e, t, i) {
               if (0 == g.default.gameMode) {
                 for (var i = 0; i < g.default.gameInstance.enemyArray.length; i++)
                   (a = Math.sqrt(Math.pow(g.default.gameInstance.enemyArray[i].x - this.node.x, 2, ) + Math.pow(g.default.gameInstance.enemyArray[i].y - this.node.y, 2, ), )) < e && ((t = g.default.gameInstance.enemyArray[i]), (e = a));
-                null != t && (0 == this.pvpWay && u.default.inst.playAudio("starcraft/attack_building"),
+                null != t && (0 == this.pvpWay && u.default.inst.playAudio(this._fortress ? "starcraft/attack_tank" : "starcraft/attack_building"),
                   (this.type == r.PAO_TA || this._fortress) && ((this.status = 4), (this.imgIndex = 0)),
                   (this.cdNow += this.cdTime), this.shootBullet(this.node.x + this.node.getChildByName("shoot").x, this.node.y + this.node.getChildByName("shoot").y, t.x, t.y, this.attack, t.getComponent("starEnemy").isSky, ));
               } else {
@@ -327,7 +327,7 @@ const __mod = function(e, t, i) {
                   var a;
                   (a = Math.sqrt(Math.pow(n[i].x - this.node.x, 2) + Math.pow(n[i].y - this.node.y, 2), )) < e && ((t = n[i]), (e = a));
                 }
-                null != t && (0 == this.pvpWay && u.default.inst.playAudio("starcraft/attack_building"),
+                null != t && (0 == this.pvpWay && u.default.inst.playAudio(this._fortress ? "starcraft/attack_tank" : "starcraft/attack_building"),
                   (this.type == r.PAO_TA || this._fortress) && ((this.status = 4), (this.imgIndex = 0)),
                   (this.cdNow += this.cdTime), this.shootBullet(this.node.x + this.node.getChildByName("shoot").x, this.node.y + this.node.getChildByName("shoot").y, t.x, t.y, this.attack, t.getComponent("starArmy").isSky, ));
               }

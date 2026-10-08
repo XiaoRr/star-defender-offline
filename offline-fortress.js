@@ -32,6 +32,7 @@ window.offlineFortress = (() => {
   function roll(count, random = Math.random) {
     if (!Number.isInteger(count) || count < 1 || count > 10)
       throw new Error("Invalid fortress draw count");
+    if (state().level >= MAX_LEVEL) return 0;
     let reward = 0;
     for (let i = 0; i < count; i++)
       if (random() < CHANCE) reward += SHARDS_PER_HIT;
@@ -40,19 +41,14 @@ window.offlineFortress = (() => {
     return reward;
   }
   function stats(level = state().level, mode = game().gameMode) {
-    const b = __require("building").BuildingConfig[0],
-      tank = __require("starArmy").ArmyConfig[5];
-    const factor = Math.pow(mode === 1 ? 1.04 : 1.08, Math.max(0, level - 1));
+    const base = __require("building").BuildingConfig[0];
+    const fortressMultiplier = 2 + (Math.max(1, Math.min(MAX_LEVEL, level)) - 1) / (MAX_LEVEL - 1);
+    const baseGrowth = Math.pow(mode === 1 ? 1.075 : 1.15, player().buildingLevelArray[0]);
     return {
-      hp:
-        b.hp *
-        1.6 *
-        Math.pow(mode === 1 ? 1.075 : 1.15, player().buildingLevelArray[0]) *
-        2 *
-        factor,
-      attack: 2 * tank.attack * factor,
-      range: b.range,
-      cdTime: b.cdTime,
+      hp: base.hp * 1.6 * baseGrowth * fortressMultiplier,
+      attack: base.attack * baseGrowth * fortressMultiplier,
+      range: base.range,
+      cdTime: base.cdTime,
     };
   }
   function frames() {
@@ -359,7 +355,7 @@ window.offlineFortress = (() => {
     label(
       panel,
       "curve",
-      "伤害等于同级双坦克 · 关卡每级成长8%",
+      "基地生命与攻击的2倍 · 强化至满级3倍",
       0,
       -166,
       20,
@@ -389,7 +385,7 @@ window.offlineFortress = (() => {
     label(
       panel,
       "source",
-      "抽奖每抽独立20%额外获得2片 · 十连判定10次",
+      "每抽20%获得2片 · 五连判定5次 · 满级不再掉落",
       0,
       -297,
       19,

@@ -760,13 +760,18 @@ const __mod = function(e, t, i) {
                           for (h = 0; h < 5; h++) Math.random() < 0.6 ? d.push([5, 30]) : d.push([6, 3]);
                         else d.push([c, l]);
                         return (
-                          (this._fortressLoot = c < 0 ? window.offlineFortress.roll(l) : 0), p.default.saveDataRem(), p.default.saveData(), -1 == c ? this.openGetItem(d, 1) : -2 == c ? this.openGetItem(d, 2) : this.openGetItem(d),
+                          (this._fortressLoot = c < 0 ? window.offlineFortress.roll(c === -2 ? 5 : 1) : 0), p.default.saveDataRem(), p.default.saveData(), -1 == c ? this.openGetItem(d, 1) : -2 == c ? this.openGetItem(d, 2) : this.openGetItem(d),
                           [2]);
                     }
                   });
                 });
               }),
               (t.prototype.doubleGetItem = function() {
+  const rewardPanel = this.uiLayer.getChildByName("popUI").getChildByName("getItem");
+  const doubleButton = rewardPanel.getChildByName("button2");
+  if (this._rewardDoubleBusy || !rewardPanel.activeInHierarchy || !doubleButton.activeInHierarchy) return Promise.resolve();
+  this._rewardDoubleBusy = true;
+  const run = () => {
                 return r(this, void 0, void 0, function() {
                   var e, t, i, n;
                   return s(this, function(a) {
@@ -786,7 +791,9 @@ const __mod = function(e, t, i) {
                     }
                   });
                 });
-              }),
+               };
+  return Promise.resolve().then(run).finally(() => { this._rewardDoubleBusy = false; });
+}),
               (t.prototype.openGetItem = function(e, t, i) {
                 // Offline adaptation: mainScene.openGetItem
                 window.offlineFortress.showLoot(this, this._fortressLoot || 0);
@@ -1172,6 +1179,8 @@ const __mod = function(e, t, i) {
                 (this.windowPop(e), this.refreshDaily());
               }),
               (t.prototype.refreshDaily = function() {
+window.offlineDaily.sync(p.default,u.default);
+
                 for (var e = this.uiLayer.getChildByName("popUI").getChildByName("daily"),
                     t = 0; t < 4; t++) {
                   var i = e.getChildByName("bg").getChildByName("banner" + (t + 1));
@@ -1187,7 +1196,9 @@ const __mod = function(e, t, i) {
                     (i.getChildByName("button1").active = !0),
                     (i.getChildByName("button2").active = !1)));
                 }
-              }),
+
+window.offlineDaily.refreshUI(this,p.default);
+}),
               (t.prototype.closeDaily = function() {
                 (y.default.inst.playAudio("starcraft/click"),
                   (this.uiLayer.getChildByName("popUI").getChildByName("daily").active = !1));
@@ -1213,6 +1224,15 @@ const __mod = function(e, t, i) {
                 });
               }),
               (t.prototype.finishDaily = function(e, t) {
+  if (parseInt(t) === 4) {
+    if (this.uiLayer.getChildByName("popUI").getChildByName("getItem").active) return;
+    if (!window.offlineDaily.claim(p.default, u.default)) { this.refreshDaily(); return; }
+    y.default.inst.playAudio("starcraft/click");
+    this.openGetItem([[2,30]], 0, true);
+    this.refreshDaily();
+    return;
+  }
+
                 y.default.inst.playAudio("starcraft/click");
                 var i = parseInt(t);
                 (p.default.dailyArray[i - 1] >= u.default.dailyNeed[i - 1] ? ((p.default.dailyArray[i - 1] -= u.default.dailyNeed[i - 1]), p.default.saveData(), this.openGetItem(

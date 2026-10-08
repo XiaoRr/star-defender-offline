@@ -13540,7 +13540,7 @@ window.__require = (function e(t, i, n) {
               if (0 == g.default.gameMode) {
                 for (var i = 0; i < g.default.gameInstance.enemyArray.length; i++)
                   (a = Math.sqrt(Math.pow(g.default.gameInstance.enemyArray[i].x - this.node.x, 2, ) + Math.pow(g.default.gameInstance.enemyArray[i].y - this.node.y, 2, ), )) < e && ((t = g.default.gameInstance.enemyArray[i]), (e = a));
-                null != t && (0 == this.pvpWay && u.default.inst.playAudio("starcraft/attack_building"),
+                null != t && (0 == this.pvpWay && u.default.inst.playAudio(this._fortress ? "starcraft/attack_tank" : "starcraft/attack_building"),
                   (this.type == r.PAO_TA || this._fortress) && ((this.status = 4), (this.imgIndex = 0)),
                   (this.cdNow += this.cdTime), this.shootBullet(this.node.x + this.node.getChildByName("shoot").x, this.node.y + this.node.getChildByName("shoot").y, t.x, t.y, this.attack, t.getComponent("starEnemy").isSky, ));
               } else {
@@ -13550,7 +13550,7 @@ window.__require = (function e(t, i, n) {
                   var a;
                   (a = Math.sqrt(Math.pow(n[i].x - this.node.x, 2) + Math.pow(n[i].y - this.node.y, 2), )) < e && ((t = n[i]), (e = a));
                 }
-                null != t && (0 == this.pvpWay && u.default.inst.playAudio("starcraft/attack_building"),
+                null != t && (0 == this.pvpWay && u.default.inst.playAudio(this._fortress ? "starcraft/attack_tank" : "starcraft/attack_building"),
                   (this.type == r.PAO_TA || this._fortress) && ((this.status = 4), (this.imgIndex = 0)),
                   (this.cdNow += this.cdTime), this.shootBullet(this.node.x + this.node.getChildByName("shoot").x, this.node.y + this.node.getChildByName("shoot").y, t.x, t.y, this.attack, t.getComponent("starArmy").isSky, ));
               }
@@ -16862,10 +16862,11 @@ window.__require = (function e(t, i, n) {
                 return !1;
               }),
               (e.hasDaily = function() {
-                for (var e = 0; e < 4; e++)
-                  if (r.default.dailyArray[e] >= t.dailyNeed[e]) return !0;
-                return !1;
-              }),
+  window.offlineDaily.sync(r.default,t);
+  if (!window.offlineDaily.claimed(r.default)) return true;
+  for (let index=0; index<3; index++) if(r.default.dailyArray[index]>=t.dailyNeed[index]) return true;
+  return false;
+}),
               (e.hasWeek = function() {
                 for (var e = 0; e < 7; e++)
                   if (1 == r.default.weekArray[e] || 2 == r.default.weekArray[e]) return !0;
@@ -23398,13 +23399,18 @@ window.__require = (function e(t, i, n) {
                           for (h = 0; h < 5; h++) Math.random() < 0.6 ? d.push([5, 30]) : d.push([6, 3]);
                         else d.push([c, l]);
                         return (
-                          (this._fortressLoot = c < 0 ? window.offlineFortress.roll(l) : 0), p.default.saveDataRem(), p.default.saveData(), -1 == c ? this.openGetItem(d, 1) : -2 == c ? this.openGetItem(d, 2) : this.openGetItem(d),
+                          (this._fortressLoot = c < 0 ? window.offlineFortress.roll(c === -2 ? 5 : 1) : 0), p.default.saveDataRem(), p.default.saveData(), -1 == c ? this.openGetItem(d, 1) : -2 == c ? this.openGetItem(d, 2) : this.openGetItem(d),
                           [2]);
                     }
                   });
                 });
               }),
               (t.prototype.doubleGetItem = function() {
+  const rewardPanel = this.uiLayer.getChildByName("popUI").getChildByName("getItem");
+  const doubleButton = rewardPanel.getChildByName("button2");
+  if (this._rewardDoubleBusy || !rewardPanel.activeInHierarchy || !doubleButton.activeInHierarchy) return Promise.resolve();
+  this._rewardDoubleBusy = true;
+  const run = () => {
                 return r(this, void 0, void 0, function() {
                   var e, t, i, n;
                   return s(this, function(a) {
@@ -23424,7 +23430,9 @@ window.__require = (function e(t, i, n) {
                     }
                   });
                 });
-              }),
+               };
+  return Promise.resolve().then(run).finally(() => { this._rewardDoubleBusy = false; });
+}),
               (t.prototype.openGetItem = function(e, t, i) {
                 // Offline adaptation: mainScene.openGetItem
                 window.offlineFortress.showLoot(this, this._fortressLoot || 0);
@@ -23810,6 +23818,8 @@ window.__require = (function e(t, i, n) {
                 (this.windowPop(e), this.refreshDaily());
               }),
               (t.prototype.refreshDaily = function() {
+window.offlineDaily.sync(p.default,u.default);
+
                 for (var e = this.uiLayer.getChildByName("popUI").getChildByName("daily"),
                     t = 0; t < 4; t++) {
                   var i = e.getChildByName("bg").getChildByName("banner" + (t + 1));
@@ -23825,7 +23835,9 @@ window.__require = (function e(t, i, n) {
                     (i.getChildByName("button1").active = !0),
                     (i.getChildByName("button2").active = !1)));
                 }
-              }),
+
+window.offlineDaily.refreshUI(this,p.default);
+}),
               (t.prototype.closeDaily = function() {
                 (y.default.inst.playAudio("starcraft/click"),
                   (this.uiLayer.getChildByName("popUI").getChildByName("daily").active = !1));
@@ -23851,6 +23863,15 @@ window.__require = (function e(t, i, n) {
                 });
               }),
               (t.prototype.finishDaily = function(e, t) {
+  if (parseInt(t) === 4) {
+    if (this.uiLayer.getChildByName("popUI").getChildByName("getItem").active) return;
+    if (!window.offlineDaily.claim(p.default, u.default)) { this.refreshDaily(); return; }
+    y.default.inst.playAudio("starcraft/click");
+    this.openGetItem([[2,30]], 0, true);
+    this.refreshDaily();
+    return;
+  }
+
                 y.default.inst.playAudio("starcraft/click");
                 var i = parseInt(t);
                 (p.default.dailyArray[i - 1] >= u.default.dailyNeed[i - 1] ? ((p.default.dailyArray[i - 1] -= u.default.dailyNeed[i - 1]), p.default.saveData(), this.openGetItem(

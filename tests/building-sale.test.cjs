@@ -4,6 +4,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
+const entry = fs.readFileSync(path.join(root,'index.html'),'utf8');
+const settingsPath = entry.match(/src="(src\/settings\.[^"]+\.js)/)[1];
+const version = fs.readFileSync(path.join(root,settingsPath),'utf8').match(/main: "([^"]+)"/)[1];
+const runtime = fs.readFileSync(path.join(root,`assets/main/index.${version}.js`),'utf8').replace(/\r\n/g,'\n');
+const tableStart = runtime.indexOf('})(\n');
+assert.ok(tableStart > 0, 'Cocos module table must be present');
 
 function fixture() {
   const data = {gameMode:0, nowLevel:99, getLevelGiftValueWithType:()=>0};
@@ -43,12 +49,12 @@ function fixture() {
   Object.assign(cc,{Graphics,Label,Button,Sprite,Color,BlockInputEvents:function(){},color:()=>({}),view:{getVisibleSize:()=>({width:640,height:960})}});
   const context=vm.createContext({window:{},cc,console,Math});
   context.__require=name=>modules[name]||{default:{}};
+  context.capture=table=>{context.runtimeModules=table;};
+  vm.runInContext('capture'+runtime.slice(tableStart+2),context);
   function load(name) {
     const exports={};
-    context.module={exports:{}};
-    context.testExports=exports;
-    context.testRequire=request=>context.__require(request.split('/').pop());
-    vm.runInContext('{'+fs.readFileSync(path.join(root,'deobfuscated/modules',name+'.js'),'utf8')+'; __mod(testRequire, {exports:testExports}, testExports);}',context);
+    const [factory,dependencies]=context.runtimeModules[name];
+    factory(request=>context.__require(dependencies[request]||request.split('/').pop()),{exports},exports);
     modules[name]=exports;
     return exports.default;
   }

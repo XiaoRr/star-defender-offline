@@ -123,10 +123,11 @@ const __mod = function(e, t, i) {
                 return !1;
               }),
               (e.hasDaily = function() {
-                for (var e = 0; e < 4; e++)
-                  if (r.default.dailyArray[e] >= t.dailyNeed[e]) return !0;
-                return !1;
-              }),
+  window.offlineDaily.sync(r.default,t);
+  if (!window.offlineDaily.claimed(r.default)) return true;
+  for (let index=0; index<3; index++) if(r.default.dailyArray[index]>=t.dailyNeed[index]) return true;
+  return false;
+}),
               (e.hasWeek = function() {
                 for (var e = 0; e < 7; e++)
                   if (1 == r.default.weekArray[e] || 2 == r.default.weekArray[e]) return !0;
