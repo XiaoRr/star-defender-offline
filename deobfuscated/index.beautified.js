@@ -13078,8 +13078,38 @@ window.__require = (function e(t, i, n) {
           }
           return (
             (e.prototype.getChoice = function() {
-                return window.offlineBuildingSale.getChoice(this);
-              }),
+              for (var e = 0, t = new Array(), n = 0; n < i.BuildingChoiceArray.length; n++) {
+                var a = i.BuildingChoiceArray[n].condition,
+                  o = i.BuildingChoiceArray[n].id,
+                  r = i.BuildingChoiceArray[n].limit;
+                if (
+                  (6 == o || 7 == o || 8 == o ? (r += d.default.getLevelGiftValueWithType(3, this.pvpWay)) : 15 == o || 16 == o || 17 == o ? (r += d.default.getLevelGiftValueWithType(4, this.pvpWay, )) : 9 == o || 10 == o || 11 == o ? (r += d.default.getLevelGiftValueWithType(5, this.pvpWay, )) : 18 == o || 19 == o || 20 == o ? (r += d.default.getLevelGiftValueWithType(6, this.pvpWay, )) : 12 == o || 13 == o || 14 == o ? (r += d.default.getLevelGiftValueWithType(7, this.pvpWay, )) : (21 != o && 22 != o && 23 != o) || (r += d.default.getLevelGiftValueWithType(8, this.pvpWay, )), !(
+                    (i.BuildingChoiceArray[n].level > d.default.nowLevel && 0 == d.default.gameMode) || (1 == d.default.gameMode && (this.overBuildingArray.indexOf(a) >= 0 || (a > 5 && this.overBuildingArray.indexOf(i.BuildingChoiceArray[a - 1].condition, ) >= 0)))) && (0 == a || this.choiceArray.indexOf(a) >= 0))) {
+                  for (var s = 0, c = 0; c < this.choiceArray.length; c++) this.choiceArray[c] == o && s++;
+                  if (s < r) {
+                    if (o < 5) {
+                      if (e > 1) continue;
+                      e++;
+                    }
+                    t.push(o);
+                  }
+                }
+              }
+              if (t.length > 3) {
+                var l = new Array();
+                for (n = 0; n < 3; n++) {
+                  var h = Math.floor(Math.random() * t.length);
+                  (l.push(t[h]), t.splice(h, 1));
+                }
+                return l;
+              }
+              if (3 == t.length) return t;
+              var u = [24, 25, 26],
+                p = 3 - t.length;
+              for (n = 0; n < p; n++)
+                ((h = Math.floor(Math.random() * u.length)), t.push(u[h]), u.splice(h, 1));
+              return t;
+            }),
             (e.prototype.doChoice = function(e, t) {
               switch (
                 (void 0 === t && (t = !0), r.default.isContinue || l.default.inst.playAudio("starcraft/upgrade_building"), t && this.choiceArray.push(e), e)) {
@@ -13407,7 +13437,6 @@ window.__require = (function e(t, i, n) {
               window.offlineFortress.apply(this);
             }),
             (t.prototype.restore = function() {
-              if (this._sold) return;
               // Offline adaptation: building.restore
               ((this.totalHp = i.BuildingConfig[this.type - 1].hp * g.default.gameInstance.buildingChoice.hpBuffer),
                 (this.attack = i.BuildingConfig[this.type - 1].attack * g.default.gameInstance.buildingChoice.attackBuffer),
@@ -13423,47 +13452,39 @@ window.__require = (function e(t, i, n) {
                 for (var t = 0; t < g.default.gameInstance.buildingChoice.cdTimeArray.length; t++) 3 * (this.type - 2) + e + 1 == g.default.gameInstance.buildingChoice.cdTimeArray[t] && (this.productArray[e].cdTime *= 0.7);
               }
             }),
-            (t.prototype.productArmy = function(armyType, armyLevel, count) {
-                if (this._sold || this.isOver) return;
-                const gameData = __require("gameData").default;
-                const scene = gameData.gameInstance;
-                for (let index = 0; index < count; index++) {
-                  let angle = 110 * Math.random() + 130;
-                  if (Math.random() < 0.5) angle = 180 - angle;
-                  if (armyType === 1) angle = -140 * Math.random() - 20;
-                  if (this.pvpWay === 1) angle = -angle;
-                  const position = {
-                    x: this.node.x + Math.cos(angle * Math.PI / 180) * this.radio,
-                    y: this.node.y + Math.sin(angle * Math.PI / 180) * this.radio
-                  };
-                  if (this.pvpWay === 1) scene.addArmyOther(armyType, armyLevel, position);
-                  else {
-                    scene.addArmy(armyType, armyLevel, position, this);
-                    if (gameData.gameMode === 0) __require("playerData").default.dailyArray[2]++;
-                  }
-                  scene.addEffect("born", 1, position);
+            (t.prototype.productArmy = function(e, t, i) {
+              for (var n = 0; n < i; n++) {
+                var a = 110 * Math.random() + 130;
+                (Math.random() < 0.5 && (a = 180 - a), e == r.JI_DI && (a = 140 * -Math.random() - 20), 1 == this.pvpWay && (a = -a));
+                var o = this.node.x + Math.cos((a * Math.PI) / 180) * this.radio,
+                  s = this.node.y + Math.sin((a * Math.PI) / 180) * this.radio;
+                (1 == this.pvpWay ? g.default.gameInstance.addArmyOther(e, t, {
+                  x: o,
+                  y: s
+                }) : (g.default.gameInstance.addArmy(e, t, {
+                  x: o,
+                  y: s
+                }), 0 == g.default.gameMode && p.default.dailyArray[2]++), g.default.gameInstance.addEffect("born", 1, {
+                  x: o,
+                  y: s
+                }));
+              }
+            }),
+            (t.prototype.checkProductArmy = function(e) {
+              // Offline adaptation: building.checkProductArmy
+              if ((void 0 === e && (e = 0), !this.isOver)) {
+                0 == e && (e = 0.1);
+                for (var t = !1, i = 0; i < this.productArray.length; i++) {
+                  var n,
+                    a = this.productArray[i].type,
+                    o = this.productArray[i].level,
+                    r = this.productArray[i].limit,
+                    s = this.productArray[i].cdTime;
+                  (n = 1 == g.default.gameMode ? g.default.gameInstance.getArmyNumWithType(a, this.pvpWay, ) : g.default.gameInstance.getArmyNumWithType(a)) < r && ((t = !0), 0 == e ? this.productArmy(a, o, r - n) : this.productArray[i].cdNow < s ? (this.productArray[i].cdNow += e) : ((this.productArray[i].cdNow -= s), this.productArmy(a, o, 1)));
                 }
-              }),
-            (t.prototype.checkProductArmy = function(deltaTime) {
-                if (this._sold || this.isOver) return;
-                const elapsed = deltaTime || 0.1;
-                const gameData = __require("gameData").default;
-                const scene = gameData.gameInstance;
-                let producing = false;
-                for (const product of this.productArray) {
-                  const currentCount = gameData.gameMode === 1
-                    ? scene.getArmyNumWithType(product.type, this.pvpWay)
-                    : scene.getArmyNumWithType(product.type);
-                  if (currentCount >= product.limit) continue;
-                  producing = true;
-                  if (product.cdNow < product.cdTime) product.cdNow += elapsed;
-                  else {
-                    product.cdNow -= product.cdTime;
-                    this.productArmy(product.type, product.level, 1);
-                  }
-                }
-                if (!this._fortress || this.status !== 4) this.status = producing ? 3 : 0;
-              }),
+                if (!this._fortress || this.status !== 4) this.status = t ? 3 : 0;
+              }
+            }),
             (t.prototype.addBuildingArmyNum = function(e, t) {
               for (var i = 0; i < this.productArray.length; i++)
                 if (this.productArray[i].type == e) {
@@ -13479,7 +13500,6 @@ window.__require = (function e(t, i, n) {
                 }
             }),
             (t.prototype.update = function(e) {
-              if (this._sold) return;
               // Offline adaptation: building.update
               if (
                 (this.hurtTime > 0 && ((this.hurtTime -= e * g.default.gameSpeed), this.hurtTime < 0 && (this.hurtTime = 0), this.material.setProperty("u_rate", 0.05 + (Math.abs(this.hurtTime - 0.08) / 0.08) * 0.95, )), this.hp == this.totalHp ? (this.node.getChildByName("hp").active = !1) : ((this.node.getChildByName("hp").active = !0),
@@ -13514,7 +13534,6 @@ window.__require = (function e(t, i, n) {
               if (this._fortress && this._fortressArtReady) this.node.getChildByName("node").color = this.isOver ? new cc.Color(100, 110, 120) : cc.Color.WHITE;
             }),
             (t.prototype.checkAttack = function() {
-              if (this._sold) return;
               // Offline adaptation: building.checkAttack
               var e = this.range,
                 t = null;
@@ -13543,7 +13562,7 @@ window.__require = (function e(t, i, n) {
               // Offline adaptation: building.shootBullet
               var s = this;
               d.cocos.loadRes(this._fortress ? "starcraft/bullet/bullet-a6" : "starcraft/bullet/bullet-b" + this.type, cc.Prefab, ).then(function(c) {
-                if (s._sold || !cc.isValid(s.node)) return;
+                if (!cc.isValid(s.node)) return;
                 var l = cc.instantiate(c),
                   d = s.getTheAngle(e, t, i, n);
                 s.type == r.PAO_TA && (d >= 0 && d < 70 && -1 == s.node.scaleX ? (s.node.scaleX = 1) : d > 290 && d < 360 && -1 == s.node.scaleX ? (s.node.scaleX = 1) : d > 110 && d <= 180 && 1 == s.node.scaleX ? (s.node.scaleX = -1) : d > 180 && d < 250 && 1 == s.node.scaleX && (s.node.scaleX = -1));
@@ -17786,8 +17805,7 @@ window.__require = (function e(t, i, n) {
                   exp: this.exp,
                   expLevel: this.expLevel,
                   money: this.money,
-                  buildingChoice: this.buildingChoice.choiceArray.slice(),
-                  soldBuildingTypes: (this.buildingChoice.soldBuildingTypes || []).slice(),
+                  buildingChoice: this.buildingChoice.choiceArray,
                   armyChoice: this.armyChoice.choiceArray,
                 }), b.default.saveData());
               }),
@@ -17833,7 +17851,6 @@ window.__require = (function e(t, i, n) {
                     (this.expLevel = b.default.saveBattleData.expLevel),
                     (this.money = b.default.saveBattleData.money),
                     (this.buildingChoice.choiceArray = b.default.saveBattleData.buildingChoice),
-                    (this.buildingChoice.soldBuildingTypes = (b.default.saveBattleData.soldBuildingTypes || []).slice()),
                     (this.armyChoice.choiceArray = b.default.saveBattleData.armyChoice));
                   for (var s = 0; s < this.buildingChoice.choiceArray.length; s++) this.buildingChoice.choiceArray[s] < 5 && this.buildingChoice.doChoice(this.buildingChoice.choiceArray[s], !1, );
                   ((this.firstSkill1 = !1),
@@ -18240,17 +18257,13 @@ window.__require = (function e(t, i, n) {
                     }, n));
                 }));
               }),
-              (t.prototype.addArmy = function(armyType, armyLevel, position, producer) {
-                const scene = this;
-                return __require("libcocos").cocos.loadRes("starcraft/army/a" + armyType, cc.Prefab).then(function(prefab) {
-                  // A prefab request may finish after the producing building was sold.
-                  if (!cc.isValid(scene.node) || (producer && (producer._sold || !cc.isValid(producer.node)))) return;
-                  const node = cc.instantiate(prefab);
-                  node.getComponent("starArmy").initArmy(armyType);
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.armyArray.push(node);
-                  return node;
+              (t.prototype.addArmy = function(e, t, i) {
+                var n = this;
+                h.cocos.loadRes("starcraft/army/a" + e, cc.Prefab).then(function(t) {
+                  var a = cc.instantiate(t);
+                  (a.getComponent("starArmy").initArmy(e),
+                    (a.x = i.x),
+                    (a.y = i.y), n.bgNode.getChildByName("obj").addChild(a), n.armyArray.push(a));
                 });
               }),
               (t.prototype.addEnemy = function(e, t, i, n) {
@@ -18313,27 +18326,23 @@ window.__require = (function e(t, i, n) {
                 for (var t = 0, i = 0; i < this.armyArray.length; i++) this.armyArray[i].getComponent("starArmy").type == e && t++;
                 return t;
               }),
-              (t.prototype.productBuilding = function(buildingType) {
-                const scene = this;
-                const resources = __require("libcocos").cocos;
-                return resources.loadRes("starcraft/building/b" + buildingType, cc.Prefab).then(function(prefab) {
-                  if (!cc.isValid(scene.node)) return;
-                  const node = cc.instantiate(prefab);
-                  const building = node.getComponent("building");
-                  building.initBuilding(buildingType);
-                  let position = scene.buildingPosArray[buildingType - 1];
-                  if (buildingType === 5) {
-                    // Pick the vacant turret slot, including when the first turret was sold.
-                    const slots = [scene.buildingPosArray[4], scene.buildingPosArray[5]];
-                    position = slots.find(slot => !scene.buildingArray.some(existing =>
-                      existing.getComponent("building").type === 5 &&
-                      Math.abs(existing.x - slot.x) < 1 && Math.abs(existing.y - slot.y) < 1)) || slots[0];
-                  }
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.buildingArray.push(node);
-                  window.offlineBuildingSale.prepareBuilding(scene, building);
-                  return node;
+              (t.prototype.productBuilding = function(e) {
+                var t = this;
+                h.cocos.loadRes("starcraft/building/b" + e, cc.Prefab).then(function(i) {
+                  var n = cc.instantiate(i);
+                  if (
+                    (n.getComponent("building").initBuilding(e), e == u.BuildingType.PAO_TA)) {
+                    for (var a = !1, o = 0; o < t.buildingArray.length; o++)
+                      if (t.buildingArray[o].getComponent("building").type == u.BuildingType.PAO_TA) {
+                        a = !0;
+                        break;
+                      }
+                    a ? ((n.x = t.buildingPosArray[e].x),
+                      (n.y = t.buildingPosArray[e].y)) : ((n.x = t.buildingPosArray[e - 1].x),
+                      (n.y = t.buildingPosArray[e - 1].y));
+                  } else((n.x = t.buildingPosArray[e - 1].x),
+                    (n.y = t.buildingPosArray[e - 1].y));
+                  (t.bgNode.getChildByName("obj").addChild(n), t.buildingArray.push(n));
                 });
               }),
               (t.prototype.update = function(e) {
@@ -26080,17 +26089,13 @@ window.__require = (function e(t, i, n) {
                     }, n));
                 }));
               }),
-              (t.prototype.addArmy = function(armyType, armyLevel, position, producer) {
-                const scene = this;
-                return __require("libcocos").cocos.loadRes("starcraft/army/a" + armyType, cc.Prefab).then(function(prefab) {
-                  // A prefab request may finish after the producing building was sold.
-                  if (!cc.isValid(scene.node) || (producer && (producer._sold || !cc.isValid(producer.node)))) return;
-                  const node = cc.instantiate(prefab);
-                  node.getComponent("starArmy").initArmy(armyType);
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.armyArray.push(node);
-                  return node;
+              (t.prototype.addArmy = function(e, t, i) {
+                var n = this;
+                h.cocos.loadRes("starcraft/army/a" + e, cc.Prefab).then(function(t) {
+                  var a = cc.instantiate(t);
+                  (a.getComponent("starArmy").initArmy(e),
+                    (a.x = i.x),
+                    (a.y = i.y), n.bgNode.getChildByName("obj").addChild(a), n.armyArray.push(a));
                 });
               }),
               (t.prototype.addArmyOther = function(e, t, i) {
@@ -26158,27 +26163,23 @@ window.__require = (function e(t, i, n) {
                   for (n = 0; n < this.armyArrayOther.length; n++) this.armyArrayOther[n].getComponent("starArmy").type == e && i++;
                 return i;
               }),
-              (t.prototype.productBuilding = function(buildingType) {
-                const scene = this;
-                const resources = __require("libcocos").cocos;
-                return resources.loadRes("starcraft/building/b" + buildingType, cc.Prefab).then(function(prefab) {
-                  if (!cc.isValid(scene.node)) return;
-                  const node = cc.instantiate(prefab);
-                  const building = node.getComponent("building");
-                  building.initBuilding(buildingType);
-                  let position = scene.buildingPosArray[buildingType - 1];
-                  if (buildingType === 5) {
-                    // Pick the vacant turret slot, including when the first turret was sold.
-                    const slots = [scene.buildingPosArray[4], scene.buildingPosArray[5]];
-                    position = slots.find(slot => !scene.buildingArray.some(existing =>
-                      existing.getComponent("building").type === 5 &&
-                      Math.abs(existing.x - slot.x) < 1 && Math.abs(existing.y - slot.y) < 1)) || slots[0];
-                  }
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.buildingArray.push(node);
-                  window.offlineBuildingSale.prepareBuilding(scene, building);
-                  return node;
+              (t.prototype.productBuilding = function(e) {
+                var t = this;
+                h.cocos.loadRes("starcraft/building/b" + e, cc.Prefab).then(function(i) {
+                  var n = cc.instantiate(i);
+                  if (
+                    (n.getComponent("building").initBuilding(e), e == u.BuildingType.PAO_TA)) {
+                    for (var a = !1, o = 0; o < t.buildingArray.length; o++)
+                      if (t.buildingArray[o].getComponent("building").type == u.BuildingType.PAO_TA) {
+                        a = !0;
+                        break;
+                      }
+                    a ? ((n.x = t.buildingPosArray[e].x),
+                      (n.y = t.buildingPosArray[e].y)) : ((n.x = t.buildingPosArray[e - 1].x),
+                      (n.y = t.buildingPosArray[e - 1].y));
+                  } else((n.x = t.buildingPosArray[e - 1].x),
+                    (n.y = t.buildingPosArray[e - 1].y));
+                  (t.bgNode.getChildByName("obj").addChild(n), t.buildingArray.push(n));
                 });
               }),
               (t.prototype.productBuildingOther = function(e) {

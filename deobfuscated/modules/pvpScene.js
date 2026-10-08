@@ -416,17 +416,13 @@ const __mod = function(e, t, i) {
                     }, n));
                 }));
               }),
-              (t.prototype.addArmy = function(armyType, armyLevel, position, producer) {
-                const scene = this;
-                return __require("libcocos").cocos.loadRes("starcraft/army/a" + armyType, cc.Prefab).then(function(prefab) {
-                  // A prefab request may finish after the producing building was sold.
-                  if (!cc.isValid(scene.node) || (producer && (producer._sold || !cc.isValid(producer.node)))) return;
-                  const node = cc.instantiate(prefab);
-                  node.getComponent("starArmy").initArmy(armyType);
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.armyArray.push(node);
-                  return node;
+              (t.prototype.addArmy = function(e, t, i) {
+                var n = this;
+                h.cocos.loadRes("starcraft/army/a" + e, cc.Prefab).then(function(t) {
+                  var a = cc.instantiate(t);
+                  (a.getComponent("starArmy").initArmy(e),
+                    (a.x = i.x),
+                    (a.y = i.y), n.bgNode.getChildByName("obj").addChild(a), n.armyArray.push(a));
                 });
               }),
               (t.prototype.addArmyOther = function(e, t, i) {
@@ -494,27 +490,23 @@ const __mod = function(e, t, i) {
                   for (n = 0; n < this.armyArrayOther.length; n++) this.armyArrayOther[n].getComponent("starArmy").type == e && i++;
                 return i;
               }),
-              (t.prototype.productBuilding = function(buildingType) {
-                const scene = this;
-                const resources = __require("libcocos").cocos;
-                return resources.loadRes("starcraft/building/b" + buildingType, cc.Prefab).then(function(prefab) {
-                  if (!cc.isValid(scene.node)) return;
-                  const node = cc.instantiate(prefab);
-                  const building = node.getComponent("building");
-                  building.initBuilding(buildingType);
-                  let position = scene.buildingPosArray[buildingType - 1];
-                  if (buildingType === 5) {
-                    // Pick the vacant turret slot, including when the first turret was sold.
-                    const slots = [scene.buildingPosArray[4], scene.buildingPosArray[5]];
-                    position = slots.find(slot => !scene.buildingArray.some(existing =>
-                      existing.getComponent("building").type === 5 &&
-                      Math.abs(existing.x - slot.x) < 1 && Math.abs(existing.y - slot.y) < 1)) || slots[0];
-                  }
-                  node.setPosition(position.x, position.y);
-                  scene.bgNode.getChildByName("obj").addChild(node);
-                  scene.buildingArray.push(node);
-                  window.offlineBuildingSale.prepareBuilding(scene, building);
-                  return node;
+              (t.prototype.productBuilding = function(e) {
+                var t = this;
+                h.cocos.loadRes("starcraft/building/b" + e, cc.Prefab).then(function(i) {
+                  var n = cc.instantiate(i);
+                  if (
+                    (n.getComponent("building").initBuilding(e), e == u.BuildingType.PAO_TA)) {
+                    for (var a = !1, o = 0; o < t.buildingArray.length; o++)
+                      if (t.buildingArray[o].getComponent("building").type == u.BuildingType.PAO_TA) {
+                        a = !0;
+                        break;
+                      }
+                    a ? ((n.x = t.buildingPosArray[e].x),
+                      (n.y = t.buildingPosArray[e].y)) : ((n.x = t.buildingPosArray[e - 1].x),
+                      (n.y = t.buildingPosArray[e - 1].y));
+                  } else((n.x = t.buildingPosArray[e - 1].x),
+                    (n.y = t.buildingPosArray[e - 1].y));
+                  (t.bgNode.getChildByName("obj").addChild(n), t.buildingArray.push(n));
                 });
               }),
               (t.prototype.productBuildingOther = function(e) {
