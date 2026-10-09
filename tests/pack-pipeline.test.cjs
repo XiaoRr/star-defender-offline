@@ -243,3 +243,26 @@ test("corrupt downloads reject waiting engine reads and can be retried", async (
   const retry = api.prepare(() => {});
   await Promise.all([retry, api.whenAvailable("https://game.test/" + file)]);
 });
+
+test("storage persistence is optional and never blocks resource preparation", async () => {
+  for (const mode of ["unsupported", "already", "denied", "granted", "throws", "pending"]) {
+    const pack = buildPack([["assets/resources/native/aa/image.png", Buffer.from("image")]]);
+    const { sandbox, stored } = makeSandbox([pack]);
+    let calls = 0;
+    if (mode !== "unsupported") sandbox.navigator.storage = {
+      persisted: async () => mode === "already",
+      persist: () => {
+        calls++;
+        if (mode === "throws") throw new Error("Storage unavailable");
+        if (mode === "pending") return new Promise(() => {});
+        return Promise.resolve(mode === "granted");
+      },
+    };
+    sandbox.__COMBAT_PACKS = { packs: [pack.manifest] };
+    vm.runInNewContext(fs.readFileSync("offline-resource-packs.js", "utf8"), sandbox);
+    await sandbox.offlineResourcePacks.prepare(() => {});
+    await sandbox.offlineResourcePacks.prepare(() => {});
+    assert.equal(calls, ["unsupported", "already"].includes(mode) ? 0 : 1, mode);
+    assert.equal(stored.size, 2, mode + " must retain the resource and completion marker");
+  }
+});

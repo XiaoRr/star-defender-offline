@@ -2,12 +2,26 @@ window.offlineResourcePacks = (() => {
   const CACHE = "star-defender-combat-files-v1";
   const base = new URL("./", document.baseURI);
   let pending;
+  let persistenceRequested = false;
+  async function requestPersistentStorage() {
+    if (persistenceRequested) return;
+    persistenceRequested = true;
+    try {
+      const storage = navigator.storage;
+      if (!storage || typeof storage.persist !== "function") return;
+      if (typeof storage.persisted === "function" && await storage.persisted()) return;
+      await storage.persist();
+    } catch (_) {
+      // Unsupported/private browsing or denied permission must not affect play.
+    }
+  }
   let gates = new Map(), packGates = new Map();
   let progress = () => {};
   const mime = file => /\.png$/.test(file) ? "image/png" : /\.jpe?g$/.test(file) ? "image/jpeg" : /\.json$/.test(file) ? "application/json" : /\.mp3$/.test(file) ? "audio/mpeg" : "application/octet-stream";
   async function control() {
     if (!window.isSecureContext || !navigator.serviceWorker || !window.caches || !window.DecompressionStream)
       throw new Error("当前浏览器不支持资源包缓存，请使用新版浏览器并通过HTTPS打开游戏。");
+    void requestPersistentStorage();
     await navigator.serviceWorker.register(new URL("packed-assets-sw.js",base), {scope:base.pathname, updateViaCache:"none"});
     await navigator.serviceWorker.ready;
     if (!navigator.serviceWorker.controller) await new Promise((resolve,reject)=>{
