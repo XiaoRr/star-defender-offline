@@ -56,6 +56,10 @@
 - 每次有效扫荡先同步扣6体力和1次数、发放全部奖励并保存，再显示提示；不能以领奖面板是否已打开决定发奖。
 - 提示位于屏幕上方、不拦截触摸，不覆盖扫荡按钮；连点只保留最后一次提示，1.6秒后隐藏，每次点击的奖励均保留。原三星通关和次数条件保留。
 
+## 难度曲线
+- balance20261009 版本：第 1~21 关强度不变；第 22 关起关卡强度系数 `fac` 由每关 ×1.01 上调为每关 ×1.016（以第 20 关 6.1 为基连续推算，保留 1 位小数）。表数据在 `config/game-config.json` 的 `stageConfig`，并同步重新生成 `config/game-config.js`。
+- 主包启动时从 `window.__OFFLINE_GAME_CONFIG` 读取 `stageConfig`，调整曲线无需改动 Cocos bundle；`tests/*.test.cjs` 不锁 fac 数值。
+
 ## 资源与发布
 - 标题页原生进度包含资源包下载、解包与核心素材准备；下载下一包时解开上一包，准备完成才允许开局。
 - GitHub main 为唯一发布来源；Actions 检查通过后用 scripts/prepare-site.cjs 生成 dist 并部署 CF Pages。禁止从旧 offline-games/play 目录手动覆盖生产站点。
