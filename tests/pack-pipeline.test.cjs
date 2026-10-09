@@ -30,6 +30,7 @@ function buildPack(files) {
       sha256,
       bytes: prefix.length + header.length + offset,
       files: entries.length,
+      paths: names,
     },
     bytes: Buffer.concat([prefix, header, ...bodies]),
   };
@@ -103,6 +104,7 @@ function makeSandbox(built) {
     },
     caches: {
       open: async () => ({
+        keys: async () => [...stored.keys()].map(url => ({ url })),
         match: async (url) => (stored.has(String(url)) ? new Response("hit") : undefined),
         put: async (url, res) => {
           const buffer = Buffer.from(await res.arrayBuffer());
@@ -182,4 +184,62 @@ test("packs download and unpack in a pipelined fashion with visible progress", a
   assert.ok(shows.some((text) => text.includes("下载资源包 2/3")), shows.join(" | "));
   assert.ok(shows.some((text) => text.includes("解压资源包 1/3") || text.includes("解压资源包 1/")), shows.join(" | "));
   assert.ok(shows.some((text) => text.includes("准备资源包 1/3")), shows.join(" | "));
+});
+
+test("engine reads wait for their own pack, not every pack, and cached packs need no download", async () => {
+  const first = "assets/resources/native/aa/first.png";
+  const second = "assets/resources/native/bb/second.png";
+  const built = [buildPack([[first, Buffer.from("first")]]), buildPack([[second, Buffer.from("second")]])];
+  const { sandbox, events, stored } = makeSandbox(built);
+  sandbox.__COMBAT_PACKS = { packs: built.map(p => p.manifest) };
+  const originalFetch = sandbox.fetch;
+  let releaseSecond;
+  const secondDownload = new Promise(resolve => { releaseSecond = resolve; });
+  sandbox.fetch = async url => {
+    if (new URL(url).pathname.endsWith(built[1].manifest.file)) await secondDownload;
+    return originalFetch(url);
+  };
+  vm.runInNewContext(fs.readFileSync("offline-resource-packs.js", "utf8"), sandbox);
+  const api = sandbox.offlineResourcePacks;
+  let allReady = false;
+  const running = api.prepare(() => {}).then(() => { allReady = true; });
+  await api.whenAvailable("https://game.test/" + first + "?v=1");
+  assert.ok(stored.has("https://game.test/" + first));
+  assert.equal(allReady, false, "the first pack can be consumed while another is downloading");
+  let secondReady = false;
+  const gate = api.whenAvailable("https://game.test/" + second).then(() => { secondReady = true; });
+  await Promise.resolve();
+  assert.equal(secondReady, false);
+  releaseSecond();
+  await Promise.all([running, gate]);
+  const count = events.filter(([kind]) => kind === "fetch-start").length;
+  // A fresh page uses the existing cache markers and resolves all file gates.
+  vm.runInNewContext(fs.readFileSync("offline-resource-packs.js", "utf8"), sandbox);
+  await sandbox.offlineResourcePacks.prepare(() => {});
+  await sandbox.offlineResourcePacks.whenAvailable("https://game.test/" + second);
+  assert.equal(events.filter(([kind]) => kind === "fetch-start").length, count);
+  stored.delete("https://game.test/" + first);
+  vm.runInNewContext(fs.readFileSync("offline-resource-packs.js", "utf8"), sandbox);
+  await sandbox.offlineResourcePacks.prepare(() => {});
+  assert.ok(stored.has("https://game.test/" + first), "a marker alone cannot hide an evicted resource");
+  assert.equal(events.filter(([kind]) => kind === "fetch-start").length, count + 1);
+});
+
+test("corrupt downloads reject waiting engine reads and can be retried", async () => {
+  const file = "assets/resources/native/aa/image.png";
+  const pack = buildPack([[file, Buffer.from("image")]]);
+  const { sandbox } = makeSandbox([pack]);
+  sandbox.__COMBAT_PACKS = { packs: [pack.manifest] };
+  const original = pack.bytes[pack.bytes.length - 1];
+  pack.bytes[pack.bytes.length - 1] ^= 1;
+  vm.runInNewContext(fs.readFileSync("offline-resource-packs.js", "utf8"), sandbox);
+  const api = sandbox.offlineResourcePacks;
+  const running = api.prepare(() => {});
+  await Promise.all([
+    assert.rejects(running, /校验失败/),
+    assert.rejects(api.whenAvailable("https://game.test/" + file), /校验失败/),
+  ]);
+  pack.bytes[pack.bytes.length - 1] = original;
+  const retry = api.prepare(() => {});
+  await Promise.all([retry, api.whenAvailable("https://game.test/" + file)]);
 });

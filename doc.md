@@ -10,7 +10,7 @@
 - 续玩保存出售类型，新局清空；兼容没有此字段的旧存档。
 
 ## 运行代码与可读性
-- 页面由 index.html 的 settings 引用确定运行 bundle；当前源码运行包为 assets/main/index.arena-tech20261008.js。deobfuscated/modules 是分析副本，不能只修改副本；回归测试必须读取入口实际引用的运行包。
+- 页面由 index.html 的 settings 引用确定运行 bundle；当前源码运行包为 assets/main/index.balance20261009.js。deobfuscated/modules 是分析副本，不能只修改副本；回归测试必须读取入口实际引用的运行包。
 - 涉及的生产、建造、抽选代码以有语义的参数和局部变量改写，并同步模块副本及美化包。
 - offline-building-sale.js 承载出售、重建恢复和抽选逻辑；不轮询覆盖原型。
 - 验证退款幂等、停止生产、排除建筑、最低组抽选、重建升级与炮塔空位；浏览器检查实际弹窗和取消/确认。
@@ -65,9 +65,12 @@
 - 主包启动时从 `window.__OFFLINE_GAME_CONFIG` 读取 `stageConfig`，调整曲线无需改动 Cocos bundle；`tests/*.test.cjs` 不锁 fac 数值。
 
 ## 资源与发布
-- 标题页原生进度包含资源包下载、解包与核心素材准备；下载下一包时解开上一包，准备完成才允许开局。
+- 标题页同时显示资源包进度与战斗素材准备进度；全部包校验并写入缓存、七类战斗素材及目标场景就绪后才允许开局，不将兵种/建筑准备延后到战斗内。
+- 引擎下载按文件路径等待所属包写缓存完成，随后与后续包下载并行读取/解析；等待不占引擎下载并发槽，不对已打包素材重复回源。失败排空两个任务后重试，恢复引擎下载配置；缓存标记存在但文件缺失时补下载该包。
+- 资源按公共依赖及建筑/兵种/子弹/敌人/特效/UI/背景分包。每组等待公共包和本组包写入缓存后加载，同时下载后续包；全部七组仍在开局前完成。
+- scripts/collect-combat-deps.cjs 通过本地浏览器读取真实引擎依赖图，生成 config/combat-pack-groups.json；scripts/build-combat-packs.cjs 确定性生成分组压缩包及路径索引。素材或配置改变后重新采集并打包；构建校验哈希、配置、文件内容和分组覆盖。
 - GitHub main 为唯一发布来源；Actions 检查通过后用 scripts/prepare-site.cjs 生成 dist 并部署 CF Pages。禁止从旧 offline-games/play 目录手动覆盖生产站点。
 - 构建按内容生成主包、settings、独立脚本和样式文件名，入口必须重新校验；release.json 记录部署提交编号。密钥只存 GitHub Actions Secrets。
 - CF Pages 当前是直接上传项目，没有 Git source；GitHub Actions 提供推送自动部署，不依赖 CF 控制台的 Git 绑定。
-- 资源包流水线：下载第 N+1 包与解压第 N 包并行；下载与解压都必须输出进度文本（此前解压回调传空导致看起来像先全部下载再全部解压）。`tests/pack-pipeline.test.cjs` 用桩模块验证并行与进度提示。
+- 资源包流水线：下载第 N+1 包与解压第 N 包并行；下载与解压都必须输出进度文本（此前解压回调传空导致看起来像先全部下载再全部解压）。`tests/pack-pipeline.test.cjs` 验证并行、缓存完整性与失败重试；`tests/loading-overlap.test.cjs` 验证引擎等待与开局屏障；`tests/loading-browser.cjs` 检查冷/热缓存、打包素材零重复回源和断网战斗核心资源。
 - 旧版本主包副本（27d4c16c、energy144、balance20261008、arena-tech20261008）及切版脚本 `tests/restore-balance.cjs` 已移除，后续不得再生成副本。

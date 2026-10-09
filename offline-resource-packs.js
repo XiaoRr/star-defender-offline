@@ -2,6 +2,7 @@ window.offlineResourcePacks = (() => {
   const CACHE = "star-defender-combat-files-v1";
   const base = new URL("./", document.baseURI);
   let pending;
+  let gates = new Map(), packGates = new Map();
   let progress = () => {};
   const mime = file => /\.png$/.test(file) ? "image/png" : /\.jpe?g$/.test(file) ? "image/jpeg" : /\.json$/.test(file) ? "application/json" : /\.mp3$/.test(file) ? "audio/mpeg" : "application/octet-stream";
   async function control() {
@@ -45,9 +46,18 @@ window.offlineResourcePacks = (() => {
   }
   function prepare(show, report = () => {}) {
     if(pending)return pending;
+    gates = new Map(); packGates = new Map();
+    for (const pack of window.__COMBAT_PACKS.packs) {
+      let resolve, reject;
+      const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+      promise.catch(() => {}); // Some packs may have no active engine consumers yet.
+      packGates.set(pack.sha256, { promise, resolve, reject });
+      for (const file of pack.paths || []) gates.set(new URL(file, base).href, promise);
+    }
     pending=(async()=>{
       show("正在检查本地资源包…");await control();
       const cache=await caches.open(CACHE), packs=window.__COMBAT_PACKS.packs;
+      const cachedKeys = cache.keys ? new Set((await cache.keys()).map(request => request.url)) : null;
       const totalBytes=packs.reduce((sum,p)=>sum+p.bytes,0), received=new Map();
       let completed=0;
       progress=(pack,bytes)=>{
@@ -59,7 +69,8 @@ window.offlineResourcePacks = (() => {
       const missing=[];
       for(let i=0;i<packs.length;i++){
         const pack=packs[i], marker=new URL("packs/ready-"+pack.sha256,base);
-        if(await cache.match(marker)){completed++;progress(pack,pack.bytes);}
+        const filesPresent = !cachedKeys || !pack.paths || pack.paths.every(file => cachedKeys.has(new URL(file,base).href));
+        if(filesPresent && await cache.match(marker)){completed++;progress(pack,pack.bytes);packGates.get(pack.sha256).resolve();}
         else missing.push({pack,marker,index:i+1});
       }
       // Keep only one download ahead of the decoder to bound memory on phones.
@@ -67,12 +78,14 @@ window.offlineResourcePacks = (() => {
       const fetchNext=entry=>download(entry.pack,entry.index,packs.length,show,controller.signal).then(bytes=>({bytes}),error=>({error}));
       let next=missing.length?fetchNext(missing[0]):null;
       for(let i=0;i<missing.length;i++){
-        const result=await next;if(result.error)throw result.error;
+        const result=await next;
+        if(result.error){controller.abort();throw result.error;}
         const entry=missing[i];
         next=i+1<missing.length?fetchNext(missing[i+1]):null;
         try {
           await unpack(result.bytes,cache,entry.pack,entry.index,packs.length,show);
           await cache.put(entry.marker,new Response("complete"));
+          packGates.get(entry.pack.sha256).resolve();
           completed++;progress(entry.pack,entry.pack.bytes);
         } catch(error) {
           controller.abort();
@@ -81,8 +94,28 @@ window.offlineResourcePacks = (() => {
         }
       }
       report(1,"资源包已就绪");
-    })().catch(error=>{pending=null;throw error;});
+    })().catch(error=>{
+      for (const gate of packGates.values()) gate.reject(error);
+      pending=null;throw error;
+    });
     return pending;
   }
-  return {prepare};
+  function whenAvailable(url) {
+    const target = new URL(url, base);
+    target.search = "";
+    // Older manifests remain safe: wait for all packs rather than fetch duplicates.
+    if (!window.__COMBAT_PACKS.packs.every(pack => Array.isArray(pack.paths)))
+      return pending || Promise.resolve();
+    return gates.get(target.href) || Promise.resolve();
+  }
+  function whenGroupAvailable(name) {
+    const group = window.__COMBAT_PACKS.groups?.find(group => group.name === name);
+    if (!group) return Promise.resolve();
+    return Promise.all(group.requires.map(hash => {
+      const gate = packGates.get(hash);
+      if (!gate) return Promise.reject(new Error("资源分组索引不完整：" + name));
+      return gate.promise;
+    }));
+  }
+  return {prepare, whenAvailable, whenGroupAvailable};
 })();

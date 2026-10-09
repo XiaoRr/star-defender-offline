@@ -2,6 +2,9 @@ const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const {execFileSync}=require('node:child_process');
+// Reject stale pack indices before publishing a loader that relies on them.
+const packManifest=require('./index-combat-packs.cjs')();
+if(fs.readFileSync('combat-packs.js','utf8').replace(/\r\n/g,'\n')!==packManifest)throw new Error('Run node scripts/index-combat-packs.cjs before publishing');
 const output=path.resolve(process.argv[2]||'dist');
 fs.mkdirSync(output,{recursive:true});
 for(const name of ['assets','src','config','fortress','packs'])fs.cpSync(name,path.join(output,name),{recursive:true});
