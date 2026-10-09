@@ -1412,7 +1412,35 @@ const __mod = function (e, t, i) {
                 (void 0 === e && (e = !1),
                   e && y.default.inst.playAudio("starcraft/ui_change"));
               }),
+              (t.prototype.claimFreeResource = function (type) {
+                const player = p.default;
+                const slot = type === 1 ? 2 : type === 2 ? 3 : type === 4 ? 4 : -1;
+                player.getDataRem();
+                if (slot < 0 || player.freeTimeArray[slot] <= 0) {
+                  this.popTips("今日次数已用完");
+                  return false;
+                }
+                const amount = type === 1 ? 500 : 50;
+                // No asynchronous ad boundary or reward panel: quota and inventory
+                // change in the same click, including clicks from both entry points.
+                player.freeTimeArray[slot]--;
+                player.addItem(type, amount);
+                player.saveDataRem();
+                player.saveData();
+                this.refreshPage1();
+                window.offlineToast && window.offlineToast(
+                  "获得 " + (type === 1 ? "晶体矿" : type === 2 ? "瓦斯" : "能量") +
+                  " ×" + amount + "，今日剩余 " + player.freeTimeArray[slot] + "/" + (type === 4 ? 5 : 3)
+                );
+                return true;
+              }),
               (t.prototype.page1Button = function (e, t) {
+                if (["3-1", "3-2", "3-3"].includes(t)) {
+                  y.default.inst.playAudio("starcraft/click");
+                  this.claimFreeResource({"3-1": 1, "3-2": 2, "3-3": 4}[t]);
+                  return Promise.resolve();
+                }
+
                 // Offline adaptation: mainScene.page1Button
 
                 return r(this, void 0, void 0, function () {
@@ -2203,49 +2231,16 @@ return Promise.resolve(window.offlineSweep.run(this));
                   this.windowPop(t));
               }),
               (t.prototype.doBuyThings = function () {
-                // Offline adaptation: mainScene.doBuyThings
-                // Commit every click synchronously and keep the shop open, so rapid
-                // taps each claim once instead of being swallowed by the reward pop-up.
-                var type = this.buyThingsType,
-                  slot = 1 == type ? 2 : 2 == type ? 3 : 4 == type ? 4 : 0,
-                  rewards = 1 == type ? [[1, 500]] : 2 == type ? [[2, 50]] : [[4, 50]],
-                  limit = 4 == type ? 5 : 3,
-                  self = this;
+                const type = this.buyThingsType;
                 y.default.inst.playAudio("starcraft/click");
-                if (!slot || p.default.freeTimeArray[slot] <= 0)
-                  return this.popTips("今日次数已用完"), Promise.resolve();
-                return m.wechat.showRewardedVideoAdNew().then(function (reply) {
-                  if (!reply.isEnded)
-                    return void (
-                      m.wechat.is_jd_platform || self.popTips("观看视频广告失败")
-                    );
-                  p.default.freeTimeArray[slot]--;
-                  for (var i = 0; i < rewards.length; i++)
-                    p.default.addItem(rewards[i][0], rewards[i][1]);
-                  p.default.saveData();
-                  var pop = self.uiLayer
-                    .getChildByName("popUI")
-                    .getChildByName("buyThings");
-                  pop.active = !0;
+                if (this.claimFreeResource(type)) {
+                  const slot = type === 1 ? 2 : type === 2 ? 3 : 4;
+                  const pop = this.uiLayer.getChildByName("popUI").getChildByName("buyThings");
+                  pop.active = true;
                   pop.getChildByName("text1").getComponent(cc.Label).string =
-                    "今日剩余次数 (" +
-                    p.default.freeTimeArray[slot] +
-                    "/" +
-                    limit +
-                    ")";
-                  self.refreshPage1();
-                  window.offlineToast &&
-                    window.offlineToast(
-                      "获得 " +
-                        (1 == type ? "晶体矿" : 2 == type ? "瓦斯" : "能量") +
-                        " ×" +
-                        rewards[0][1] +
-                        "，今日剩余 " +
-                        p.default.freeTimeArray[slot] +
-                        "/" +
-                        limit,
-                    );
-                });
+                    "今日剩余次数 (" + p.default.freeTimeArray[slot] + "/" + (type === 4 ? 5 : 3) + ")";
+                }
+                return Promise.resolve();
               }),
                 (t.prototype.closeBuyThing = function () {
                 (y.default.inst.playAudio("starcraft/click"),

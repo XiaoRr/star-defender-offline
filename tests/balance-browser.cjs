@@ -22,7 +22,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'C:/Users/41864/AppDat
       return {energy:p.getItemNum(4),gold:p.getItemNum(1)-before,runs:p.dailyArray[0]-used,slots:[p.freeTimeArray[5],p.freeTimeArray[6]],pop:s.uiLayer.getChildByName('popUI').getChildByName('getItem').active,toasts:document.querySelectorAll('#sweep-reward').length,blocking:document.getElementById('sweep-reward').style.pointerEvents};
     });
     assert.deepEqual(sweep,{energy:132,gold:310,runs:2,slots:[0,0],pop:false,toasts:1,blocking:'none'});
-    await page.waitForFunction(()=>document.getElementById('sweep-reward').hidden);
+    await page.waitForFunction(()=>getComputedStyle(document.getElementById('sweep-reward')).display==='none');
     const draws=await page.evaluate(async()=>{
       const scene=cc.find('Canvas').getComponent('mainScene'),p=__require('playerData').default,f=offlineFortress;
       p.addItem(2,10000);p.saveData();
