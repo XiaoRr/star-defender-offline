@@ -61,7 +61,7 @@
 
 ## 难度曲线
 - balance20261009 为长期维护的唯一版本，不再通过新建版本副本发布；主包只保留 `assets/main/index.balance20261009.js`、同名 config 与 settings，旧版本副本不得再生成。
-- 第 1~21 关强度不变；第 22 关起强度系数 `fac` 每关 ×1.25（10月10日由 1.016 上调，最初为 1.01），以第 21 关 6.2 为基连续推算，保留 1 位小数。表在 `config/game-config.json` 的 `stageConfig`，同步重新生成 `config/game-config.js`。
+- 第 1~21 关强度不变；第 22 关起强度系数 `fac` 每关 ×1.04（10月10日由 1.016 上调，最初为 1.01），以第 21 关 6.2 为基连续推算，保留 1 位小数。表在 `config/game-config.json` 的 `stageConfig`，同步重新生成 `config/game-config.js`。
 - 主包启动时从 `window.__OFFLINE_GAME_CONFIG` 读取 `stageConfig`，调整曲线无需改动 Cocos bundle；`tests/*.test.cjs` 不锁 fac 数值。
 
 ## 资源与发布

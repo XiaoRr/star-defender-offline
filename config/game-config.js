@@ -661,7 +661,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 7.8,
+      "fac": 6.4,
       "boss": 6
     },
     {
@@ -671,7 +671,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         4
       ],
-      "fac": 9.7,
+      "fac": 6.7,
       "boss": 4
     },
     {
@@ -680,148 +680,148 @@ window.__OFFLINE_GAME_CONFIG = {
         1,
         4,
         3
+      ],
+      "fac": 7.0,
+      "boss": 3
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        1,
+        2,
+        5
+      ],
+      "fac": 7.3,
+      "boss": 5
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        2,
+        4,
+        10
+      ],
+      "fac": 7.5,
+      "boss": 10
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        2,
+        5,
+        3
+      ],
+      "fac": 7.8,
+      "boss": 5
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        2,
+        5,
+        6
+      ],
+      "fac": 8.2,
+      "boss": 6
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        2,
+        5,
+        7
+      ],
+      "fac": 8.5,
+      "boss": 5
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        2,
+        4,
+        7
+      ],
+      "fac": 8.8,
+      "boss": 7
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        4,
+        3,
+        8
+      ],
+      "fac": 9.2,
+      "boss": 8
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        4,
+        5,
+        6
+      ],
+      "fac": 9.5,
+      "boss": 6
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        4,
+        2,
+        7
+      ],
+      "fac": 9.9,
+      "boss": 7
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        4,
+        9,
+        3
+      ],
+      "fac": 10.3,
+      "boss": 9
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        4,
+        5,
+        10
+      ],
+      "fac": 10.7,
+      "boss": 10
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        5,
+        2,
+        3
+      ],
+      "fac": 11.2,
+      "boss": 3
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        5,
+        1,
+        8
+      ],
+      "fac": 11.6,
+      "boss": 8
+    },
+    {
+      "wave": 10,
+      "monsters": [
+        5,
+        6,
+        8
       ],
       "fac": 12.1,
-      "boss": 3
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        1,
-        2,
-        5
-      ],
-      "fac": 15.1,
-      "boss": 5
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        2,
-        4,
-        10
-      ],
-      "fac": 18.9,
-      "boss": 10
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        2,
-        5,
-        3
-      ],
-      "fac": 23.7,
-      "boss": 5
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        2,
-        5,
-        6
-      ],
-      "fac": 29.6,
-      "boss": 6
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        2,
-        5,
-        7
-      ],
-      "fac": 37.0,
-      "boss": 5
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        2,
-        4,
-        7
-      ],
-      "fac": 46.2,
-      "boss": 7
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        4,
-        3,
-        8
-      ],
-      "fac": 57.7,
-      "boss": 8
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        4,
-        5,
-        6
-      ],
-      "fac": 72.2,
-      "boss": 6
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        4,
-        2,
-        7
-      ],
-      "fac": 90.2,
-      "boss": 7
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        4,
-        9,
-        3
-      ],
-      "fac": 112.8,
-      "boss": 9
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        4,
-        5,
-        10
-      ],
-      "fac": 141.0,
-      "boss": 10
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        5,
-        2,
-        3
-      ],
-      "fac": 176.2,
-      "boss": 3
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        5,
-        1,
-        8
-      ],
-      "fac": 220.3,
-      "boss": 8
-    },
-    {
-      "wave": 10,
-      "monsters": [
-        5,
-        6,
-        8
-      ],
-      "fac": 275.3,
       "boss": 8
     },
     {
@@ -831,7 +831,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 344.2,
+      "fac": 12.6,
       "boss": 10
     },
     {
@@ -841,7 +841,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         7
       ],
-      "fac": 430.2,
+      "fac": 13.1,
       "boss": 9
     },
     {
@@ -851,7 +851,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 537.8,
+      "fac": 13.6,
       "boss": 3
     },
     {
@@ -861,7 +861,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 672.2,
+      "fac": 14.1,
       "boss": 6
     },
     {
@@ -871,7 +871,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         4
       ],
-      "fac": 840.3,
+      "fac": 14.7,
       "boss": 4
     },
     {
@@ -881,7 +881,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         3
       ],
-      "fac": 1050.3,
+      "fac": 15.3,
       "boss": 3
     },
     {
@@ -891,7 +891,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         5
       ],
-      "fac": 1312.9,
+      "fac": 15.9,
       "boss": 5
     },
     {
@@ -901,7 +901,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 1641.1,
+      "fac": 16.5,
       "boss": 10
     },
     {
@@ -911,7 +911,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         3
       ],
-      "fac": 2051.4,
+      "fac": 17.2,
       "boss": 5
     },
     {
@@ -921,7 +921,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 2564.3,
+      "fac": 17.9,
       "boss": 6
     },
     {
@@ -931,7 +931,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         7
       ],
-      "fac": 3205.3,
+      "fac": 18.6,
       "boss": 5
     },
     {
@@ -941,7 +941,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         7
       ],
-      "fac": 4006.7,
+      "fac": 19.3,
       "boss": 7
     },
     {
@@ -951,7 +951,7 @@ window.__OFFLINE_GAME_CONFIG = {
         3,
         8
       ],
-      "fac": 5008.3,
+      "fac": 20.1,
       "boss": 8
     },
     {
@@ -961,7 +961,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 6260.4,
+      "fac": 20.9,
       "boss": 6
     },
     {
@@ -971,7 +971,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         7
       ],
-      "fac": 7825.5,
+      "fac": 21.7,
       "boss": 7
     },
     {
@@ -981,7 +981,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         3
       ],
-      "fac": 9781.9,
+      "fac": 22.6,
       "boss": 9
     },
     {
@@ -991,7 +991,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         10
       ],
-      "fac": 12227.3,
+      "fac": 23.5,
       "boss": 10
     },
     {
@@ -1001,7 +1001,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 15284.2,
+      "fac": 24.5,
       "boss": 3
     },
     {
@@ -1011,7 +1011,7 @@ window.__OFFLINE_GAME_CONFIG = {
         1,
         8
       ],
-      "fac": 19105.2,
+      "fac": 25.4,
       "boss": 8
     },
     {
@@ -1021,7 +1021,7 @@ window.__OFFLINE_GAME_CONFIG = {
         6,
         8
       ],
-      "fac": 23881.5,
+      "fac": 26.5,
       "boss": 8
     },
     {
@@ -1031,7 +1031,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 29851.9,
+      "fac": 27.5,
       "boss": 10
     },
     {
@@ -1041,7 +1041,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         7
       ],
-      "fac": 37314.9,
+      "fac": 28.6,
       "boss": 9
     },
     {
@@ -1051,7 +1051,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 46643.6,
+      "fac": 29.8,
       "boss": 3
     },
     {
@@ -1061,7 +1061,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 58304.5,
+      "fac": 31.0,
       "boss": 6
     },
     {
@@ -1071,7 +1071,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         4
       ],
-      "fac": 72880.6,
+      "fac": 32.2,
       "boss": 4
     },
     {
@@ -1081,7 +1081,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         3
       ],
-      "fac": 91100.8,
+      "fac": 33.5,
       "boss": 3
     },
     {
@@ -1091,7 +1091,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         5
       ],
-      "fac": 113876.0,
+      "fac": 34.8,
       "boss": 5
     },
     {
@@ -1101,7 +1101,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 142345.0,
+      "fac": 36.2,
       "boss": 10
     },
     {
@@ -1111,7 +1111,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         3
       ],
-      "fac": 177931.3,
+      "fac": 37.7,
       "boss": 5
     },
     {
@@ -1121,7 +1121,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 222414.1,
+      "fac": 39.2,
       "boss": 6
     },
     {
@@ -1131,7 +1131,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         7
       ],
-      "fac": 278017.6,
+      "fac": 40.7,
       "boss": 5
     },
     {
@@ -1141,7 +1141,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         7
       ],
-      "fac": 347522.0,
+      "fac": 42.4,
       "boss": 7
     },
     {
@@ -1151,7 +1151,7 @@ window.__OFFLINE_GAME_CONFIG = {
         3,
         8
       ],
-      "fac": 434402.5,
+      "fac": 44.1,
       "boss": 8
     },
     {
@@ -1161,7 +1161,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 543003.2,
+      "fac": 45.8,
       "boss": 6
     },
     {
@@ -1171,7 +1171,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         7
       ],
-      "fac": 678753.9,
+      "fac": 47.7,
       "boss": 7
     },
     {
@@ -1181,7 +1181,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         3
       ],
-      "fac": 848442.4,
+      "fac": 49.6,
       "boss": 9
     },
     {
@@ -1191,7 +1191,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         10
       ],
-      "fac": 1060553.0,
+      "fac": 51.5,
       "boss": 10
     },
     {
@@ -1201,7 +1201,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 1325691.3,
+      "fac": 53.6,
       "boss": 3
     },
     {
@@ -1211,7 +1211,7 @@ window.__OFFLINE_GAME_CONFIG = {
         1,
         8
       ],
-      "fac": 1657114.1,
+      "fac": 55.8,
       "boss": 8
     },
     {
@@ -1221,7 +1221,7 @@ window.__OFFLINE_GAME_CONFIG = {
         6,
         8
       ],
-      "fac": 2071392.7,
+      "fac": 58.0,
       "boss": 8
     },
     {
@@ -1231,7 +1231,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 2589240.8,
+      "fac": 60.3,
       "boss": 10
     },
     {
@@ -1241,7 +1241,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         7
       ],
-      "fac": 3236551.0,
+      "fac": 62.7,
       "boss": 9
     },
     {
@@ -1251,7 +1251,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 4045688.8,
+      "fac": 65.2,
       "boss": 3
     },
     {
@@ -1261,7 +1261,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 5057111.0,
+      "fac": 67.8,
       "boss": 6
     },
     {
@@ -1271,7 +1271,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         4
       ],
-      "fac": 6321388.7,
+      "fac": 70.5,
       "boss": 4
     },
     {
@@ -1281,7 +1281,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         3
       ],
-      "fac": 7901735.9,
+      "fac": 73.4,
       "boss": 3
     },
     {
@@ -1291,7 +1291,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         5
       ],
-      "fac": 9877169.8,
+      "fac": 76.3,
       "boss": 5
     },
     {
@@ -1301,7 +1301,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 12346462.3,
+      "fac": 79.4,
       "boss": 10
     },
     {
@@ -1311,7 +1311,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         3
       ],
-      "fac": 15433077.9,
+      "fac": 82.5,
       "boss": 5
     },
     {
@@ -1321,7 +1321,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 19291347.4,
+      "fac": 85.8,
       "boss": 6
     },
     {
@@ -1331,7 +1331,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         7
       ],
-      "fac": 24114184.2,
+      "fac": 89.3,
       "boss": 5
     },
     {
@@ -1341,7 +1341,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         7
       ],
-      "fac": 30142730.3,
+      "fac": 92.8,
       "boss": 7
     },
     {
@@ -1351,7 +1351,7 @@ window.__OFFLINE_GAME_CONFIG = {
         3,
         8
       ],
-      "fac": 37678412.8,
+      "fac": 96.5,
       "boss": 8
     },
     {
@@ -1361,7 +1361,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         6
       ],
-      "fac": 47098016.0,
+      "fac": 100.4,
       "boss": 6
     },
     {
@@ -1371,7 +1371,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         7
       ],
-      "fac": 58872520.0,
+      "fac": 104.4,
       "boss": 7
     },
     {
@@ -1381,7 +1381,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         3
       ],
-      "fac": 73590650.0,
+      "fac": 108.6,
       "boss": 9
     },
     {
@@ -1391,7 +1391,7 @@ window.__OFFLINE_GAME_CONFIG = {
         5,
         10
       ],
-      "fac": 91988312.5,
+      "fac": 112.9,
       "boss": 10
     },
     {
@@ -1401,7 +1401,7 @@ window.__OFFLINE_GAME_CONFIG = {
         2,
         3
       ],
-      "fac": 114985390.7,
+      "fac": 117.5,
       "boss": 3
     },
     {
@@ -1411,7 +1411,7 @@ window.__OFFLINE_GAME_CONFIG = {
         1,
         8
       ],
-      "fac": 143731738.3,
+      "fac": 122.2,
       "boss": 8
     },
     {
@@ -1421,7 +1421,7 @@ window.__OFFLINE_GAME_CONFIG = {
         6,
         8
       ],
-      "fac": 179664672.9,
+      "fac": 127.0,
       "boss": 8
     },
     {
@@ -1431,7 +1431,7 @@ window.__OFFLINE_GAME_CONFIG = {
         4,
         10
       ],
-      "fac": 224580841.2,
+      "fac": 132.1,
       "boss": 10
     },
     {
@@ -1441,7 +1441,7 @@ window.__OFFLINE_GAME_CONFIG = {
         9,
         7
       ],
-      "fac": 280726051.4,
+      "fac": 137.4,
       "boss": 9
     }
   ]
