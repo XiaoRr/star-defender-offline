@@ -34540,47 +34540,50 @@ return Promise.resolve(window.offlineSweep.run(this));
               }),
               (t.prototype.doBuyThings = function () {
                 // Offline adaptation: mainScene.doBuyThings
-
-                return r(this, void 0, void 0, function () {
-                  return s(this, function (e) {
-                    switch (e.label) {
-                      case 0:
-                        return (
-                          y.default.inst.playAudio("starcraft/click"),
-                          1 == this.buyThingsType &&
-                          p.default.freeTimeArray[2] <= 0
-                            ? (this.popTips("今日次数已用完"), [2])
-                            : 2 == this.buyThingsType &&
-                                p.default.freeTimeArray[3] <= 0
-                              ? (this.popTips("今日次数已用完"), [2])
-                              : 4 == this.buyThingsType &&
-                                  p.default.freeTimeArray[4] <= 0
-                                ? (this.popTips("今日次数已用完"), [2])
-                                : [4, m.wechat.showRewardedVideoAdNew()]
-                        );
-                      case 1:
-                        return e.sent().isEnded
-                          ? ((this.uiLayer
-                              .getChildByName("popUI")
-                              .getChildByName("buyThings").active = !1),
-                            1 == this.buyThingsType
-                              ? (this.openGetItem([[1, 500]]),
-                                p.default.freeTimeArray[2]--)
-                              : 2 == this.buyThingsType
-                                ? (this.openGetItem([[2, 50]]),
-                                  p.default.freeTimeArray[3]--)
-                                : 4 == this.buyThingsType &&
-                                  (this.openGetItem([[4, 50]]),
-                                  p.default.freeTimeArray[4]--),
-                            [2])
-                          : (m.wechat.is_jd_platform ||
-                              this.popTips("观看视频广告失败"),
-                            [2]);
-                    }
-                  });
+                // Commit every click synchronously and keep the shop open, so rapid
+                // taps each claim once instead of being swallowed by the reward pop-up.
+                var type = this.buyThingsType,
+                  slot = 1 == type ? 2 : 2 == type ? 3 : 4 == type ? 4 : 0,
+                  rewards = 1 == type ? [[1, 500]] : 2 == type ? [[2, 50]] : [[4, 50]],
+                  limit = 4 == type ? 5 : 3,
+                  self = this;
+                y.default.inst.playAudio("starcraft/click");
+                if (!slot || p.default.freeTimeArray[slot] <= 0)
+                  return this.popTips("今日次数已用完"), Promise.resolve();
+                return m.wechat.showRewardedVideoAdNew().then(function (reply) {
+                  if (!reply.isEnded)
+                    return void (
+                      m.wechat.is_jd_platform || self.popTips("观看视频广告失败")
+                    );
+                  p.default.freeTimeArray[slot]--;
+                  for (var i = 0; i < rewards.length; i++)
+                    p.default.addItem(rewards[i][0], rewards[i][1]);
+                  p.default.saveData();
+                  var pop = self.uiLayer
+                    .getChildByName("popUI")
+                    .getChildByName("buyThings");
+                  pop.active = !0;
+                  pop.getChildByName("text1").getComponent(cc.Label).string =
+                    "今日剩余次数 (" +
+                    p.default.freeTimeArray[slot] +
+                    "/" +
+                    limit +
+                    ")";
+                  self.refreshPage1();
+                  window.offlineToast &&
+                    window.offlineToast(
+                      "获得 " +
+                        (1 == type ? "晶体矿" : 2 == type ? "瓦斯" : "能量") +
+                        " ×" +
+                        rewards[0][1] +
+                        "，今日剩余 " +
+                        p.default.freeTimeArray[slot] +
+                        "/" +
+                        limit,
+                    );
                 });
               }),
-              (t.prototype.closeBuyThing = function () {
+                (t.prototype.closeBuyThing = function () {
                 (y.default.inst.playAudio("starcraft/click"),
                   (this.uiLayer
                     .getChildByName("popUI")

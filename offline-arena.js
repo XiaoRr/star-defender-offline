@@ -198,6 +198,28 @@
     ui.my_progress_sprite.fillRange =
       player.arenaScore / thresholds[player.jx - 1];
   }
+  // Announce tech cores after the first settle of a match; replays and the
+  // bonus-ad path stay silent because they never grant cores.
+  const rawSettle = local.settle;
+  local.settle = function (player, code) {
+    return rawSettle.call(local, player, code).then((result) => {
+      if (
+        (code === 1 || code === 0) &&
+        result?.coresAwarded > 0 &&
+        window.offlineToast
+      ) {
+        const parts = [`科技星核 +${result.coresAwarded}`];
+        if (result.gain > 0) parts.push(`积分 +${result.gain}`);
+        if (result.up > 0) parts.push(`晋级 +${result.up} 段`);
+        window.offlineToast(
+          `竞技场${code === 1 ? "胜利" : "失败"}
+${parts.join(" · ")}`,
+          2600,
+        );
+      }
+      return result;
+    });
+  };
   window.offlineArena = {
     generate,
     provider: local,

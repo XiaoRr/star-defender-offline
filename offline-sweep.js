@@ -10,9 +10,9 @@ window.offlineSweep = (() => {
     }
     const items = __require('itemData').default;
     toast.textContent = '扫荡完成\n' + rewards.map(([id, count]) => `${items.getItemNameWithType(id)} ×${count}`).join('  ');
-    toast.hidden = false;
+    toast.style.display = 'block';
     clearTimeout(timer);
-    timer = setTimeout(() => { toast.hidden = true; }, 1600);
+    timer = setTimeout(() => { toast.style.display = 'none'; }, 1600);
   }
   function run(scene) {
     const player = __require('playerData').default;

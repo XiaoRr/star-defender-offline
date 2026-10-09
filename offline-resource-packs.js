@@ -64,14 +64,14 @@ window.offlineResourcePacks = (() => {
       }
       // Keep only one download ahead of the decoder to bound memory on phones.
       const controller=new AbortController();
-      const fetchNext=entry=>download(entry.pack,entry.index,packs.length,()=>{},controller.signal).then(bytes=>({bytes}),error=>({error}));
+      const fetchNext=entry=>download(entry.pack,entry.index,packs.length,show,controller.signal).then(bytes=>({bytes}),error=>({error}));
       let next=missing.length?fetchNext(missing[0]):null;
       for(let i=0;i<missing.length;i++){
         const result=await next;if(result.error)throw result.error;
         const entry=missing[i];
         next=i+1<missing.length?fetchNext(missing[i+1]):null;
         try {
-          await unpack(result.bytes,cache,entry.pack,entry.index,packs.length,()=>{});
+          await unpack(result.bytes,cache,entry.pack,entry.index,packs.length,show);
           await cache.put(entry.marker,new Response("complete"));
           completed++;progress(entry.pack,entry.pack.bytes);
         } catch(error) {

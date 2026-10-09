@@ -13,6 +13,21 @@ window.offlineNotice = function (message) {
   clearTimeout(window.offlineNoticeTimer);
   window.offlineNoticeTimer = setTimeout(() => notice.remove(), 3500);
 };
+// Generic auto-hiding toast. Toggles style.display because the global
+// `div { display: block }` rule defeats the [hidden] attribute.
+window.offlineToast = function (text, ms = 2200) {
+  let toast = document.getElementById('offline-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'offline-toast';
+    toast.style.cssText = 'position:fixed;top:26%;left:50%;transform:translateX(-50%);max-width:80vw;padding:12px 20px;border-radius:10px;background:rgba(8,18,32,.9);color:white;text-align:center;font:16px/1.5 sans-serif;z-index:10000;pointer-events:none;white-space:pre-line;display:none';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = text;
+  toast.style.display = 'block';
+  clearTimeout(window.offlineToastTimer);
+  window.offlineToastTimer = setTimeout(() => { toast.style.display = 'none'; }, ms);
+};
 document.addEventListener('DOMContentLoaded', () => {
   const bar = document.createElement('div');
   bar.style.cssText = 'position:fixed;top:6px;right:6px;z-index:9999;display:flex;gap:6px;font:12px sans-serif';

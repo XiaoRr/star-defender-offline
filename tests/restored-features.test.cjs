@@ -19,7 +19,7 @@ test('rapid sweeps grant each reward, share one nonblocking notification and res
  const scene={popTips(){},refreshAll(){}};const run=()=>context.window.offlineSweep.run(scene);
  assert.equal(run(),true);assert.equal(run(),true);assert.equal(run(),false);
  assert.deepEqual(p.items,{4:18,201:50,101:4,1:300,7:2});assert.equal(p.dailyArray[0],2);assert.deepEqual(JSON.parse(saved),p.items);
- assert.equal(nodes.length,1);assert.match(nodes[0].style.cssText,/pointer-events:none/);assert.equal(timers.size,1);for(const f of timers.values())f();assert.equal(nodes[0].hidden,true);
+ assert.equal(nodes.length,1);assert.match(nodes[0].style.cssText,/pointer-events:none/);assert.equal(timers.size,1);for(const f of timers.values())f();assert.equal(nodes[0].style.display,'none');
  p.freeTimeArray[5]=2;p.items[4]=5;assert.equal(run(),false);assert.equal(p.freeTimeArray[5],2);p.items[4]=30;level=0;assert.equal(run(),false);
 });
 test('released entry retains all required hooks and independent three-use counters',()=>{

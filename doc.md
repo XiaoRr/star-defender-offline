@@ -55,9 +55,13 @@
 ## 扫荡与提示
 - 每次有效扫荡先同步扣6体力和1次数、发放全部奖励并保存，再显示提示；不能以领奖面板是否已打开决定发奖。
 - 提示位于屏幕上方、不拦截触摸，不覆盖扫荡按钮；连点只保留最后一次提示，1.6秒后隐藏，每次点击的奖励均保留。原三星通关和次数条件保留。
+- 提示必须切换 `style.display`，不能使用 `hidden` 属性：全局样式 `div{display:block}` 会覆盖 UA 的 `[hidden]` 规则，导致提示永不消失（通用提示见 `window.offlineToast`）。
+- 商店免费领取（晶体矿/瓦斯/能量）：每次点击同步扣次数、入账并保存，商店保持打开并即时刷新剩余次数，以轻提示替代领奖弹窗，快速连点每次都生效。
+- 竞技场首局结算（胜负）后弹出科技星核与积分提示；重复结算与广告加赛不重复提示。
 
 ## 难度曲线
-- balance20261009 版本：第 1~21 关强度不变；第 22 关起关卡强度系数 `fac` 由每关 ×1.01 上调为每关 ×1.016（以第 20 关 6.1 为基连续推算，保留 1 位小数）。表数据在 `config/game-config.json` 的 `stageConfig`，并同步重新生成 `config/game-config.js`。
+- balance20261009 为长期维护的唯一版本，不再通过新建版本副本发布；主包只保留 `assets/main/index.balance20261009.js`、同名 config 与 settings，旧版本副本不得再生成。
+- 第 1~21 关强度不变；第 22 关起强度系数 `fac` 每关 ×1.25（10月10日由 1.016 上调，最初为 1.01），以第 21 关 6.2 为基连续推算，保留 1 位小数。表在 `config/game-config.json` 的 `stageConfig`，同步重新生成 `config/game-config.js`。
 - 主包启动时从 `window.__OFFLINE_GAME_CONFIG` 读取 `stageConfig`，调整曲线无需改动 Cocos bundle；`tests/*.test.cjs` 不锁 fac 数值。
 
 ## 资源与发布
@@ -65,3 +69,5 @@
 - GitHub main 为唯一发布来源；Actions 检查通过后用 scripts/prepare-site.cjs 生成 dist 并部署 CF Pages。禁止从旧 offline-games/play 目录手动覆盖生产站点。
 - 构建按内容生成主包、settings、独立脚本和样式文件名，入口必须重新校验；release.json 记录部署提交编号。密钥只存 GitHub Actions Secrets。
 - CF Pages 当前是直接上传项目，没有 Git source；GitHub Actions 提供推送自动部署，不依赖 CF 控制台的 Git 绑定。
+- 资源包流水线：下载第 N+1 包与解压第 N 包并行；下载与解压都必须输出进度文本（此前解压回调传空导致看起来像先全部下载再全部解压）。`tests/pack-pipeline.test.cjs` 用桩模块验证并行与进度提示。
+- 旧版本主包副本（27d4c16c、energy144、balance20261008、arena-tech20261008）及切版脚本 `tests/restore-balance.cjs` 已移除，后续不得再生成副本。
