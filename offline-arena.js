@@ -104,6 +104,7 @@
           arenaState.losses++;
         } else {
           scoreGain = 3;
+          coresAwarded = 1;
           arenaState.draws++;
         }
         match.coresAwarded = coresAwarded;
@@ -186,7 +187,7 @@
           s.losses +
           "  /  平局 " +
           s.draws +
-          "\n胜利 +10；失败不扣分\n星核：胜利2个 / 失败1个\n匹配机器人，消耗 1 张竞技券";
+          "\n胜利 +10；平局 +3；失败不扣分\n星核：胜利2个 / 失败1个 / 平局1个\n匹配机器人，消耗 1 张竞技券";
     ui.start_node.getChildByName("btn").getComponent(cc.Button).interactable =
       tab !== "province";
     ui.content_node.y = 280;
@@ -204,7 +205,7 @@
   local.settle = function (player, code) {
     return rawSettle.call(local, player, code).then((result) => {
       if (
-        (code === 1 || code === 0) &&
+        (code === 1 || code === 0 || code === 4) &&
         result?.coresAwarded > 0 &&
         window.offlineToast
       ) {
@@ -212,7 +213,7 @@
         if (result.gain > 0) parts.push(`积分 +${result.gain}`);
         if (result.up > 0) parts.push(`晋级 +${result.up} 段`);
         window.offlineToast(
-          `竞技场${code === 1 ? "胜利" : "失败"}
+          `竞技场${code === 1 ? "胜利" : code === 4 ? "平局" : "失败"}
 ${parts.join(" · ")}`,
           2600,
         );

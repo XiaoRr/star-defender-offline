@@ -7,8 +7,8 @@ test('arena cores are items, not rank score, and cannot repeat after bonus or re
  await Promise.all([api.settle(p,1),api.settle(p,2),api.settle(p,0)]);assert.equal(p.items[8],2);
  Object.assign(p,JSON.parse(saved));await api.settle(p,1);assert.equal(p.items[8],2);
  api.begin(p);await api.settle(p,0);await api.settle(p,3);assert.equal(p.items[8],3);
- api.begin(p);await api.settle(p,4);assert.equal(p.items[8],3);
- p.jx=1;p.arenaScore=0;api.begin(p);const result=await api.settle(p,1);assert.equal(result.gain,10);assert.equal(p.items[8],5);
+ api.begin(p);await api.settle(p,4);assert.equal(p.items[8],4);
+ p.jx=1;p.arenaScore=0;api.begin(p);const result=await api.settle(p,1);assert.equal(result.gain,10);assert.equal(p.items[8],6);
 });
 test('rapid sweeps grant each reward, share one nonblocking notification and respect limits',()=>{
  const nodes=[],timers=new Map();let timerId=0,saved,level=1;
