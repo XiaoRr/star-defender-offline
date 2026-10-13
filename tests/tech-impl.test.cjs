@@ -76,6 +76,7 @@ test("army init hooks apply farmer hp, global damage, stimpack, anti-air gun", (
   W.__techArmyInit(farmer);
   assert.equal(Math.round(farmer.totalHp), 184); // 100 * 1.84
   assert.equal(farmer.hp, farmer.totalHp);
+  assert.equal(farmer.attack, 10); // #5 不作用于农民：attack 是采集量，原版取整入账
   const gunner = fakeUnit(2);
   W.__techArmyInit(gunner);
   assert.equal(Math.round(gunner.attack * 1000) / 1000, 23.6); // #5 18% × 强化针 2 倍
@@ -516,6 +517,25 @@ test("iteration 3: AP rounds pierce one extra target for n% damage", () => {
   bullet.hasHitMinionArray = [{}, null];            // 已命中1个 → 后续60%
   assert.equal(W.__techPierceMul(bullet), 0.6);
   assert.equal(W.__techPierceMul({}), 1);           // 无科技子弹不受影响
+});
+
+test("farmer harvest stays integer with global attack tech (crystal display regression)", () => {
+  const lv = new Array(42).fill(0);
+  lv[4] = 5; // #5 战略中心 L5 = 26%
+  const W = loadTech(lv, null);
+  const farmer = fakeUnit(1, { attack: 12 });
+  W.__techArmyInit(farmer);
+  const o = farmer.attack - 2;                 // 农民每趟采集入账 = attack - 2
+  assert.equal(Number.isInteger(o), true);     // 入账必须保持整数，否则水晶显示浮点尾巴
+  assert.equal(o, 10);
+  const eliteLv = new Array(42).fill(0);
+  eliteLv[4] = 5;
+  eliteLv[5] = 5; // #6 精英培育
+  const W2 = loadTech(eliteLv, null, () => 0.01);
+  const elite = fakeUnit(1, { attack: 12 });
+  W2.__techArmyInit(elite);
+  assert.equal(Number.isInteger(elite.attack - 2), true); // 精英×3 仍为整数
+  assert.equal(elite.attack, 36);
 });
 
 test("released bundle keeps every tech hook wired", () => {

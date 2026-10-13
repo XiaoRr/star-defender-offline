@@ -184,7 +184,9 @@ window.__techArmyInit = function (A) {
   const type = A.type;
   const ratio = A.totalHp > 0 ? A.hp / A.totalHp : 1;
   if (type === 1) A.totalHp *= 1 + T.pct(3);              // 3 强化农民：血量+n%
-  A.attack *= 1 + T.pct(5);                               // 5 战略中心：全场伤害+n%
+  // 5 战略中心：全场伤害+n%。农民的 attack 是采集量（原版 floor 取整后逐次 money+=attack-2 入账），
+  // 乘小数会让水晶产生浮点尾巴（如 390.000000000006），农民也无战斗作用，故排除。
+  if (type !== 1) A.attack *= 1 + T.pct(5);
   if (type === 2 && T.level(16) > 0) {                    // 16 强化针：攻击/攻速/移速+100%
     A.attack *= 2;
     A.cdTime /= 2;
