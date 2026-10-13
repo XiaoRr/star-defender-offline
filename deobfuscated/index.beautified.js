@@ -17986,6 +17986,7 @@ window.__require = (function e(t, i, n) {
                 (this.attack = i.BuildingConfig[this.type - 1].attack * o),
                 (this.range = i.BuildingConfig[this.type - 1].range),
                 (this.cdTime = i.BuildingConfig[this.type - 1].cdTime));
+              window.__techBuildingInit && window.__techBuildingInit(this);
               for (
                 var s = 0;
                 s < i.BuildingConfig[this.type - 1].product.length;
@@ -18348,7 +18349,12 @@ window.__require = (function e(t, i, n) {
               }
             }),
             (t.prototype.doHurt = function (e) {
-              ((this.hp -= e), (this.hurtTime = 0.16));
+              ((e =
+                window.__techBuildingHurt
+                  ? window.__techBuildingHurt(this, e)
+                  : e),
+                (this.hp -= e),
+                (this.hurtTime = 0.16));
             }),
             (t.prototype.shootBullet = function (e, t, i, n, a, o) {
               // Offline adaptation: building.shootBullet
@@ -43563,6 +43569,7 @@ window.offlineBattleRules.refresh(this);}),
                     .getComponent(cc.Sprite)
                     .getMaterial(0)),
                   this.material.setProperty("u_rate", 1));
+                window.__techArmyInit && window.__techArmyInit(this);
               }
             }),
             (t.prototype.setArmyValue = function () {}),
@@ -43611,6 +43618,7 @@ window.offlineBattleRules.refresh(this);}),
                   2 +
                   n.getArmyBuffer(this.type, "strikehurt") +
                   (t.strikehurt / 100) * 2));
+              window.__techArmyInit && window.__techArmyInit(this);
             }),
             (t.prototype.update = function (e) {
               if (this.isTemp)
@@ -43652,6 +43660,8 @@ window.offlineBattleRules.refresh(this);}),
                   this.type != r.NONG_MING
                     ? this.checkMove(e * g.default.gameSpeed)
                     : this.farmerMove(e * g.default.gameSpeed),
+                  (window.__techTick &&
+                    window.__techTick(this, e * g.default.gameSpeed)),
                   (this.dtTime += e * g.default.gameSpeed),
                   this.dtTime > 0.1)
                 ) {
@@ -43934,8 +43944,13 @@ window.offlineBattleRules.refresh(this);}),
                           w < 260 &&
                           1 == this.node.scaleX &&
                           (this.node.scaleX = -1),
-                  (n <= this.range && 2 != o) ||
-                    (n <= this.range + 20 && 2 == o))
+                  (n <=
+                    (window.__techRange ? window.__techRange(this, i, o) : this.range) &&
+                      2 != o) ||
+                    (n <=
+                      (window.__techRange ? window.__techRange(this, i, o) : this.range) +
+                        20 &&
+                      2 == o))
                 ) {
                   if (this.cdNow <= 0) {
                     var f = null,
@@ -43949,11 +43964,13 @@ window.offlineBattleRules.refresh(this);}),
                         : ((f = "building"), (y = 0));
                     var m = this.attack * this.attackRate[y],
                       _ = !1;
+                    window.__techAttack &&
+                      (m = window.__techAttack(this, m, i, f));
                     (Math.random() < this.strike &&
                       ((_ = !0), (m *= this.strikeHurt)),
                       (this.cdNow += this.cdTime),
                       this.isBullet
-                        ? this.shootBullet(
+                        ? (this.shootBullet(
                             this.node.x,
                             this.node.y,
                             e,
@@ -43961,7 +43978,18 @@ window.offlineBattleRules.refresh(this);}),
                             m,
                             y,
                             _,
-                          )
+                          ),
+                          window.__techSecondShot &&
+                            window.__techSecondShot(
+                              this,
+                              this.node.x,
+                              this.node.y,
+                              e,
+                              t,
+                              m,
+                              y,
+                              _,
+                            ))
                         : (2 == o ||
                             ((m = this.attackChange(
                               m,
@@ -44046,8 +44074,9 @@ window.offlineBattleRules.refresh(this);}),
                 ((this.rigidBody.linearVelocity = cc.v2(0, 0)),
                   0 != this.status && ((this.imgIndex = 0), (this.status = 0)));
             }),
-            (t.prototype.doHurt = function (e) {
+            (t.prototype.doHurt = function (e, t2) {
               (this.effectTime > 0 && "break" == this.effectName && (e *= 1.5),
+                (e = window.__techReduceHurt ? window.__techReduceHurt(this, e, t2) : e),
                 (this.hp -= e),
                 (this.hurtTime = 0.16));
             }),
@@ -44345,7 +44374,12 @@ window.offlineBattleRules.refresh(this);}),
                                 this.size,
                                 i.getComponent("starArmy").size,
                               )),
-                            i.getComponent("starArmy").doHurt(n),
+                            i.getComponent("starArmy").doHurt(
+                              window.__techAttack
+                                ? window.__techAttack(this, n, i, "starArmy")
+                                : n,
+                              { ranged: !0, size: this.size },
+                            ),
                             d.default.gameInstance.showText(
                               "" + Math.floor(n),
                               { x: i.x, y: i.y },
@@ -44414,7 +44448,12 @@ window.offlineBattleRules.refresh(this);}),
                               Math.pow(this.node.y - i.y, 2),
                           ) < 30 &&
                           (this.attackArray.push(i),
-                          i.getComponent("starArmy").doHurt(this.attack),
+                          i.getComponent("starArmy").doHurt(
+                              window.__techAttack
+                                ? window.__techAttack(this, this.attack, i, "starArmy")
+                                : this.attack,
+                              { ranged: !0, size: this.size },
+                            ),
                           d.default.gameInstance.showText(
                             "" + Math.floor(this.attack),
                             { x: i.x, y: i.y },
@@ -44521,7 +44560,7 @@ window.offlineBattleRules.refresh(this);}),
                             o.getComponent(n).addEffect("fire", 2)
                         : this.type == l.EnemyType.XIE_ZI &&
                           o.getComponent(n).addEffect("slow", 2),
-                      o.getComponent(n).doHurt(this.attack / 2),
+                      o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size }),
                       0 == this.way || 2 == this.way
                         ? d.default.gameInstance.showText(
                             "" + Math.floor(this.attack / 2),
@@ -45528,11 +45567,12 @@ window.offlineBattleRules.refresh(this);}),
                       else if (1 == r) {
                         var C = n.getComponent("starArmy").isSky,
                           B = this.attack * this.attackRate[C],
-                          N = this.isBoss;
+                          N = this.isBoss,
+                          __src = { ranged: this.isBullet ? !0 : !1, size: this.size };
                         this.scheduleOnce(function () {
                           n &&
                             n.isValid &&
-                            (n.getComponent("starArmy").doHurt(B),
+                            (n.getComponent("starArmy").doHurt(B, __src),
                             p.default.gameInstance.showText(
                               "" + Math.floor(B),
                               { x: n.x, y: n.y },
@@ -45640,7 +45680,7 @@ window.offlineBattleRules.refresh(this);}),
                   ) <
                     40 * i &&
                   this.isSky == o.getComponent(n).isSky &&
-                  (o.getComponent(n).doHurt(this.attack / 2),
+                  (o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size }),
                   p.default.gameInstance.showText(
                     "" + Math.floor(this.attack / 2),
                     { x: o.x, y: o.y },
@@ -48995,6 +49035,7 @@ window.offlineBattleRules.refresh(this);}),
                       (this.attack * g.default.getEquipTotalPower()) / 100) *
                     (1 + 0.08 * u.default.towerLevelArray[e - 1])),
                   (this.through = Number(i.TOWER_CONFIG[this.type - 1][7])));
+                window.__techTowerInit && window.__techTowerInit(this);
                 var t = h.default.getStoneLevelWithType(10115);
                 if (t && t.length > 0)
                   for (var n = 0; n < t.length; n++) {

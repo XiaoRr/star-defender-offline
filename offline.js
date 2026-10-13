@@ -153,3 +153,144 @@ window.offlineSave = (() => {
   }
   return {validate,export:exportSave,import:importSave};
 })();
+
+// ===== 战略科技离线实装层（iteration 1：数值乘区类）=====
+// 公式与原版科技面板一致：value(L) = min + (max-min)/5 * (L-1)，L>=1；等级 0 无效果。
+window.offlineTech = (() => {
+  const RANGES = {1:[10,30],2:[10,30],3:[20,100],4:[10,20],5:[10,20],6:[10,20],7:[2,4],8:[10,50],9:[0.6,1],10:[10,30],11:[10,50],12:[10,30],13:[10,50],14:[60,100],15:[5,9],16:[50,20],17:[100,200],18:[2,4],19:[10,50],20:[5,25],21:[60,30],22:[10,30],23:[10,30],24:[2,4],25:[60,100],26:[10,30],27:[40,80],28:[10,30],29:[10,30],30:[5,25],31:[5,25],32:[60,100],33:[10,20],34:[30,60],35:[10,20],36:[200,500],37:[10,30],38:[10,30],39:[50,30],40:[60,100],41:[8,4],42:[100,200]};
+  const RANGES2 = {34:[15,35]};
+  function player() { try { return window.__require('playerData').default; } catch (e) { return null; } }
+  function level(id) { const a = player()?.techLevelArray; return a ? a[id - 1] || 0 : 0; }
+  function value(id, lv) {
+    const r = RANGES[id];
+    if (!r || !(lv >= 1)) return 0;
+    return r[0] + ((r[1] - r[0]) / 5) * (Math.min(lv, 5) - 1);
+  }
+  function value2(id, lv) {
+    const r = RANGES2[id];
+    if (!r || !(lv >= 1)) return 0;
+    return r[0] + ((r[1] - r[0]) / 5) * (Math.min(lv, 5) - 1);
+  }
+  const pct = id => value(id, level(id)) / 100;
+  const pct2 = id => value2(id, level(id)) / 100;
+  return { RANGES, RANGES2, level, value, value2, pct, pct2 };
+})();
+
+// —— 以下钩子由主包战斗代码在关键计算点调用；unit 为组件实例（含 type/pvpWay/属性）——
+// 兵种/建筑属性初始化与刷新后追加科技乘区。
+window.__techArmyInit = function (A) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0) return;
+  const type = A.type;
+  const ratio = A.totalHp > 0 ? A.hp / A.totalHp : 1;
+  if (type === 1) A.totalHp *= 1 + T.pct(3);              // 3 强化农民：血量+n%
+  A.attack *= 1 + T.pct(5);                               // 5 战略中心：全场伤害+n%
+  if (type === 2 && T.level(16) > 0) {                    // 16 强化针：攻击/攻速/移速+100%
+    A.attack *= 2;
+    A.cdTime /= 2;
+    A.speed *= 2;
+  }
+  if (type === 6 && T.level(26) > 0) {                    // 26 高射炮：伤害/射程+n%，移速-30%
+    A.attack *= 1 + T.pct(26);
+    A.range *= 1 + T.pct(26);
+    A.speed *= 0.7;
+  }
+  if (type === 8) A.range *= 1 + T.pct(28);               // 28 射程：战机射程+n%（对空翻倍在索敌距离）
+  A.hp = A.totalHp * ratio;
+};
+window.__techTowerInit = function (W) {
+  const T = window.offlineTech;
+  if (!T) return;
+  W.range *= 1 + T.pct(37);                               // 37 炮塔射程+n%
+  const s = 1 + T.pct(38);                                // 38 炮塔射速+n%
+  if (s > 1) { W.attackCDTime /= s; W.shootCDTime /= s; }
+};
+window.__techBuildingInit = function (B) {
+  const T = window.offlineTech;
+  if (!T || B.pvpWay !== 0) return;
+  if (B.type === 1) B.attack *= 1 + T.pct(2);             // 2 强化攻击：基地攻击+n%
+};
+// 有效射程（战机对空翻倍）；targetNode 未选中时按对地计算。
+window.__techRange = function (A, targetNode, kind) {
+  const T = window.offlineTech;
+  let range = A.range;
+  if (T && A.pvpWay === 0 && A.type === 8 && targetNode) {
+    let sky = 0;
+    try {
+      if (kind === 1) sky = targetNode.getComponent("starArmy").isSky;
+      else if (kind === 0) sky = targetNode.getComponent("starEnemy").isSky;
+    } catch (e) { sky = 0; }
+    range *= 1 + T.pct(28) * (sky ? 2 : 1);
+  }
+  return range;
+};
+// 出手伤害乘区（近战在 checkMove、子弹在命中点调用）。
+window.__techAttack = function (A, dmg, targetNode, compName) {
+  const T = window.offlineTech;
+  if (!T || !targetNode) return dmg;
+  const way = A.pvpWay !== undefined ? A.pvpWay : A.way;
+  if (way !== 0) return dmg;
+  const type = A.type;
+  let tc = null;
+  try { tc = targetNode.getComponent(compName); } catch (e) { tc = null; }
+  if (tc) {
+    if (type === 6 && tc.size === 2) dmg *= 1 + T.pct(20);   // 20 压制：坦克对中型+n%
+    if (type === 10 && tc.size === 3) dmg *= 1 + T.pct(30);  // 30 重打击：大和舰对大型+n%
+    if (type === 8 && tc.isSky) dmg *= 1 + T.pct(31);        // 31 制空：战机对空+n%
+    if (type === 2 && tc.invisible) dmg *= 1 + T.pct(10);    // 10 精准：对隐身（当前离线无敌方隐身单位，挂起待用）
+    if (type === 2) {                                        // 13 合纵：300px 内每台机枪兵 +25% 档位，5 台吃满
+      try {
+        const gi = window.__require('gameData').default.gameInstance;
+        if (gi && gi.armyArray) {
+          let count = 0;
+          for (let k = 0; k < gi.armyArray.length; k++) {
+            const nd = gi.armyArray[k];
+            if (!nd || !nd.isValid) continue;
+            const c = nd.getComponent ? nd.getComponent('starArmy') : null;
+            if (c && c.type === 2 && c.pvpWay === 0) {
+              const dx = nd.x - targetNode.x, dy = nd.y - targetNode.y;
+              if (dx * dx + dy * dy <= 300 * 300) count++;
+            }
+          }
+          if (count > 1) dmg *= 1 + (T.pct(13) * Math.min(count - 1, 4)) / 4;
+        }
+      } catch (e) {}
+    }
+  }
+  return dmg;
+};
+// 受伤乘区（starArmy.doHurt 内部调用；src 可选 {ranged,size}）。
+window.__techReduceHurt = function (A, dmg, src) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0) return dmg;
+  dmg *= 1 - T.pct(4);                                    // 4 指挥中心：全场受伤-n%
+  if (A.type === 4) {
+    if (src && src.ranged) dmg *= 1 - T.pct(12);          // 12 远程防御：护盾兵受远程-n%
+    if (T.level(16) > 0) dmg *= 1 + T.pct(16);            // 16 强化针：受伤+n%（50%→20% 随等级降低）
+  }
+  if (A.type === 6 && src && src.size === 1) dmg *= 1 - T.pct(23); // 23 重甲防护：坦克受小型-n%
+  return dmg;
+};
+window.__techBuildingHurt = function (B, dmg) {
+  const T = window.offlineTech;
+  if (!T || B.pvpWay !== 0) return dmg;
+  if (B.type === 1) dmg *= (1 - T.pct(1)) * (1 - T.pct(4)); // 1 强化防御 × 4 指挥中心：基地受伤降低
+  return dmg;
+};
+// 每帧钩子：护盾兵自疗（每秒回复最大血量 n%）。
+window.__techTick = function (A, dt) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 4) return;
+  if (T.level(15) < 1 || A.hp <= 0 || A.hp >= A.totalHp) return;
+  A.__regenT = (A.__regenT || 0) + dt;
+  if (A.__regenT >= 1) {
+    A.__regenT -= 1;
+    A.hp = Math.min(A.totalHp, A.hp + A.totalHp * T.pct(15));
+  }
+};
+// 大和舰连射：出手后 n% 概率补一发 50% 伤害的子弹。
+window.__techSecondShot = function (A, sx, sy, tx, ty, dmg, isSky, crit) {
+  const T = window.offlineTech;
+  if (!T || !A.shootBullet || A.pvpWay !== 0 || A.type !== 10) return;
+  if (Math.random() < T.pct(33)) A.shootBullet(sx, sy, tx, ty, dmg * 0.5, isSky, crit);
+};
