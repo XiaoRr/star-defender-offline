@@ -294,3 +294,281 @@ window.__techSecondShot = function (A, sx, sy, tx, ty, dmg, isSky, crit) {
   if (!T || !A.shootBullet || A.pvpWay !== 0 || A.type !== 10) return;
   if (Math.random() < T.pct(33)) A.shootBullet(sx, sy, tx, ty, dmg * 0.5, isSky, crit);
 };
+
+// ===== 战略科技离线实装层（iteration 2：触发/定时类）=====
+const __ARMY_SKY = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 1, 9: 1, 10: 1 };
+window.__armyIsSky = t => __ARMY_SKY[t] || 0;
+function __techSide() {
+  try {
+    const gi = window.__require('gameData').default.gameInstance;
+    if (!gi) return null;
+    return 0 === gi.gameMode
+      ? { list: gi.enemyArray || [], comp: "starEnemy" }
+      : { list: gi.armyArrayOther || [], comp: "starArmy" };
+  } catch (e) { return null; }
+}
+// 出手阶段（近战挂点）：11 燃烧 DoT、14 贯穿喷射。子弹系兵种原样返回。
+window.__techShoot = function (A, dmg, targetNode, compName) {
+  const T = window.offlineTech;
+  if (!T || !targetNode || A.pvpWay !== 0) return dmg;
+  let tc = null;
+  try { tc = targetNode.getComponent(compName); } catch (e) { tc = null; }
+  if (!tc) return dmg;
+  if (A.type === 3 && T.level(11) > 0) {                   // 11 燃烧：每0.5秒攻击的n%，持续2秒
+    for (let k = 1; k <= 4; k++) {
+      A.scheduleOnce(() => {
+        try {
+          if (targetNode.isValid) {
+            const c = targetNode.getComponent(compName);
+            if (c && c.hp > 0) c.doHurt(A.attack * T.pct(11));
+          }
+        } catch (e) {}
+      }, k * 0.5);
+    }
+  }
+  if (A.type === 3 && T.level(14) > 0) {                   // 14 贯穿喷射：目标身后90px内 n%
+    try {
+      const side = __techSide();
+      if (side) {
+        const ang = Math.atan2(targetNode.y - A.node.y, targetNode.x - A.node.x);
+        const px = targetNode.x + Math.cos(ang) * 90, py = targetNode.y + Math.sin(ang) * 90;
+        for (const nd of side.list) {
+          if (!nd || !nd.isValid || nd === targetNode) continue;
+          const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+          if (!c || c.hp <= 0) continue;
+          const dx = nd.x - px, dy = nd.y - py;
+          if (dx * dx + dy * dy <= 90 * 90) c.doHurt(dmg * T.pct(14));
+        }
+      }
+    } catch (e) {}
+  }
+  return dmg;
+};
+// 命中阶段追加：19 凝滞（冰雷车命中降低敌攻移速3秒）。
+window.__techAfterHit = function (A, targetNode, compName) {
+  const T = window.offlineTech;
+  if (!T || !targetNode || A.pvpWay !== 0 || A.type !== 5 || T.level(19) < 1) return;
+  try {
+    const tc = targetNode.getComponent(compName);
+    if (tc) { tc.__slowUntil = Date.now() + 3000; tc.__slowPct = T.pct(19); }
+  } catch (e) {}
+};
+// 敌方受凝滞时的攻移速乘率（星军 update 的 dt 乘区）。
+window.__techEnemySlow = function (u) {
+  const T = window.offlineTech;
+  if (!T || !u || !u.__slowUntil || Date.now() >= u.__slowUntil) return 1;
+  return 1 - (u.__slowPct || 0);
+};
+// 出手阶段（子弹挂点旁路）：25 强化冰雷（每5次攻击在目标区域 AoE + 冻结）。
+window.__techOnShoot = function (A, sx, sy, tx, ty, dmg, isSky, crit) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 5) return;
+  A.__iceN = (A.__iceN || 0) + 1;
+  if (T.level(25) < 1 || A.__iceN % 5 !== 0) return;
+  try {
+    const side = __techSide();
+    if (!side) return;
+    for (const nd of side.list) {
+      if (!nd || !nd.isValid) continue;
+      const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+      if (!c || c.hp <= 0) continue;
+      const dx = nd.x - tx, dy = nd.y - ty;
+      if (dx * dx + dy * dy <= 160 * 160) {
+        c.doHurt(dmg * T.pct(25));
+        c.addEffect && c.addEffect("ice", 1.2);
+      }
+    }
+  } catch (e) {}
+};
+// 24 坚毅：机器人被摧毁后原地继续攻击 n 秒。
+window.__techArmyKeepAlive = function (A) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 7 || T.level(24) < 1) return false;
+  if (!A.__fortitude) {
+    A.__fortitude = 1;
+    A.__fortitudeUntil = Date.now() + T.value(24, T.level(24)) * 1000;
+    return true;
+  }
+  return Date.now() < A.__fortitudeUntil;
+};
+// 17 自爆：喷火兵死亡时对周围 150px 造成攻击 n% 伤害。
+window.__techArmyDeath = function (A) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 3 || T.level(17) < 1) return;
+  try {
+    const side = __techSide();
+    if (!side) return;
+    for (const nd of side.list) {
+      if (!nd || !nd.isValid) continue;
+      const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+      if (!c || c.hp <= 0) continue;
+      const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+      if (dx * dx + dy * dy <= 150 * 150) c.doHurt(A.attack * T.pct(17));
+    }
+    window.cc &&
+      cc.director.getScene() &&
+      window.__require('gameData').default.gameInstance.addEffect(
+        "fire", 1, { x: A.node.x, y: A.node.y });
+  } catch (e) {}
+};
+// 7 修复强化：修复技能附加免疫伤害 n 秒。
+window.__techRepairSkill = function (scene) {
+  const T = window.offlineTech;
+  if (!T || T.level(7) < 1 || !scene || !scene.armyArray) return;
+  const ms = T.value(7, T.level(7)) * 1000, now = Date.now();
+  for (const nd of scene.armyArray) {
+    if (!nd || !nd.isValid) continue;
+    const c = nd.getComponent ? nd.getComponent('starArmy') : null;
+    if (c && c.pvpWay === 0) c.__immuneUntil = now + ms;
+  }
+};
+// 8 核能强化：核弹的 blood 伤害之外追加 n%（与 blood 同基数）。
+window.__techNuke = function (E) {
+  const T = window.offlineTech;
+  if (!T || !E || T.level(8) < 1 || E.hp <= 0) return;
+  E.doHurt(E.totalHp / (E.isBoss ? 4 : 3) * T.pct(8));
+};
+// 9 维修：基地受损后每农民每秒修复 n%。
+window.__techSceneTick = function (scene, dt) {
+  const T = window.offlineTech;
+  if (!T || T.level(9) < 1 || !scene || !scene.buildingArray || !scene.armyArray) return;
+  try {
+    let base = null, farmers = 0;
+    for (const nd of scene.buildingArray) {
+      if (!nd || !nd.isValid) continue;
+      const c = nd.getComponent ? nd.getComponent('building') : null;
+      if (c && c.type === 1 && !c.isOver && c.hp > 0 && c.hp < c.totalHp) base = c;
+    }
+    if (!base) return;
+    for (const nd of scene.armyArray) {
+      if (!nd || !nd.isValid) continue;
+      const c = nd.getComponent ? nd.getComponent('starArmy') : null;
+      if (c && c.type === 1 && c.pvpWay === 0 && c.hp > 0) farmers++;
+    }
+    if (farmers > 0)
+      base.hp = Math.min(base.totalHp, base.hp + base.totalHp * T.pct(9) * farmers * dt);
+  } catch (e) {}
+};
+// 41 战时修复 / 42 震荡波：炮塔（建筑 type 5）死亡与复活钩子（建筑 update 帧调用）。
+window.__techBuildingFrame = function (B) {
+  const T = window.offlineTech;
+  if (!T || B.pvpWay !== 0 || B.type !== 5) return;
+  const now = Date.now();
+  if (B.isOver) {
+    const lv41 = T.level(41);
+    if (lv41 > 0 && B.__reviveAt && !B.__revived && now >= B.__reviveAt) {
+      B.__revived = 1;
+      B.isOver = 0;
+      B.hp = B.totalHp / 2;
+      B.status = 1;
+      B.imgIndex = 0;
+    }
+    return;
+  }
+  if (B.hp <= 0) {
+    if (T.level(42) > 0 && !B.__shocked) {                 // 42 震荡波：200px AoE + 击退
+      B.__shocked = 1;
+      try {
+        const side = __techSide();
+        if (side) {
+          for (const nd of side.list) {
+            if (!nd || !nd.isValid) continue;
+            const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+            if (!c || c.hp <= 0) continue;
+            const dx = nd.x - B.node.x, dy = nd.y - B.node.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 <= 200 * 200) {
+              c.doHurt(B.attack * T.pct(42));
+              if (c.rigidBody && d2 > 1) {
+                const d = Math.sqrt(d2);
+                c.rigidBody.linearVelocity = window.cc.v2((dx / d) * 180, (dy / d) * 180);
+              }
+            }
+          }
+        }
+      } catch (e) {}
+    }
+    const lv41 = T.level(41);
+    if (lv41 > 0 && !B.__reviveAt)
+      B.__reviveAt = now + T.value(41, lv41) * 1000;       // n 秒后恢复 50%
+  }
+};
+
+// ===== iteration 2 扩展：精英农民、闪避、免疫、光环、地空导弹 =====
+const __techOrigInit = window.__techArmyInit;
+window.__techArmyInit = function (A) {
+  const T = window.offlineTech;
+  if (T && A.pvpWay === 0 && A.type === 1 && A.__eliteChecked === undefined) {
+    A.__eliteChecked = 1;                                  // 6 精英培育：生产时一次性判定
+    if (Math.random() < T.pct(6)) A.__elite = 1;
+  }
+  __techOrigInit(A);
+  if (T && A.__elite) {
+    A.totalHp *= 2;                                        // 精英农民：血量×2
+    A.attack *= 3;                                         // 攻击×3
+    A.hp = A.totalHp * (A.totalHp > 0 ? A.hp / A.totalHp : 1);
+    try { A.node.getChildByName("node").color = window.cc.Color.YELLOW; } catch (e) {}
+  }
+};
+const __techOrigHurt = window.__techReduceHurt;
+window.__techReduceHurt = function (A, dmg, src) {
+  const T = window.offlineTech;
+  if (T && A.__immuneUntil && Date.now() < A.__immuneUntil) return 0;   // 7 修复强化免疫
+  if (T && src && A.pvpWay === 0) {
+    if (A.type === 5 && T.level(22) > 0 && Math.random() < T.pct(22)) return 0; // 22 机动闪避
+    if (A.type === 8 && T.level(34) > 0) {                                              // 34 隐身躲避
+      const air = src.isSky !== undefined ? src.isSky : 0;
+      if (Math.random() < (air ? T.pct2(34) : T.pct(34))) return 0;
+    }
+  }
+  return __techOrigHurt(A, dmg, src);
+};
+const __techOrigTick = window.__techTick;
+window.__techTick = function (A, dt) {
+  __techOrigTick(A, dt);
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0) return;
+  if (T.level(18) > 0) {                                   // 18 群体医疗：200px 内人型单位
+    A.__auraT = (A.__auraT || 0) + dt;
+    if (A.__auraT >= 0.8) {
+      A.__auraT = 0;
+      try {
+        const gi = window.__require('gameData').default.gameInstance;
+        const now = Date.now();
+        for (const nd of (gi ? gi.armyArray : []) || []) {
+          if (!nd || !nd.isValid || nd === A.node) continue;
+          const c = nd.getComponent ? nd.getComponent('starArmy') : null;
+          if (!c || c.pvpWay !== 0 || [1, 2, 3, 4].indexOf(c.type) < 0) continue;
+          if (c.hp <= 0 || c.hp >= c.totalHp) continue;
+          const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+          if (dx * dx + dy * dy > 200 * 200) continue;
+          if (now - (c.__auraStamp || 0) < 700) continue;  // 无法叠加
+          c.__auraStamp = now;
+          c.hp = Math.min(c.totalHp, c.hp + c.totalHp * T.pct(18) * 0.8);
+        }
+      } catch (e) {}
+    }
+  }
+  if (A.type === 7 && T.level(27) > 0) {                   // 27 地空导弹：每秒对射程内一个空中单位
+    A.__mslT = (A.__mslT || 0) + dt;
+    if (A.__mslT >= 1) {
+      A.__mslT = 0;
+      try {
+        const side = __techSide();
+        if (side) {
+          for (const nd of side.list) {
+            if (!nd || !nd.isValid) continue;
+            const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+            if (!c || !c.isSky || c.hp <= 0) continue;
+            const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+            const rr = (A.range || 0) + 40;
+            if (dx * dx + dy * dy <= rr * rr) {
+              c.doHurt(A.attack * T.pct(27));
+              break;
+            }
+          }
+        }
+      } catch (e) {}
+    }
+  }
+};

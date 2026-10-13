@@ -18243,7 +18243,9 @@ window.__require = (function e(t, i, n) {
               }
               !g.default.gameInstance.isPause &&
                 g.default.gameInstance.isBattle &&
-                (this.hp <= 0 &&
+                ((window.__techBuildingFrame &&
+                    window.__techBuildingFrame(this)),
+                  this.hp <= 0 &&
                   !this.isOver &&
                   ((this.isOver = !0),
                   1 == g.default.gameMode &&
@@ -26011,7 +26013,9 @@ window.offlineBattleRules.refresh(this);}),
                   : (a.active = !1),
                   !this.isPause &&
                     this.isBattle &&
-                    (this.skill1Time > 0 &&
+                    (window.__techSceneTick &&
+                      window.__techSceneTick(this, e * v.default.gameSpeed),
+                      this.skill1Time > 0 &&
                       ((this.skill1Time -= e * v.default.gameSpeed),
                       this.skill1Time < 0 && (this.skill1Time = 0)),
                     this.skill2Time > 0 &&
@@ -26487,6 +26491,8 @@ window.offlineBattleRules.refresh(this);}),
                           this.armyArray[t]
                             .getComponent("starArmy")
                             .addEffect("relive", 3, !0);
+                        window.__techRepairSkill &&
+                          window.__techRepairSkill(this);
                         for (t = 0; t < this.buildingArray.length; t++)
                           (i = this.buildingArray[t].getComponent("building"))
                             .isOver
@@ -26549,7 +26555,11 @@ window.offlineBattleRules.refresh(this);}),
                             for (var e = 0; e < t.enemyArray.length; e++)
                               t.enemyArray[e]
                                 .getComponent("starEnemy")
-                                .addEffect("blood", 3, !0);
+                                .addEffect("blood", 3, !0),
+                            (window.__techNuke &&
+                              window.__techNuke(
+                                t.enemyArray[e].getComponent("starEnemy"),
+                              ));
                           }, 3.2),
                           [3, 4]
                         );
@@ -39036,6 +39046,8 @@ window.offlineBattleRules.refresh(this);}),
                           this.armyArray[t]
                             .getComponent("starArmy")
                             .addEffect("relive", 3, !0);
+                        window.__techRepairSkill &&
+                          window.__techRepairSkill(this);
                         for (t = 0; t < this.buildingArray.length; t++)
                           (i = this.buildingArray[t].getComponent("building"))
                             .isOver
@@ -39071,6 +39083,7 @@ window.offlineBattleRules.refresh(this);}),
                   this.armyArrayOther[e]
                     .getComponent("starArmy")
                     .addEffect("relive", 3, !0);
+                window.__techRepairSkill && window.__techRepairSkill(this);
                 for (e = 0; e < this.buildingArrayOther.length; e++) {
                   var t = this.buildingArrayOther[e].getComponent("building");
                   if (t.isOver) {
@@ -43700,7 +43713,10 @@ window.offlineBattleRules.refresh(this);}),
                   this.hp <= 0)
                 ) {
                   var i;
-                  (f.wechat.vibrateShort(),
+                  (window.__techArmyKeepAlive &&
+                    window.__techArmyKeepAlive(this)) ||
+                    (f.wechat.vibrateShort(),
+                    window.__techArmyDeath && window.__techArmyDeath(this),
                     this.type == r.NONG_MING
                       ? h.default.inst.playAudio("starcraft/dead_farmer")
                       : this.type == r.JI_QIANG_BING
@@ -43964,8 +43980,8 @@ window.offlineBattleRules.refresh(this);}),
                         : ((f = "building"), (y = 0));
                     var m = this.attack * this.attackRate[y],
                       _ = !1;
-                    window.__techAttack &&
-                      (m = window.__techAttack(this, m, i, f));
+                    window.__techShoot &&
+                      (m = window.__techShoot(this, m, i, f));
                     (Math.random() < this.strike &&
                       ((_ = !0), (m *= this.strikeHurt)),
                       (this.cdNow += this.cdTime),
@@ -43989,6 +44005,17 @@ window.offlineBattleRules.refresh(this);}),
                               m,
                               y,
                               _,
+                            ),
+                          window.__techOnShoot &&
+                            window.__techOnShoot(
+                              this,
+                              this.node.x,
+                              this.node.y,
+                              e,
+                              t,
+                              m,
+                              y,
+                              _,
                             ))
                         : (2 == o ||
                             ((m = this.attackChange(
@@ -43999,7 +44026,7 @@ window.offlineBattleRules.refresh(this);}),
                             i.getComponent(f).isFly ||
                               (this.type == r.PENG_HUO_BING &&
                                 i.getComponent(f).addEffect("fire", 1.5))),
-                          i.getComponent(f).doHurt(m),
+                          i.getComponent(f).doHurt(m, { size: this.size, isSky: this.isSky ? 1 : 0 }),
                           g.default.gameInstance.showText(
                             "" + Math.floor(m),
                             { x: i.x, y: i.y },
@@ -44378,7 +44405,13 @@ window.offlineBattleRules.refresh(this);}),
                               window.__techAttack
                                 ? window.__techAttack(this, n, i, "starArmy")
                                 : n,
-                              { ranged: !0, size: this.size },
+                              {
+                              ranged: !0,
+                              size: this.size,
+                              isSky: window.__armyIsSky ? window.__armyIsSky(this.type) : 0,
+                            },
+                            window.__techAfterHit &&
+                              window.__techAfterHit(this, i, "starArmy"),
                             ),
                             d.default.gameInstance.showText(
                               "" + Math.floor(n),
@@ -44452,7 +44485,13 @@ window.offlineBattleRules.refresh(this);}),
                               window.__techAttack
                                 ? window.__techAttack(this, this.attack, i, "starArmy")
                                 : this.attack,
-                              { ranged: !0, size: this.size },
+                              {
+                              ranged: !0,
+                              size: this.size,
+                              isSky: window.__armyIsSky ? window.__armyIsSky(this.type) : 0,
+                            },
+                            window.__techAfterHit &&
+                              window.__techAfterHit(this, i, "starArmy"),
                             ),
                           d.default.gameInstance.showText(
                             "" + Math.floor(this.attack),
@@ -44560,7 +44599,7 @@ window.offlineBattleRules.refresh(this);}),
                             o.getComponent(n).addEffect("fire", 2)
                         : this.type == l.EnemyType.XIE_ZI &&
                           o.getComponent(n).addEffect("slow", 2),
-                      o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size }),
+                      o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size, isSky: this.isSky ? 1 : 0 }),
                       0 == this.way || 2 == this.way
                         ? d.default.gameInstance.showText(
                             "" + Math.floor(this.attack / 2),
@@ -45437,8 +45476,16 @@ window.offlineBattleRules.refresh(this);}),
                   (this.effectTime > 0 &&
                     ((this.effectTime -= e * p.default.gameSpeed),
                     "ice" == this.effectName)) ||
-                    (this.cdNow > 0 && (this.cdNow -= e * p.default.gameSpeed),
-                    this.checkMove(e * p.default.gameSpeed),
+                    (this.cdNow > 0 &&
+                      (this.cdNow -=
+                        e *
+                        p.default.gameSpeed *
+                        (window.__techEnemySlow ? window.__techEnemySlow(this) : 1)),
+                      this.checkMove(
+                        e *
+                          p.default.gameSpeed *
+                          (window.__techEnemySlow ? window.__techEnemySlow(this) : 1),
+                      ),
                     (this.dtTime += e * p.default.gameSpeed),
                     this.dtTime > 0.06 &&
                       ((this.dtTime -= 0.06),
@@ -45568,7 +45615,11 @@ window.offlineBattleRules.refresh(this);}),
                         var C = n.getComponent("starArmy").isSky,
                           B = this.attack * this.attackRate[C],
                           N = this.isBoss,
-                          __src = { ranged: this.isBullet ? !0 : !1, size: this.size };
+                          __src = {
+                            ranged: this.isBullet ? !0 : !1,
+                            size: this.size,
+                            isSky: this.isSky ? 1 : 0,
+                          };
                         this.scheduleOnce(function () {
                           n &&
                             n.isValid &&
@@ -45680,7 +45731,7 @@ window.offlineBattleRules.refresh(this);}),
                   ) <
                     40 * i &&
                   this.isSky == o.getComponent(n).isSky &&
-                  (o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size }),
+                  (o.getComponent(n).doHurt(this.attack / 2, { ranged: !0, size: this.size, isSky: this.isSky ? 1 : 0 }),
                   p.default.gameInstance.showText(
                     "" + Math.floor(this.attack / 2),
                     { x: o.x, y: o.y },
