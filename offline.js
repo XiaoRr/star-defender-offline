@@ -572,3 +572,161 @@ window.__techTick = function (A, dt) {
     }
   }
 };
+
+// ===== 战略科技离线实装层（iteration 3：子系统类收尾）=====
+const __techOrigTowerInit = window.__techTowerInit;
+window.__techTowerInit = function (W) {
+  __techOrigTowerInit(W);
+  const T = window.offlineTech;
+  if (!T) return;
+  if (T.level(39) > 0) W.attack *= 1 - T.pct(39);        // 39 多重弹：攻击力-n%
+  if (T.level(40) > 0) W.through += 1;                   // 40 穿甲弹：多贯穿一个目标
+};
+// 炮塔开火入口：39 同时发射两枚导弹（延迟 90ms 递归重发一次）。
+window.__techTowerMulti = function (W, e, t) {
+  const T = window.offlineTech;
+  if (!T || T.level(39) < 1 || W.__multiGuard) return;
+  W.__multiGuard = 1;
+  W.scheduleOnce(() => {
+    W.__multiGuard = 0;
+    try { W.isValid && W.shootBullet(e, t); } catch (err) {}
+  }, 0.09);
+};
+// 炮塔子弹标记（40 穿甲弹：首个目标全额，后续目标 n%）。
+window.__techTowerBullet = function (W, r) {
+  const T = window.offlineTech;
+  if (!T || T.level(40) < 1) return;
+  r.__towerPierce = 1;
+};
+window.__techPierceMul = function (b) {
+  const T = window.offlineTech;
+  if (!T || !b || !b.__towerPierce) return 1;
+  const used = (b.hasHitMinionArray || []).filter(Boolean).length;
+  return used > 0 ? T.pct(40) : 1;
+};
+// 21 双枪：机器人同时攻击目标+1（副目标补射）。
+window.__techSplitShot = function (A, sx, sy, tx, ty, dmg, isSky, crit) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 7 || T.level(21) < 1 || !A.shootBullet) return;
+  try {
+    const side = __techSide();
+    if (!side) return;
+    let best = null, bestD = 1e12;
+    for (const nd of side.list) {
+      if (!nd || !nd.isValid) continue;
+      if (Math.abs(nd.x - tx) < 10 && Math.abs(nd.y - ty) < 10) continue; // 主目标
+      const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+      if (!c || c.hp <= 0) continue;
+      const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+      if (dx * dx + dy * dy > (A.range + 30) * (A.range + 30)) continue;
+      const d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = nd; }
+    }
+    if (best) {
+      const c = best.getComponent(side.comp);
+      A.shootBullet(sx, sy, best.x, best.y, dmg, c.isSky ? 1 : 0, crit);
+    }
+  } catch (err) {}
+};
+// 29 防护罩 / 32 辐射弹：科技球周期光环（帧钩子内调用）。
+window.__techVesselTick = function (A, dt) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 9) return;
+  if (T.level(29) > 0) {                                 // 每3秒随机强化周围一个友军 n% 防御，持续3秒
+    A.__shieldT = (A.__shieldT || 0) + dt;
+    if (A.__shieldT >= 3) {
+      A.__shieldT = 0;
+      try {
+        const gi = window.__require('gameData').default.gameInstance;
+        const pool = [];
+        for (const nd of ((gi && gi.armyArray) || [])) {
+          if (!nd || !nd.isValid || nd === A.node) continue;
+          const c = nd.getComponent ? nd.getComponent('starArmy') : null;
+          if (!c || c.pvpWay !== 0 || c.hp <= 0) continue;
+          const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+          if (dx * dx + dy * dy <= 250 * 250) pool.push(c);
+        }
+        if (pool.length) {
+          const pick = pool[Math.floor(Math.random() * pool.length)];
+          pick.__shieldUntil = Date.now() + 3000;
+          pick.__shieldPct = T.pct(29);
+        }
+      } catch (e) {}
+    }
+  }
+  if (T.level(32) > 0) {                                 // 每5秒辐射弹：180px AoE，对小型×2
+    A.__radT = (A.__radT || 0) + dt;
+    if (A.__radT >= 5) {
+      A.__radT = 0;
+      try {
+        const side = __techSide();
+        if (side) {
+          for (const nd of side.list) {
+            if (!nd || !nd.isValid) continue;
+            const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+            if (!c || c.hp <= 0) continue;
+            const dx = nd.x - A.node.x, dy = nd.y - A.node.y;
+            if (dx * dx + dy * dy <= 180 * 180)
+              c.doHurt(A.attack * T.pct(32) * (c.size === 1 ? 2 : 1));
+          }
+        }
+      } catch (e) {}
+    }
+  }
+};
+// 36 大和炮：第5次攻击发射，秒杀非boss、对boss造成 n% 最大血量伤害，每场每舰仅1次。
+window.__techYamato = function (A, sx, sy, tx, ty, dmg, isSky, crit) {
+  const T = window.offlineTech;
+  if (!T || A.pvpWay !== 0 || A.type !== 10 || T.level(36) < 1) return;
+  A.__yamatoN = (A.__yamatoN || 0) + 1;
+  if (A.__yamatoN !== 5 || A.__yamatoUsed) return;
+  A.__yamatoUsed = 1;
+  try {
+    const side = __techSide();
+    if (!side) return;
+    for (const nd of side.list) {
+      if (!nd || !nd.isValid) continue;
+      if (Math.abs(nd.x - tx) > 60 || Math.abs(nd.y - ty) > 60) continue;
+      const c = nd.getComponent ? nd.getComponent(side.comp) : null;
+      if (!c || c.hp <= 0) continue;
+      c.doHurt(c.isBoss ? c.totalHp * T.pct(36) : 999999999);
+      break;
+    }
+  } catch (e) {}
+};
+
+// ===== iteration 3 扩展：双枪减攻、EMP、防护罩减伤、科技球帧钩子接线 =====
+const __techOrigInit3 = window.__techArmyInit;
+window.__techArmyInit = function (A) {
+  __techOrigInit3(A);
+  const T = window.offlineTech;
+  if (T && A.pvpWay === 0 && A.type === 7 && T.level(21) > 0)
+    A.attack *= 1 - T.pct(21);                             // 21 双枪：攻击力-n%
+};
+const __techOrigAttack3 = window.__techAttack;
+window.__techAttack = function (A, dmg, targetNode, compName) {
+  dmg = __techOrigAttack3(A, dmg, targetNode, compName);
+  const T = window.offlineTech;
+  if (!T || !targetNode || A.pvpWay !== 0 || A.type !== 9) return dmg;
+  try {
+    const tc = targetNode.getComponent(compName);
+    if (tc && tc.isBoss) {                                 // 35 EMP冲击：优先boss（伤害侧），削弱防御
+      if (tc.__empUntil && Date.now() < tc.__empUntil) dmg *= 1 + T.pct(35);
+      tc.__empUntil = Date.now() + 4000;
+      tc.__empPct = T.pct(35);
+    }
+  } catch (e) {}
+  return dmg;
+};
+const __techOrigHurt3 = window.__techReduceHurt;
+window.__techReduceHurt = function (A, dmg, src) {
+  const T = window.offlineTech;
+  if (T && A.__shieldUntil && Date.now() < A.__shieldUntil)   // 29 防护罩
+    dmg *= 1 - (A.__shieldPct || 0);
+  return __techOrigHurt3(A, dmg, src);
+};
+const __techOrigTick3 = window.__techTick;
+window.__techTick = function (A, dt) {
+  __techOrigTick3(A, dt);
+  window.__techVesselTick && window.__techVesselTick(A, dt);
+};

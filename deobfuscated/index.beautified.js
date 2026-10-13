@@ -20051,9 +20051,11 @@ window.__require = (function e(t, i, n) {
                               (o[0][1] = b),
                               (o[0][2] = w));
                           }
-                          (t[i]
-                            .getComponent("starEnemy")
-                            .doHurt(n.type, a, o, s),
+                          (window.__techPierceMul &&
+                              (a *= window.__techPierceMul(n, t[i])),
+                            t[i]
+                              .getComponent("starEnemy")
+                              .doHurt(n.type, a, o, s),
                             n.hasHitMinionArray.push(t[i]));
                           var C = t[i];
                           if (
@@ -44016,6 +44018,28 @@ window.offlineBattleRules.refresh(this);}),
                               m,
                               y,
                               _,
+                            ),
+                          window.__techSplitShot &&
+                            window.__techSplitShot(
+                              this,
+                              this.node.x,
+                              this.node.y,
+                              e,
+                              t,
+                              m,
+                              y,
+                              _,
+                            ),
+                          window.__techYamato &&
+                            window.__techYamato(
+                              this,
+                              this.node.x,
+                              this.node.y,
+                              e,
+                              t,
+                              m,
+                              y,
+                              _,
                             ))
                         : (2 == o ||
                             ((m = this.attackChange(
@@ -49150,6 +49174,8 @@ window.offlineBattleRules.refresh(this);}),
                 return !1;
               }),
               (t.prototype.shootBullet = function (e, t) {
+                window.__techTowerMulti &&
+                  window.__techTowerMulti(this, e, t);
                 var i,
                   n =
                     (((i = {})[1] = "gun1"),
@@ -49179,7 +49205,8 @@ window.offlineBattleRules.refresh(this);}),
                 ((s = this.getTheValueByAttr("attack", s)),
                   (r.attack = s),
                   (r.through = this.through),
-                  (r.attackCDTime = this.attackCDTime));
+                  (r.attackCDTime = this.attackCDTime)),
+                window.__techTowerBullet && window.__techTowerBullet(this, r);
                 var c = new Array();
                 if (1 == this.type) {
                   var l = this.getTheValueByAttr("strike", 0.1);

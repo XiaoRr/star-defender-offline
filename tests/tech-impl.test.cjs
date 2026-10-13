@@ -40,6 +40,12 @@ function loadTech(playerTechLevels, gameInstance, rng) {
 function fakeUnit(type, extra = {}) {
   return { type, pvpWay: 0, totalHp: 100, hp: 100, attack: 10, speed: 50, range: 100, cdTime: 1, ...extra };
 }
+function __sideFixture() {
+  return [
+    { x: 50, y: 0, isValid: 1, getComponent: () => ({ hp: 100, isSky: 0 }) },
+    { x: 80, y: 6, isValid: 1, getComponent: () => ({ hp: 100, isSky: 0 }) },
+  ];
+}
 function fakeTarget(props = {}) {
   const comp = { isSky: 0, size: 1, invisible: 0, ...props };
   return { x: 0, y: 0, isValid: 1, getComponent: () => comp };
@@ -408,6 +414,110 @@ test("iteration 2: ice-truck dodge avoids damage on proc (机动)", () => {
   assert.equal(Math.round(W2.__techReduceHurt(fakeUnit(5), 100, { ranged: true }) * 100) / 100, 100); // 未触发，无其他科技
 });
 
+
+test("iteration 3: twin guns halve robot attack and add a second target shot", () => {
+  const lv = new Array(42).fill(0);
+  lv[20] = 1; // #21 双枪 -60% 攻击
+  const secondary = [];
+  const bot = fakeUnit(7, { attack: 100, range: 170, node: { x: 0, y: 0 },
+    shootBullet: (...a) => secondary.push(a) });
+  const W = loadTech(lv, null);
+  W.__techArmyInit(bot);
+  assert.equal(bot.attack, 40); // 100 × 40%
+  const side = __sideFixture(); // 两个敌人：主目标(50,0)与副目标(80,6)
+  const W2 = loadTech(lv, { gameMode: 0, enemyArray: side });
+  W2.__techSplitShot(bot, 0, 0, 50, 0, 40, 0, 0);
+  assert.equal(secondary.length, 1);
+  assert.equal(secondary[0][2], 80); // 朝副目标
+  assert.equal(secondary[0][4], 40); // 出手伤害原样
+});
+
+test("iteration 3: science vessel shield reduces damage while active", () => {
+  const lv = new Array(42).fill(0);
+  lv[28] = 5; // #29 防护罩（[10,30] L5=26）
+  const W = loadTech(lv, null);
+  const soldier = fakeUnit(2);
+  soldier.__shieldUntil = Date.now() + 1000;
+  soldier.__shieldPct = 0.26;
+  assert.equal(Math.round(W.__techReduceHurt(soldier, 100, { ranged: true }) * 100) / 100, 74);
+});
+
+test("iteration 3: radiation bomb pulses AoE every 5s, double vs small", () => {
+  const lv = new Array(42).fill(0);
+  lv[31] = 1; // #32 辐射弹（[60,100] L1=60%）
+  const big = { x: 20, y: 0, isValid: 1, getComponent: () => ({ hp: 100, size: 2, doHurt: d => big.took = d }) };
+  const small = { x: 30, y: 0, isValid: 1, getComponent: () => ({ hp: 100, size: 1, doHurt: d => small.took = d }) };
+  const W = loadTech(lv, { gameMode: 0, enemyArray: [big, small] });
+  const vessel = fakeUnit(9, { attack: 50, node: { x: 0, y: 0 } });
+  W.__techVesselTick(vessel, 2); // 不足5秒
+  assert.ok(!big.took && !small.took);
+  W.__techVesselTick(vessel, 3);
+  assert.equal(big.took, 30);   // 50 × 60%
+  assert.equal(small.took, 60); // ×2
+});
+
+test("iteration 3: EMP shreds boss defense on vessel hits", () => {
+  const lv = new Array(42).fill(0);
+  lv[34] = 1; // #35 EMP（[10,20] L1=10%）
+  const W = loadTech(lv, null);
+  const boss = { isBoss: 1 };
+  const target = fakeTarget();
+  target.getComponent = () => boss;
+  const d1 = W.__techAttack(fakeUnit(9), 100, target, "starEnemy");
+  assert.equal(d1, 100);       // 首击无加成，但挂上EMP
+  assert.ok(boss.__empUntil > Date.now());
+  const d2 = W.__techAttack(fakeUnit(9), 100, target, "starEnemy");
+  assert.equal(Math.round(d2 * 10) / 10, 110); // EMP 存续期间 ×1.1
+});
+
+test("iteration 3: yamato cannon fires on 5th attack once, instakills non-boss", () => {
+  const lv = new Array(42).fill(0);
+  lv[35] = 1; // #36 大和炮 对boss 200%
+  const foe = { x: 60, y: 0, isValid: 1, getComponent: () => ({
+    hp: 999, isBoss: 0, doHurt: d => foe.took = d, totalHp: 1000, isSky: 0 }) };
+  const boss = { x: 60, y: 0, isValid: 1, getComponent: () => ({
+    hp: 500, isBoss: 1, doHurt: d => boss.took = d, totalHp: 1000, isSky: 0 }) };
+  const W = loadTech(lv, { gameMode: 0, enemyArray: [foe] });
+  const bc = fakeUnit(10, { node: { x: 0, y: 0 } });
+  for (let k = 1; k <= 4; k++) W.__techYamato(bc, 0, 0, 60, 0, 100, 0, 0);
+  assert.ok(!foe.took);
+  W.__techYamato(bc, 0, 0, 60, 0, 100, 0, 0);
+  assert.equal(foe.took, 999999999); // 秒杀
+  for (let k = 1; k <= 5; k++) W.__techYamato(bc, 0, 0, 60, 0, 100, 0, 0);
+  assert.equal(foe.took, 999999999); // 仅一次
+  const W2 = loadTech(lv, { gameMode: 0, enemyArray: [boss] });
+  const bc2 = fakeUnit(10, { node: { x: 0, y: 0 } });
+  for (let k = 1; k <= 5; k++) W2.__techYamato(bc2, 0, 0, 60, 0, 100, 0, 0);
+  assert.equal(boss.took, 2000); // 1000 × 200%
+});
+
+test("iteration 3: multi-warhead turret fires twice with reduced attack", () => {
+  const lv = new Array(42).fill(0);
+  lv[38] = 5; // #39 多重弹（[50,30] L5=34）
+  const W = loadTech(lv, null);
+  const tower = { type: 7, attack: 100, through: 1, level: 1 };
+  W.__techTowerInit(tower);
+  assert.equal(Math.round(tower.attack * 100) / 100, 66);
+  const W1 = loadTech(new Array(42).fill(0), null);
+  const plain = { type: 7, attack: 100, through: 1, level: 1 };
+  W1.__techTowerInit(plain);
+  assert.equal(plain.attack, 100);
+});
+
+test("iteration 3: AP rounds pierce one extra target for n% damage", () => {
+  const lv = new Array(42).fill(0);
+  lv[39] = 1; // #40 穿甲弹 60%
+  const W = loadTech(lv, null);
+  const tower = { type: 7, attack: 100, through: 1, level: 1 };
+  W.__techTowerInit(tower);
+  assert.equal(tower.through, 2);
+  const bullet = { __towerPierce: 1, hasHitMinionArray: [] };
+  assert.equal(W.__techPierceMul(bullet), 1);       // 首个目标全额
+  bullet.hasHitMinionArray = [{}, null];            // 已命中1个 → 后续60%
+  assert.equal(W.__techPierceMul(bullet), 0.6);
+  assert.equal(W.__techPierceMul({}), 1);           // 无科技子弹不受影响
+});
+
 test("released bundle keeps every tech hook wired", () => {
   const bundle = fs.readFileSync("assets/main/index.balance20261009.js", "utf8");
   for (const hook of [
@@ -434,5 +544,10 @@ test("released bundle keeps every tech hook wired", () => {
     'window.__techBuildingFrame &&',
     'window.__techAfterHit',
     'isSky: window.__armyIsSky ? window.__armyIsSky(this.type) : 0',
+    'window.__techSplitShot &&',
+    'window.__techYamato &&',
+    'window.__techTowerMulti &&',
+    'window.__techTowerBullet && window.__techTowerBullet(this, r)',
+    'window.__techPierceMul &&',
   ]) assert.ok(bundle.includes(hook), hook);
 });
