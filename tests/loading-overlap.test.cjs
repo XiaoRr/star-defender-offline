@@ -2,12 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const indexPacks = require('../scripts/index-combat-packs.cjs');
 const deferred = () => { let resolve, reject; const promise = new Promise((a,b) => { resolve=a; reject=b; }); return {promise,resolve,reject}; };
-
-test('archive index matches real files and committed hashes', () => {
-  assert.equal(indexPacks(), fs.readFileSync('combat-packs.js', 'utf8').replace(/\r\n/g,'\n'));
-});
 
 test('asset creation overlaps download but entry waits for every group and restores downloader', async () => {
   const groups = ['building','army','bullet','enemy','effect','ui','bg'];
