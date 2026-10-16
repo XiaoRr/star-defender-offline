@@ -40,3 +40,21 @@ test('daily is ready without ads, claimed once across reload/stale import, reset
   player.b_misc={}; assert.equal(daily.claim(player,data),false);
   daily.day=()=> '2026-10-9'; assert.equal(daily.claim(player,data),true);
 });
+
+test('stage table: 199 entries, totalLevel cap 198, 1.06 curve and NG+ composition cycle', () => {
+  const cfg = JSON.parse(fs.readFileSync('config/game-config.json', 'utf8'));
+  const sc = cfg.stageConfig;
+  assert.equal(sc.length, 199);
+  assert.equal(cfg.totalLevel, 198); // 沿用原版「条目数-1」结构；通关末关后靠扩表解锁扫荡
+  for (let i = 0; i < 21; i++) assert.ok(sc[i].fac < 6.3, '前21关强度不变');
+  for (let i = 21; i < sc.length; i++)
+    assert.equal(sc[i].fac, Math.round(6.2 * Math.pow(1.06, i - 20) * 10) / 10, 'stage ' + (i + 1));
+  for (let i = 100; i < sc.length; i++) {
+    assert.equal(sc[i].wave, sc[i % 100].wave);
+    assert.deepEqual(sc[i].monsters, sc[i % 100].monsters);
+    assert.equal(sc[i].boss, sc[i % 100].boss);
+  }
+  const js = fs.readFileSync('config/game-config.js', 'utf8');
+  const body = js.split('=').slice(1).join('=').trim().replace(/;$/, '');
+  assert.deepEqual(JSON.parse(body), cfg, 'game-config.js 必须与 JSON 同步');
+});
